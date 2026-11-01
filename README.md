@@ -59,11 +59,11 @@ HX2/HX3 cameras.
   presets and the sacrament scene. Choose it afterwards from OBS's Scene Collection menu. An existing file is
   saved as `*.bak` first.
   - `single-camera`: one NDI camera at 192.168.111.245. Scenes, in preset order, are named with their slot:
-    Joystick, Pulpit - p0, Chorister - p1, Rostrum - p2, Full Room - p3, Piano - p4, Speaker Close-up - p5,
-    Piano and Pulpit - p6, Organ - p7, Choir - p8, Sacrament. **Joystick** shows the camera without recalling a
+    Joystick, Pulpit - P0, Chorister - P1, Rostrum - P2, Full Room - P3, Piano - P4, Speaker Close-up - P5,
+    Piano and Pulpit - P6, Organ - P7, Choir - P8, Sacrament. **Joystick** shows the camera without recalling a
     preset, so it stays where it is and you can steer it with the PTZ Controls dock.
   - `dual-camera`: adds a second camera at 192.168.111.246 (245 is "Left", 246 is "Right"), each with its own
-    PTZ device. Every scene above except Sacrament comes as a Left and a Right version ("Left Pulpit - p0", ...),
+    PTZ device. Every scene above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...),
     with **Joystick Left** and **Joystick Right** in place of Joystick.
   - Video comes from the cameras (their own NDI audio is not used). Audio comes from the "USB Audio" source, a
     USB input (the Sound Blaster where there is one), in every scene except Sacrament. The installer picks the
