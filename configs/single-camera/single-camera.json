@@ -298,39 +298,39 @@
                         "presets": [
                             {
                                 "id": "camera:0",
-                                "name": "Pulpit - p0"
+                                "name": "Pulpit - P0"
                             },
                             {
                                 "id": "camera:1",
-                                "name": "Chorister - p1"
+                                "name": "Chorister - P1"
                             },
                             {
                                 "id": "camera:2",
-                                "name": "Rostrum - p2"
+                                "name": "Rostrum - P2"
                             },
                             {
                                 "id": "camera:3",
-                                "name": "Full Room - p3"
+                                "name": "Full Room - P3"
                             },
                             {
                                 "id": "camera:4",
-                                "name": "Piano - p4"
+                                "name": "Piano - P4"
                             },
                             {
                                 "id": "camera:5",
-                                "name": "Speaker Close-up - p5"
+                                "name": "Speaker Close-up - P5"
                             },
                             {
                                 "id": "camera:6",
-                                "name": "Piano and Pulpit - p6"
+                                "name": "Piano and Pulpit - P6"
                             },
                             {
                                 "id": "camera:7",
-                                "name": "Organ - p7"
+                                "name": "Organ - P7"
                             },
                             {
                                 "id": "camera:8",
-                                "name": "Choir - p8"
+                                "name": "Choir - P8"
                             }
                         ],
                         "host": "192.168.111.245",

@@ -344,39 +344,39 @@
                         "presets": [
                             {
                                 "id": "camera:0",
-                                "name": "Left Pulpit - p0"
+                                "name": "Left Pulpit - P0"
                             },
                             {
                                 "id": "camera:1",
-                                "name": "Left Chorister - p1"
+                                "name": "Left Chorister - P1"
                             },
                             {
                                 "id": "camera:2",
-                                "name": "Left Rostrum - p2"
+                                "name": "Left Rostrum - P2"
                             },
                             {
                                 "id": "camera:3",
-                                "name": "Left Full Room - p3"
+                                "name": "Left Full Room - P3"
                             },
                             {
                                 "id": "camera:4",
-                                "name": "Left Piano - p4"
+                                "name": "Left Piano - P4"
                             },
                             {
                                 "id": "camera:5",
-                                "name": "Left Speaker Close-up - p5"
+                                "name": "Left Speaker Close-up - P5"
                             },
                             {
                                 "id": "camera:6",
-                                "name": "Left Piano and Pulpit - p6"
+                                "name": "Left Piano and Pulpit - P6"
                             },
                             {
                                 "id": "camera:7",
-                                "name": "Left Organ - p7"
+                                "name": "Left Organ - P7"
                             },
                             {
                                 "id": "camera:8",
-                                "name": "Left Choir - p8"
+                                "name": "Left Choir - P8"
                             }
                         ],
                         "host": "192.168.111.245",
@@ -489,39 +489,39 @@
                         "presets": [
                             {
                                 "id": "camera:0",
-                                "name": "Right Pulpit - p0"
+                                "name": "Right Pulpit - P0"
                             },
                             {
                                 "id": "camera:1",
-                                "name": "Right Chorister - p1"
+                                "name": "Right Chorister - P1"
                             },
                             {
                                 "id": "camera:2",
-                                "name": "Right Rostrum - p2"
+                                "name": "Right Rostrum - P2"
                             },
                             {
                                 "id": "camera:3",
-                                "name": "Right Full Room - p3"
+                                "name": "Right Full Room - P3"
                             },
                             {
                                 "id": "camera:4",
-                                "name": "Right Piano - p4"
+                                "name": "Right Piano - P4"
                             },
                             {
                                 "id": "camera:5",
-                                "name": "Right Speaker Close-up - p5"
+                                "name": "Right Speaker Close-up - P5"
                             },
                             {
                                 "id": "camera:6",
-                                "name": "Right Piano and Pulpit - p6"
+                                "name": "Right Piano and Pulpit - P6"
                             },
                             {
                                 "id": "camera:7",
-                                "name": "Right Organ - p7"
+                                "name": "Right Organ - P7"
                             },
                             {
                                 "id": "camera:8",
-                                "name": "Right Choir - p8"
+                                "name": "Right Choir - P8"
                             }
                         ],
                         "host": "192.168.111.246",
