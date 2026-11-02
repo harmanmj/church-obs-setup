@@ -52,7 +52,7 @@
     git pull
     sudo ./setup-obs-flatpak.sh --config=dual-camera
     ```
-  * **Dual Camera Configuration**
+* **Stake Conference Camera Configuration**
     ```terminal
     cd church-obs-setup
     git checkout main
