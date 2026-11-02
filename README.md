@@ -125,8 +125,8 @@ The script can be downloaded on its own and run from anywhere: it installs Git (
 repo to `C:\church-obs-setup` (or updates it there with `git pull`), and carries on from that checkout, so a
 computer always runs the current version. Run it again at any time to update; close OBS first. It then:
 
-- installs OBS Studio 33+ and the NDI Runtime (`winget`), and the latest DistroAV and obs-ptz releases from
-  GitHub (obs-ptz is upstream `glikely/obs-ptz`, whose 1.0 betas use the same preset format as these configs;
+- installs OBS Studio 33+ and the NDI Runtime (`winget`), and the latest DistroAV, Downstream Keyer
+  (`exeldro/obs-downstream-keyer`) and obs-ptz releases from GitHub (obs-ptz is upstream `glikely/obs-ptz`, whose 1.0 betas use the same preset format as these configs;
   `-PtzInstaller C:\path\...-Installer.exe` uses another build);
 - installs ffmpeg (`winget`, for the playlist) and **VB-Audio Virtual Cable**, the virtual microphone for Zoom.
   VB-CABLE is donationware with its own licence (<https://vb-audio.com/Services/licensing.htm>); its setup

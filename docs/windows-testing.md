@@ -67,7 +67,7 @@ unless they say "at the laptop".
    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera
    ```
 2. Expect, in order: Git installed; the repo cloned to `C:\church-obs-setup` on branch `windows`; the script
-   continuing from there (`[2/7]` onwards); OBS 33+, NDI Runtime, DistroAV, obs-ptz, ffmpeg installed.
+   continuing from there (`[2/7]` onwards); OBS 33+, NDI Runtime, DistroAV, Downstream Keyer, obs-ptz, ffmpeg installed.
 3. **At the laptop:** the VB-CABLE window opens. Click "Install Driver" and accept. The script then says a
    restart is needed. Restart Windows and sign back in.
 4. Run the script again (from `C:\church-obs-setup`, or the downloaded copy). Expect `git pull` to report
