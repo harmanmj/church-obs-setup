@@ -271,39 +271,39 @@
                         "presets": [
                             {
                                 "id": "camera:0",
-                                "name": "Pulpit - p0"
+                                "name": "Pulpit - P0"
                             },
                             {
                                 "id": "camera:1",
-                                "name": "Chorister - p1"
+                                "name": "Chorister - P1"
                             },
                             {
                                 "id": "camera:2",
-                                "name": "Rostrum - p2"
+                                "name": "Rostrum - P2"
                             },
                             {
                                 "id": "camera:3",
-                                "name": "Full Room - p3"
+                                "name": "Full Room - P3"
                             },
                             {
                                 "id": "camera:4",
-                                "name": "Piano - p4"
+                                "name": "Piano - P4"
                             },
                             {
                                 "id": "camera:5",
-                                "name": "Speaker Close-up - p5"
+                                "name": "Speaker Close-up - P5"
                             },
                             {
                                 "id": "camera:6",
-                                "name": "Piano and Pulpit - p6"
+                                "name": "Piano and Pulpit - P6"
                             },
                             {
                                 "id": "camera:7",
-                                "name": "Organ - p7"
+                                "name": "Organ - P7"
                             },
                             {
                                 "id": "camera:8",
-                                "name": "Choir - p8"
+                                "name": "Choir - P8"
                             }
                         ],
                         "host": "192.168.111.245",
@@ -642,7 +642,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Pulpit - p0",
+            "name": "Pulpit - P0",
             "uuid": "a2a24e68-b435-46c9-8b7c-ee1942bf7901",
             "id": "scene",
             "versioned_id": "scene",
@@ -901,7 +901,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Chorister - p1",
+            "name": "Chorister - P1",
             "uuid": "af409bd4-af4b-4943-9427-1919410e3628",
             "id": "scene",
             "versioned_id": "scene",
@@ -1162,7 +1162,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Rostrum - p2",
+            "name": "Rostrum - P2",
             "uuid": "1470aca8-20d4-4c55-95c9-05b589085ea3",
             "id": "scene",
             "versioned_id": "scene",
@@ -1421,7 +1421,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Full Room - p3",
+            "name": "Full Room - P3",
             "uuid": "b53f6e62-1328-41b7-a65e-f8cdb992c437",
             "id": "scene",
             "versioned_id": "scene",
@@ -1680,7 +1680,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Piano - p4",
+            "name": "Piano - P4",
             "uuid": "3d28586e-ec13-4037-8a04-84aad1173e97",
             "id": "scene",
             "versioned_id": "scene",
@@ -1939,7 +1939,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Speaker Close-up - p5",
+            "name": "Speaker Close-up - P5",
             "uuid": "aea0a3f3-a661-4bde-a904-9504b9ea2e18",
             "id": "scene",
             "versioned_id": "scene",
@@ -2198,7 +2198,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Organ - p7",
+            "name": "Organ - P7",
             "uuid": "cac5551f-f3b1-4621-9c8a-ea3d64a85dff",
             "id": "scene",
             "versioned_id": "scene",
@@ -2457,7 +2457,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Choir - p8",
+            "name": "Choir - P8",
             "uuid": "b628e04c-4c36-4588-b92e-e4a2f4939e27",
             "id": "scene",
             "versioned_id": "scene",
@@ -3175,7 +3175,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Piano and Pulpit - p6",
+            "name": "Piano and Pulpit - P6",
             "uuid": "86a769e5-cf0b-4e75-9705-5c9c34e70407",
             "id": "scene",
             "versioned_id": "scene",
@@ -3439,38 +3439,38 @@
             "name": "Joystick"
         },
         {
-            "name": "Pulpit - p0"
+            "name": "Pulpit - P0"
         },
         {
-            "name": "Chorister - p1"
+            "name": "Chorister - P1"
         },
         {
-            "name": "Rostrum - p2"
+            "name": "Rostrum - P2"
         },
         {
-            "name": "Full Room - p3"
+            "name": "Full Room - P3"
         },
         {
-            "name": "Piano - p4"
+            "name": "Piano - P4"
         },
         {
-            "name": "Speaker Close-up - p5"
+            "name": "Speaker Close-up - P5"
         },
         {
-            "name": "Piano and Pulpit - p6"
+            "name": "Piano and Pulpit - P6"
         },
         {
-            "name": "Organ - p7"
+            "name": "Organ - P7"
         },
         {
-            "name": "Choir - p8"
+            "name": "Choir - P8"
         },
         {
             "name": "Sacrament"
         }
     ],
-    "current_scene": "Full Room - p3",
-    "current_program_scene": "Full Room - p3",
+    "current_scene": "Full Room - P3",
+    "current_program_scene": "Full Room - P3",
     "canvases": [],
     "current_transition": "Fade",
     "transition_duration": 300,

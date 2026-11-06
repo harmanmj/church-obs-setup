@@ -86,7 +86,7 @@ unless they say "at the laptop".
 
 ### C. In OBS (at the laptop, or started over SSH)
 
-1. OBS opens on Single Camera. The scenes are Joystick, Pulpit - p0 ... Choir - p8, Sacrament.
+1. OBS opens on Single Camera. The scenes are Joystick, Pulpit - P0 ... Choir - P8, Sacrament.
 2. Settings > Audio > Advanced > Monitoring Device is "CABLE Input (VB-Audio Virtual Cable)".
 3. Edit > Advanced Audio Properties: "USB Audio" and "Sacrament Music" say "Monitor and Output".
 4. The "USB Audio" source's device is the USB input; the PTZ Controls dock lists the camera.
