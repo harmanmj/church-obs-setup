@@ -248,7 +248,7 @@ if [ "$CONFIG_CHOICE" != none ]; then
   # PulseAudio layer is already on Ubuntu; only the pactl tool is added).
   PW_DIR="$TARGET_HOME/.config/pipewire/pipewire.conf.d"
   PWP_DIR="$TARGET_HOME/.config/pipewire/pipewire-pulse.conf.d"
-  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum)
+  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)  # not there on a first run
   as_user mkdir -p "$PW_DIR" "$PWP_DIR"
   as_user cp "$SCRIPT_DIR/audio/obs-to-zoom.conf" "$PW_DIR/obs-to-zoom.conf"
   as_user cp "$SCRIPT_DIR/audio/obs-mic.conf" "$PWP_DIR/obs-mic.conf"
