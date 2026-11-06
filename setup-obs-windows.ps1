@@ -60,7 +60,8 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
 }
 
 function Winget-Run($wingetArgs) {
-    & winget @wingetArgs --silent --accept-package-agreements --accept-source-agreements
+    # Name the source: a Microsoft Store source that cannot be reached fails the whole command otherwise.
+    & winget @wingetArgs --source winget --silent --accept-package-agreements --accept-source-agreements
     # -1978335189 = no applicable upgrade, -1978335135 = already installed: both fine
     if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne -1978335189 -and $LASTEXITCODE -ne -1978335135) {
         Fail "winget $($wingetArgs -join ' ') failed (exit $LASTEXITCODE)."
