@@ -3,6 +3,7 @@
 
 Usage: set-obs-docks.py OBS_CONFIG_DIR   (e.g. ~/.var/app/com.obsproject.Studio/config/obs-studio)
 Keeps the layout already there if PTZ Controls is docked in it, so changes made in OBS survive a re-run.
+Also turns off OBS's popup about closing a dock.
 """
 import base64
 import configparser
@@ -22,6 +23,12 @@ def load(path):
     return cp
 
 
+def save(cp, path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", encoding="utf-8") as f:
+        cp.write(f, space_around_delimiters=False)
+
+
 def ptz_docked(dock_state):
     state = base64.b64decode(dock_state)
     i = state.find(PTZ_DOCK)
@@ -30,14 +37,17 @@ def ptz_docked(dock_state):
 
 ini = pathlib.Path(sys.argv[1]) / "user.ini"
 user = load(ini)
+# Skip OBS's "You just closed a dockable window" popup.
+if not user.has_section("General"):
+    user.add_section("General")
+user["General"]["WarnedAboutClosingDocks"] = "true"
 if ptz_docked(user.get("BasicWindow", "DockState", fallback="")):
+    save(user, ini)
     print("PTZ Controls is already docked; leaving the OBS layout alone.")
     sys.exit()
 
 if not user.has_section("BasicWindow"):
     user.add_section("BasicWindow")
 user["BasicWindow"].update(load(LAYOUT)["BasicWindow"])
-ini.parent.mkdir(parents=True, exist_ok=True)
-with ini.open("w", encoding="utf-8") as f:
-    user.write(f, space_around_delimiters=False)
+save(user, ini)
 print(f"OBS layout with PTZ Controls docked installed in {ini}")

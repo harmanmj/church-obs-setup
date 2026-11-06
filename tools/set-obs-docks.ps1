@@ -5,7 +5,7 @@
 
 .DESCRIPTION
   Keeps the layout already there if PTZ Controls is docked in it, so changes made in OBS survive a re-run.
-  Close OBS first: it writes its own layout when it exits.
+  Also turns off OBS's popup about closing a dock. Close OBS first: it writes its own layout when it exits.
 
 .PARAMETER ObsDir OBS's config folder. Default: %APPDATA%\obs-studio.
 #>
@@ -16,6 +16,16 @@ $ErrorActionPreference = 'Stop'
 
 $userIni = Join-Path $ObsDir 'user.ini'
 $lines = if (Test-Path $userIni) { @([IO.File]::ReadAllLines($userIni)) } else { @() }
+
+# Skip OBS's "You just closed a dockable window" popup.
+$warned = 'WarnedAboutClosingDocks=true'
+$kept = New-Object System.Collections.Generic.List[string]
+$lines | Where-Object { $_ -notlike 'WarnedAboutClosingDocks=*' } | ForEach-Object { $kept.Add($_) }
+$general = $kept.IndexOf('[General]')
+if ($general -ge 0) { $kept.Insert($general + 1, $warned) } else { $kept.Add('[General]'); $kept.Add($warned) }
+$lines = $kept.ToArray()
+New-Item -ItemType Directory -Force $ObsDir | Out-Null
+[IO.File]::WriteAllLines($userIni, $lines, (New-Object System.Text.UTF8Encoding $false))
 
 $current = $lines | Where-Object { $_ -like 'DockState=?*' } | Select-Object -First 1
 if ($current) {
