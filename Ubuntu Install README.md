@@ -14,49 +14,57 @@
     ```terminal
     cd ~
     sudo git clone https://github.com/smitchell7/church-obs-setup.git
-    cd church-obs-setup
+    cd ~/church-obs-setup
     sudo ./setup-obs-flatpak.sh --config=single-camera --pin-dock
     ```
 * **Dual Camera Configuration**
     ```terminal
     cd ~
     sudo git clone https://github.com/smitchell7/church-obs-setup.git
-    cd church-obs-setup
+    cd ~/church-obs-setup
     sudo ./setup-obs-flatpak.sh --config=dual-camera --pin-dock
     ```
 * **Stake Conference Camera Configuration**
     ```terminal
     cd ~
     sudo git clone https://github.com/smitchell7/church-obs-setup.git
-    cd church-obs-setup
-    sudo ./setup-obs-flatpak.sh --config=stake-conference --pin-dock
-
-# Updating configuraiton on Existing Installations
-* the first time you do this you may need to start with the following command:
-    ```terminal
     cd ~/church-obs-setup
-    sudo chown -R test:test ~/church-obs-setup
+    sudo ./setup-obs-flatpak.sh --config=stake-conference --pin-dock
     ```
 
+# Updating configuration on Existing Installations
+* **The first time you do this, you may need to start with the following command**
+    ```terminal
+    cd ~/church-obs-setup
+    sudo chown -R $USER:$USER ~/church-obs-setup
+    ```
 * **Single Camera Configuration**
     ```terminal
-    cd church-obs-setup
+    cd ~/church-obs-setup
     git checkout main
     git pull
     sudo ./setup-obs-flatpak.sh --config=single-camera
     ```
 * **Dual Camera Configuration**
     ```terminal
-    cd church-obs-setup
+    cd ~/church-obs-setup
     git checkout main
     git pull
     sudo ./setup-obs-flatpak.sh --config=dual-camera
     ```
-  * **Dual Camera Configuration**
+* **Stake Conference Camera Configuration**
     ```terminal
-    cd church-obs-setup
+    cd ~/church-obs-setup
     git checkout main
     git pull
     sudo ./setup-obs-flatpak.sh --config=stake-conference
-    ```  
+    ```
 If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
+
+# Resetting OBS Video Settings
+The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
+* **Reset OBS Video Settings**
+    ```terminal
+    cd ~/church-obs-setup
+    python3 tools/set-obs-video.py
+    ```
