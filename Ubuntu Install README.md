@@ -60,3 +60,10 @@
     sudo ./setup-obs-flatpak.sh --config=stake-conference
     ```  
 If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
+
+# Resetting OBS Video Settings
+The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again, as on a first install, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
+    ```terminal
+    cd ~/church-obs-setup
+    python3 tools/set-obs-video.py
+    ```

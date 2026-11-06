@@ -254,6 +254,8 @@ if [ "$CONFIG_CHOICE" != none ]; then
   as_user cp "$SCRIPT_DIR/audio/obs-mic.conf" "$PWP_DIR/obs-mic.conf"
   PW_AFTER=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" | md5sum)
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-monitor.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
+  # Video, on a first setup only, and skip OBS's Auto-Configuration Wizard.
+  as_user python3 -I "$SCRIPT_DIR/tools/set-obs-video.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" --if-first-setup
   # Remote control: OBS's WebSocket server on port 4455, on by default, password from OBS_WEBSOCKET_PASSWORD.
   as_user env OBS_WEBSOCKET_PASSWORD="${OBS_WEBSOCKET_PASSWORD:-2ne2-14}" python3 -I "$SCRIPT_DIR/tools/set-obs-websocket.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # The window layout, with the PTZ Controls dock in place.

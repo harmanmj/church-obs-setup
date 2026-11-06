@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 """Point OBS's audio monitoring device at the virtual "OBS Monitoring (not for Zoom)" sink (see audio/obs-to-zoom.conf),
-set its video to 1920x1080 at 30 fps with recording the same as the stream, open OBS in studio mode, and skip its
-Auto-Configuration Wizard.
+and open OBS in studio mode.
 
 Usage: set-obs-monitor.py OBS_CONFIG_DIR  (e.g. ~/.var/app/com.obsproject.Studio/config/obs-studio)
-Sets these in every existing profile; if OBS has never been run, creates a "Church" profile with them.
+Sets it in every existing profile; if OBS has never been run, creates a "Church" profile with it.
 OBS saves studio mode on exit, so it is only the starting state.
 """
 import configparser
@@ -13,8 +12,6 @@ import sys
 
 DEVICE_ID = "obs_zoom"
 DEVICE_NAME = "OBS Monitoring (not for Zoom)"
-# The scene collections are laid out for a 1920x1080 canvas.
-VIDEO = {"BaseCX": "1920", "BaseCY": "1080", "OutputCX": "1920", "OutputCY": "1080", "FPSType": "0", "FPSCommon": "30"}
 
 
 def load(path):
@@ -36,10 +33,6 @@ user = load(root / "user.ini")
 if not user.has_section("BasicWindow"):
     user.add_section("BasicWindow")
 user["BasicWindow"]["PreviewProgramMode"] = "true"
-# With the video set, skip OBS's Auto-Configuration Wizard on first start.
-if not user.has_section("General"):
-    user.add_section("General")
-user["General"]["FirstRun"] = "true"
 profiles = sorted(p for p in (root / "basic" / "profiles").glob("*") if p.is_dir())
 if not profiles:
     profiles = [root / "basic" / "profiles" / "Church"]
@@ -55,12 +48,10 @@ for profile in profiles:
     for section, values in (
         ("General", {"Name": profile.name}),
         ("Audio", {"MonitoringDeviceId": DEVICE_ID, "MonitoringDeviceName": DEVICE_NAME}),
-        ("Video", VIDEO),
-        ("SimpleOutput", {"RecQuality": "Stream"}),
     ):
         if not cp.has_section(section):
             cp.add_section(section)
         for k, v in values.items():
             cp[section].setdefault(k, v) if section == "General" else cp[section].__setitem__(k, v)
     save(cp, ini)
-    print(f"Monitoring device and video settings set in {ini}")
+    print(f"Monitoring device set in {ini}")

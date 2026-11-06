@@ -401,16 +401,9 @@ if ($profiles.Count -eq 0) {
     Set-IniValues (Join-Path $profiles[0].FullName 'basic.ini') 'General' @{ Name = 'Church' }
 }
 
-# Video: the scene collections are laid out for a 1920x1080 canvas. Recording quality is "Same as stream".
-foreach ($p in $profiles) {
-    $ini = Join-Path $p.FullName 'basic.ini'
-    Set-IniValues $ini 'Video' @{ BaseCX = 1920; BaseCY = 1080; OutputCX = 1920; OutputCY = 1080; FPSType = 0; FPSCommon = 30 }
-    Set-IniValues $ini 'SimpleOutput' @{ RecQuality = 'Stream' }
-    Write-Host "    OBS video ($($p.Name)): 1920x1080 canvas and output, 30 fps, recording same as stream"
-}
-
-# With the video set, skip OBS's Auto-Configuration Wizard on first start.
-Set-IniValues (Join-Path $ObsDir 'user.ini') 'General' @{ FirstRun = 'true' }
+# Video, on a first setup only, and skip OBS's Auto-Configuration Wizard.
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-video.ps1') -ObsDir $ObsDir -IfFirstSetup
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS video; see tools\set-obs-video.ps1' }
 
 $cable = Find-CableInput
 if ($cable) {
