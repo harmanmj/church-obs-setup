@@ -247,6 +247,8 @@ if [ "$CONFIG_CHOICE" != none ]; then
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-monitor.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # Remote control: OBS's WebSocket server on port 4455, on by default, password from OBS_WEBSOCKET_PASSWORD.
   as_user env OBS_WEBSOCKET_PASSWORD="${OBS_WEBSOCKET_PASSWORD:-2ne2-14}" python3 -I "$SCRIPT_DIR/tools/set-obs-websocket.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
+  # The window layout, with the PTZ Controls dock in place.
+  as_user python3 -I "$SCRIPT_DIR/tools/set-obs-docks.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # PipeWire reads its drop-ins at start. If the user is logged in and the files changed or Zoom cannot see
   # the microphone yet (source obs_mic), restart PipeWire so it takes effect now instead of after the next
   # login (audio drops briefly; close Zoom calls first).

@@ -52,6 +52,8 @@ HX2/HX3 cameras.
 - The obs-ptz Flatpak bundle is in `vendor/` (built from <https://github.com/smitchell7/obs-ptz>,
   a fork of <https://github.com/glikely/obs-ptz>, GPL-2.0; the source is in that repo). To use a
   different build, run `sudo PTZ_BUNDLE=/path/to/file.flatpak ./setup-obs-flatpak.sh`.
+- It installs the OBS window layout in `configs/obs-layout.ini`, with the PTZ Controls dock in the bottom row.
+  A layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
 - It asks which camera setup to install (the folders in `configs/`), or take `--config=single-camera`,
@@ -141,6 +143,8 @@ computer always runs the current version. Run it again at any time to update; cl
   sacrament music go to Zoom: in Zoom pick the microphone **CABLE Output (VB-Audio Virtual Cable)**;
 - opens OBS in studio mode (OBS remembers the mode on exit, so if someone turns it off it stays off until the
   script runs again);
+- installs the OBS window layout in `configs\obs-layout.ini`, with the PTZ Controls dock in the bottom row. A
+  layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run;
 - adds a firewall rule for NDI, makes the sacrament graphic, and builds the sacrament playlist from
   `audio\sacrament-playlist.txt` (`tools\make-sacrament-playlist.ps1`) in `Documents\sacrament`.
 

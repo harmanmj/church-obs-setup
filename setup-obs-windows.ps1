@@ -11,7 +11,8 @@
   4. DistroAV (NDI) and obs-ptz (PTZ Controls), latest releases from GitHub
   5. ffmpeg (via winget) and VB-Audio Virtual Cable, the virtual microphone Zoom listens to
   6. OBS configuration: the scene collection from configs\<name>\ with the USB input picked, OBS's audio
-     monitoring sent to the virtual cable, and a firewall rule for NDI
+     monitoring sent to the virtual cable, the window layout with PTZ Controls docked, and a firewall rule
+     for NDI
   7. The sacrament graphic and the sacrament music playlist in Documents\sacrament
 
   Run from an elevated PowerShell (right-click, Run as administrator), as the person who uses OBS:
@@ -398,6 +399,10 @@ if ($cable) {
 
 # Open OBS in studio mode. OBS saves this on exit, so it is only the starting state.
 Set-IniValues (Join-Path $ObsDir 'user.ini') 'BasicWindow' @{ PreviewProgramMode = 'true' }
+
+# The window layout, with the PTZ Controls dock in place.
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-docks.ps1') -ObsDir $ObsDir
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see tools\set-obs-docks.ps1' }
 
 # ---- 7. Sacrament graphic and music playlist -----------------------------------
 Step '[7/7] Sacrament graphic and music playlist'

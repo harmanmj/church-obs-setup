@@ -91,6 +91,8 @@ unless they say "at the laptop".
 3. Edit > Advanced Audio Properties: "USB Audio" and "Sacrament Music" say "Monitor and Output".
 4. The "USB Audio" source's device is the USB input; the PTZ Controls dock lists the camera.
 5. The camera's NDI video shows (Windows firewall rule and NDI Runtime).
+6. OBS opens maximized with the PTZ Controls dock in the bottom row, between the Audio Mixer and Scene
+   Transitions. Float it, close OBS and run `tools\set-obs-docks.ps1`: it is back in place at the next start.
 
 ### D. Audio reaches Zoom's microphone
 
