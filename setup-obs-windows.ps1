@@ -8,7 +8,7 @@
      already there. The rest of the run uses that checkout, so the computer always runs the current version.
   2. OBS Studio 33+ (via winget)
   3. NDI Runtime 6.3+ (via winget); on Windows it already decodes HX2/HX3 cameras
-  4. DistroAV (NDI) and obs-ptz (PTZ Controls), latest releases from GitHub
+  4. DistroAV (NDI), Downstream Keyer and obs-ptz (PTZ Controls), latest releases from GitHub
   5. ffmpeg (via winget) and VB-Audio Virtual Cable, the virtual microphone Zoom listens to
   6. OBS configuration: the scene collection from configs\<name>\, set active, with the USB input picked, OBS's audio
      monitoring sent to the virtual cable, the window layout with PTZ Controls docked, and a firewall rule
@@ -216,8 +216,9 @@ function Install-FromGitHub($repo, $pattern, $label, [switch]$IncludePrerelease)
     Fail "No $label Windows installer found in $repo releases."
 }
 
-Step '[4/7] DistroAV (NDI) and obs-ptz (PTZ Controls)'
+Step '[4/7] DistroAV (NDI), Downstream Keyer and obs-ptz (PTZ Controls)'
 Install-FromGitHub 'DistroAV/DistroAV' 'distroav-*-windows-x64-Installer.exe' 'DistroAV'
+Install-FromGitHub 'exeldro/obs-downstream-keyer' 'downstream-keyer-*-windows-installer.exe' 'Downstream Keyer'
 if ($PtzInstaller) {
     if (-not (Test-Path $PtzInstaller)) { Fail "No such file: $PtzInstaller" }
     Install-Exe $PtzInstaller
