@@ -51,7 +51,7 @@
 If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
 
 # Resetting OBS Video Settings
-The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again, as on a first install, close OBS and run the following in a normal PowerShell. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
+The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal PowerShell. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
     ```powershell
     cd c:\church-obs-setup
     powershell -ExecutionPolicy Bypass -File .\tools\set-obs-video.ps1
