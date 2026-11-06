@@ -393,15 +393,27 @@ function Set-IniValues($path, $section, [hashtable]$values) {
     [IO.File]::WriteAllLines($path, $out.ToArray(), $utf8)
 }
 
+$profiles = @(Get-ChildItem (Join-Path $ObsDir 'basic\profiles') -Directory -ErrorAction SilentlyContinue)
+if ($profiles.Count -eq 0) {
+    # OBS has never run: make a "Church" profile and select it
+    $profiles = @([pscustomobject]@{ FullName = (Join-Path $ObsDir 'basic\profiles\Church'); Name = 'Church' })
+    Set-IniValues (Join-Path $ObsDir 'user.ini') 'Basic' @{ Profile = 'Church'; ProfileDir = 'Church' }
+    Set-IniValues (Join-Path $profiles[0].FullName 'basic.ini') 'General' @{ Name = 'Church' }
+}
+
+# Video: the scene collections are laid out for a 1920x1080 canvas. Recording quality is "Same as stream".
+foreach ($p in $profiles) {
+    $ini = Join-Path $p.FullName 'basic.ini'
+    Set-IniValues $ini 'Video' @{ BaseCX = 1920; BaseCY = 1080; OutputCX = 1920; OutputCY = 1080; FPSType = 0; FPSCommon = 30 }
+    Set-IniValues $ini 'SimpleOutput' @{ RecQuality = 'Stream' }
+    Write-Host "    OBS video ($($p.Name)): 1920x1080 canvas and output, 30 fps, recording same as stream"
+}
+
+# With the video set, skip OBS's Auto-Configuration Wizard on first start.
+Set-IniValues (Join-Path $ObsDir 'user.ini') 'General' @{ FirstRun = 'true' }
+
 $cable = Find-CableInput
 if ($cable) {
-    $profiles = @(Get-ChildItem (Join-Path $ObsDir 'basic\profiles') -Directory -ErrorAction SilentlyContinue)
-    if ($profiles.Count -eq 0) {
-        # OBS has never run: make a "Church" profile and select it
-        $profiles = @([pscustomobject]@{ FullName = (Join-Path $ObsDir 'basic\profiles\Church'); Name = 'Church' })
-        Set-IniValues (Join-Path $ObsDir 'user.ini') 'Basic' @{ Profile = 'Church'; ProfileDir = 'Church' }
-        Set-IniValues (Join-Path $profiles[0].FullName 'basic.ini') 'General' @{ Name = 'Church' }
-    }
     foreach ($p in $profiles) {
         Set-IniValues (Join-Path $p.FullName 'basic.ini') 'Audio' @{ MonitoringDeviceId = $cable.Id; MonitoringDeviceName = $cable.Name }
         Write-Host "    OBS monitoring device ($($p.Name)): $($cable.Name)"
