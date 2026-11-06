@@ -8,7 +8,6 @@
   The Stake Conference Scene Collection is intended for use for meetings where an additional computer will be generating and sending overlay graphics to OBS using NDI. It is based on the Dual Camera Scene Collection. If it is being used in the Alkire or Quail buildings for a meeting ONLY the scenes labeled left will work correctly
 
 # First Time Windows Install
-
   1. Open **PowerShell as administrator** (Start, type `powershell`, right-click > Run as administrator)
   2. Run one of the following depending on required camera configuration for your building
 * **Single Camera Configuration**
@@ -17,22 +16,20 @@
     irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera
     ```
-    
 * **Dual Camera Configuration**
     ```powershell
     cd $env:TEMP
     irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config dual-camera
     ```
-    
 * **Stake Conference Camera Configuration**
     ```powershell
     cd $env:TEMP
     irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config Stake-Conference
+    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config stake-conference
     ```
 
-# Updating configuraiton on Existing Installations
+# Updating configuration on Existing Installations
 * **Single Camera Configuration**
     ```powershell
     cd c:\church-obs-setup
@@ -52,6 +49,7 @@ If you need to add one of the scene collections you do not currently have, run t
 
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal PowerShell. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
+* **Reset OBS Video Settings**
     ```powershell
     cd c:\church-obs-setup
     powershell -ExecutionPolicy Bypass -File .\tools\set-obs-video.ps1
