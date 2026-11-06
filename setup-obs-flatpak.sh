@@ -242,7 +242,7 @@ if [ "$CONFIG_CHOICE" != none ]; then
     fi
     rm -f "$rendered"
   done
-  echo "Installed the '$CONFIG_CHOICE' scene collection. In OBS choose it from the Scene Collection menu."
+  echo "Installed the '$CONFIG_CHOICE' scene collection."
 
   # Zoom audio: a virtual "OBS Mic (for Zoom)" microphone fed by OBS's audio monitoring (PipeWire's
   # PulseAudio layer is already on Ubuntu; only the pactl tool is added).
@@ -258,6 +258,8 @@ if [ "$CONFIG_CHOICE" != none ]; then
   as_user env OBS_WEBSOCKET_PASSWORD="${OBS_WEBSOCKET_PASSWORD:-2ne2-14}" python3 -I "$SCRIPT_DIR/tools/set-obs-websocket.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # The window layout, with the PTZ Controls dock in place.
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-docks.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
+  # Open OBS on the installed scene collection.
+  as_user python3 -I "$SCRIPT_DIR/tools/set-obs-collection.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" "$CONFIG_SRC"/*.json
   # PipeWire reads its drop-ins at start. If the user is logged in and the files changed or Zoom cannot see
   # the microphone yet (source obs_mic), restart PipeWire so it takes effect now instead of after the next
   # login (audio drops briefly; close Zoom calls first).

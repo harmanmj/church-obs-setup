@@ -58,8 +58,8 @@ HX2/HX3 cameras.
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
 - It asks which camera setup to install (the folders in `configs/`), or take `--config=single-camera`,
   `--config=dual-camera` or `--no-config` up front. Each is an OBS scene collection with the cameras, PTZ
-  presets and the sacrament scene. Choose it afterwards from OBS's Scene Collection menu. An existing file is
-  saved as `*.bak` first.
+  presets and the sacrament scene. OBS opens on the one just installed. An existing file is saved as `*.bak`
+  first.
   - `single-camera`: one NDI camera at 192.168.111.245. Scenes, in preset order, are named with their slot:
     Joystick, Pulpit - p0, Chorister - p1, Rostrum - p2, Full Room - p3, Piano - p4, Speaker Close-up - p5,
     Piano and Pulpit - p6, Organ - p7, Choir - p8, Sacrament. **Joystick** shows the camera without recalling a
@@ -136,7 +136,7 @@ computer always runs the current version. Run it again at any time to update; cl
   window opens: click "Install Driver" and accept. It needs a Windows restart: restart, then run the script
   again to finish;
 - installs the scene collection (`-Config`, else it asks; `-NoConfig` skips it; an existing file is saved as
-  `*.bak`). The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
+  `*.bak`) and makes it the one OBS opens on. The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
   else (with a warning) another real input, never "NDI Webcam Audio", whose sound is poor; plug the USB
   input in before running it. `-AudioDevice "part of its name"` picks another;
 - points OBS's audio monitoring at "CABLE Input (VB-Audio Virtual Cable)", so the USB input and the
