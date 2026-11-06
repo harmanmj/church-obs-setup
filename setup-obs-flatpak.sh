@@ -161,10 +161,11 @@ if want "$NEED_NDI"; then
   for lib in libvpx.so.11 libjxl.so.0.11 libjxl_threads.so.0.11 libjxl_cms.so.0.11 libSvtAv1Enc.so.3; do
     install_lib "$PLATFORM/$lib" "$lib"
   done
-  as_user flatpak override --user --env=LD_LIBRARY_PATH="$NDI_LIBS" "$OBS_ID"
+  # Through env: Flatpak refuses --user and "run" when sudo starts it directly.
+  as_user env flatpak override --user --env=LD_LIBRARY_PATH="$NDI_LIBS" "$OBS_ID"
 
   # Every library we copied must resolve inside the sandbox, otherwise NDI fails silently.
-  MISSING=$(as_user flatpak run --command=sh "$OBS_ID" -c \
+  MISSING=$(as_user env flatpak run --command=sh "$OBS_ID" -c \
     "cd '$NDI_LIBS' && for f in *.so*; do ldd ./\$f | grep 'not found'; done" || true)
   if [ -n "$MISSING" ]; then
     echo "WARNING: NDI HX decoding will not work, unresolved libraries:" >&2
