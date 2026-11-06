@@ -209,7 +209,7 @@
             "mixers": 255,
             "sync": 0,
             "flags": 0,
-            "volume": 1.0,
+            "volume": 0.251188643150958,
             "balance": 0.5,
             "enabled": true,
             "muted": false,
@@ -395,6 +395,8 @@
                         "visca_zoom_speed_max": 7,
                         "visca_focus_speed_max": 7,
                         "protocol_trace": false,
+                        "power_on_at_startup": true,
+                        "power_off_at_shutdown": true,
                         "preset_order": [
                             {
                                 "id": "camera:0"
@@ -540,6 +542,8 @@
                         "visca_zoom_speed_max": 7,
                         "visca_focus_speed_max": 7,
                         "protocol_trace": false,
+                        "power_on_at_startup": true,
+                        "power_off_at_shutdown": true,
                         "preset_order": [
                             {
                                 "id": "camera:0"
@@ -6522,7 +6526,7 @@
                 "tie": false,
                 "scenes": [
                     {
-                        "name": "Lower Thirds - Speakers"
+                        "name": "Lower Third Overlay"
                     }
                 ],
                 "scene": "",
