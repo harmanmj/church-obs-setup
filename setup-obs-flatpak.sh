@@ -161,10 +161,11 @@ if want "$NEED_NDI"; then
   for lib in libvpx.so.11 libjxl.so.0.11 libjxl_threads.so.0.11 libjxl_cms.so.0.11 libSvtAv1Enc.so.3; do
     install_lib "$PLATFORM/$lib" "$lib"
   done
-  as_user flatpak override --user --env=LD_LIBRARY_PATH="$NDI_LIBS" "$OBS_ID"
+  # Through env: Flatpak refuses --user and "run" when sudo starts it directly.
+  as_user env flatpak override --user --env=LD_LIBRARY_PATH="$NDI_LIBS" "$OBS_ID"
 
   # Every library we copied must resolve inside the sandbox, otherwise NDI fails silently.
-  MISSING=$(as_user flatpak run --command=sh "$OBS_ID" -c \
+  MISSING=$(as_user env flatpak run --command=sh "$OBS_ID" -c \
     "cd '$NDI_LIBS' && for f in *.so*; do ldd ./\$f | grep 'not found'; done" || true)
   if [ -n "$MISSING" ]; then
     echo "WARNING: NDI HX decoding will not work, unresolved libraries:" >&2
@@ -242,20 +243,26 @@ if [ "$CONFIG_CHOICE" != none ]; then
     fi
     rm -f "$rendered"
   done
-  echo "Installed the '$CONFIG_CHOICE' scene collection. In OBS choose it from the Scene Collection menu."
+  echo "Installed the '$CONFIG_CHOICE' scene collection."
 
   # Zoom audio: a virtual "OBS Mic (for Zoom)" microphone fed by OBS's audio monitoring (PipeWire's
   # PulseAudio layer is already on Ubuntu; only the pactl tool is added).
   PW_DIR="$TARGET_HOME/.config/pipewire/pipewire.conf.d"
   PWP_DIR="$TARGET_HOME/.config/pipewire/pipewire-pulse.conf.d"
-  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum)
+  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)  # not there on a first run
   as_user mkdir -p "$PW_DIR" "$PWP_DIR"
   as_user cp "$SCRIPT_DIR/audio/obs-to-zoom.conf" "$PW_DIR/obs-to-zoom.conf"
   as_user cp "$SCRIPT_DIR/audio/obs-mic.conf" "$PWP_DIR/obs-mic.conf"
   PW_AFTER=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" | md5sum)
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-monitor.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
+  # Video, on a first setup only, and skip OBS's Auto-Configuration Wizard.
+  as_user python3 -I "$SCRIPT_DIR/tools/set-obs-video.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" --if-first-setup
   # Remote control: OBS's WebSocket server on port 4455, on by default, password from OBS_WEBSOCKET_PASSWORD.
   as_user env OBS_WEBSOCKET_PASSWORD="${OBS_WEBSOCKET_PASSWORD:-2ne2-14}" python3 -I "$SCRIPT_DIR/tools/set-obs-websocket.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
+  # The window layout, with the PTZ Controls dock in place.
+  as_user python3 -I "$SCRIPT_DIR/tools/set-obs-docks.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
+  # Open OBS on the installed scene collection.
+  as_user python3 -I "$SCRIPT_DIR/tools/set-obs-collection.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" "$CONFIG_SRC"/*.json
   # PipeWire reads its drop-ins at start. If the user is logged in and the files changed or Zoom cannot see
   # the microphone yet (source obs_mic), restart PipeWire so it takes effect now instead of after the next
   # login (audio drops briefly; close Zoom calls first).

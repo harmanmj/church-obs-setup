@@ -8,10 +8,11 @@
      already there. The rest of the run uses that checkout, so the computer always runs the current version.
   2. OBS Studio 33+ (via winget)
   3. NDI Runtime 6.3+ (via winget); on Windows it already decodes HX2/HX3 cameras
-  4. DistroAV (NDI) and obs-ptz (PTZ Controls), latest releases from GitHub
+  4. DistroAV (NDI), Downstream Keyer and obs-ptz (PTZ Controls), latest releases from GitHub
   5. ffmpeg (via winget) and VB-Audio Virtual Cable, the virtual microphone Zoom listens to
-  6. OBS configuration: the scene collection from configs\<name>\ with the USB input picked, OBS's audio
-     monitoring sent to the virtual cable, and a firewall rule for NDI
+  6. OBS configuration: the scene collection from configs\<name>\, set active, with the USB input picked, OBS's audio
+     monitoring sent to the virtual cable, the window layout with PTZ Controls docked, and a firewall rule
+     for NDI
   7. The sacrament graphic and the sacrament music playlist in Documents\sacrament
 
   Run from an elevated PowerShell (right-click, Run as administrator), as the person who uses OBS:
@@ -25,7 +26,7 @@
                         not NDI Webcam Audio or the virtual cable.
 .PARAMETER PtzInstaller Use this obs-ptz installer .exe instead of the latest glikely/obs-ptz release.
 .PARAMETER RepoUrl      Where to clone this repo from.
-.PARAMETER Branch       Which branch of the repo to use.
+.PARAMETER Branch       Which branch of the repo to use. Default: the repo's default branch on GitHub.
 .PARAMETER RepoDir      Where the checkout lives.
 #>
 param(
@@ -34,7 +35,7 @@ param(
     [string]$AudioDevice,
     [string]$PtzInstaller,
     [string]$RepoUrl = 'https://github.com/smitchell7/church-obs-setup.git',
-    [string]$Branch = 'windows',
+    [string]$Branch,
     [string]$RepoDir = (Join-Path $env:SystemDrive 'church-obs-setup'),
     [switch]$FromCheckout   # internal: set when this script re-runs itself from the checkout
 )
@@ -59,7 +60,8 @@ if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
 }
 
 function Winget-Run($wingetArgs) {
-    & winget @wingetArgs --silent --accept-package-agreements --accept-source-agreements
+    # Name the source: a Microsoft Store source that cannot be reached fails the whole command otherwise.
+    & winget @wingetArgs --source winget --silent --accept-package-agreements --accept-source-agreements
     # -1978335189 = no applicable upgrade, -1978335135 = already installed: both fine
     if ($LASTEXITCODE -ne 0 -and $LASTEXITCODE -ne -1978335189 -and $LASTEXITCODE -ne -1978335135) {
         Fail "winget $($wingetArgs -join ' ') failed (exit $LASTEXITCODE)."
@@ -90,6 +92,12 @@ if (-not $FromCheckout) {
         Write-Host "    Updating $RepoDir"
         & git -C $RepoDir fetch --quiet origin
         if ($LASTEXITCODE -ne 0) { Fail "git fetch failed in $RepoDir." }
+        if (-not $Branch) {
+            # No -Branch: follow the remote's default branch, which may have changed since the clone.
+            & git -C $RepoDir remote set-head origin --auto *> $null
+            $Branch = (& git -C $RepoDir symbolic-ref --short refs/remotes/origin/HEAD) -replace '^origin/', ''
+            if ($LASTEXITCODE -ne 0 -or -not $Branch) { Fail "Could not find the default branch of origin in $RepoDir." }
+        }
         & git -C $RepoDir checkout --quiet $Branch
         if ($LASTEXITCODE -ne 0) { Fail "Could not switch $RepoDir to branch $Branch (local changes there?)." }
         & git -C $RepoDir pull --quiet --ff-only origin $Branch
@@ -97,8 +105,13 @@ if (-not $FromCheckout) {
     } elseif (Test-Path $RepoDir) {
         Fail "$RepoDir exists but is not a git checkout. Move it away (or pass -RepoDir) and run this again."
     } else {
-        Write-Host "    Cloning $RepoUrl ($Branch) to $RepoDir"
-        & git clone --quiet --branch $Branch $RepoUrl $RepoDir
+        if ($Branch) {
+            Write-Host "    Cloning $RepoUrl ($Branch) to $RepoDir"
+            & git clone --quiet --branch $Branch $RepoUrl $RepoDir
+        } else {
+            Write-Host "    Cloning $RepoUrl (default branch) to $RepoDir"
+            & git clone --quiet $RepoUrl $RepoDir
+        }
         if ($LASTEXITCODE -ne 0) { Fail "git clone of $RepoUrl failed." }
     }
     Write-Host "    At $(git -C $RepoDir log -1 --format='%h %s')"
@@ -204,8 +217,9 @@ function Install-FromGitHub($repo, $pattern, $label, [switch]$IncludePrerelease)
     Fail "No $label Windows installer found in $repo releases."
 }
 
-Step '[4/7] DistroAV (NDI) and obs-ptz (PTZ Controls)'
+Step '[4/7] DistroAV (NDI), Downstream Keyer and obs-ptz (PTZ Controls)'
 Install-FromGitHub 'DistroAV/DistroAV' 'distroav-*-windows-x64-Installer.exe' 'DistroAV'
+Install-FromGitHub 'exeldro/obs-downstream-keyer' 'downstream-keyer-*-windows-installer.exe' 'Downstream Keyer'
 if ($PtzInstaller) {
     if (-not (Test-Path $PtzInstaller)) { Fail "No such file: $PtzInstaller" }
     Install-Exe $PtzInstaller
@@ -352,7 +366,7 @@ if ($Config) {
         $text = $text.Replace('@AUDIO_DEVICE@', $deviceId)
         [IO.File]::WriteAllText($dest, $text, $utf8)
     }
-    Write-Host "    Installed the '$Config' scene collection. In OBS choose it from the Scene Collection menu."
+    Write-Host "    Installed the '$Config' scene collection."
 }
 
 # Zoom audio: OBS monitors "USB Audio" and "Sacrament Music" (Monitor and Output, set in the configs) into the
@@ -379,21 +393,41 @@ function Set-IniValues($path, $section, [hashtable]$values) {
     [IO.File]::WriteAllLines($path, $out.ToArray(), $utf8)
 }
 
+$profiles = @(Get-ChildItem (Join-Path $ObsDir 'basic\profiles') -Directory -ErrorAction SilentlyContinue)
+if ($profiles.Count -eq 0) {
+    # OBS has never run: make a "Church" profile and select it
+    $profiles = @([pscustomobject]@{ FullName = (Join-Path $ObsDir 'basic\profiles\Church'); Name = 'Church' })
+    Set-IniValues (Join-Path $ObsDir 'user.ini') 'Basic' @{ Profile = 'Church'; ProfileDir = 'Church' }
+    Set-IniValues (Join-Path $profiles[0].FullName 'basic.ini') 'General' @{ Name = 'Church' }
+}
+
+# Video, on a first setup only, and skip OBS's Auto-Configuration Wizard.
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-video.ps1') -ObsDir $ObsDir -IfFirstSetup
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS video; see tools\set-obs-video.ps1' }
+
 $cable = Find-CableInput
 if ($cable) {
-    $profiles = @(Get-ChildItem (Join-Path $ObsDir 'basic\profiles') -Directory -ErrorAction SilentlyContinue)
-    if ($profiles.Count -eq 0) {
-        # OBS has never run: make a "Church" profile and select it
-        $profiles = @([pscustomobject]@{ FullName = (Join-Path $ObsDir 'basic\profiles\Church'); Name = 'Church' })
-        Set-IniValues (Join-Path $ObsDir 'user.ini') 'Basic' @{ Profile = 'Church'; ProfileDir = 'Church' }
-        Set-IniValues (Join-Path $profiles[0].FullName 'basic.ini') 'General' @{ Name = 'Church' }
-    }
     foreach ($p in $profiles) {
         Set-IniValues (Join-Path $p.FullName 'basic.ini') 'Audio' @{ MonitoringDeviceId = $cable.Id; MonitoringDeviceName = $cable.Name }
         Write-Host "    OBS monitoring device ($($p.Name)): $($cable.Name)"
     }
 } else {
     Write-Warning 'The virtual cable is not active yet, so OBS monitoring was not pointed at it. Restart Windows and run this again.'
+}
+
+# Open OBS in studio mode. OBS saves this on exit, so it is only the starting state.
+Set-IniValues (Join-Path $ObsDir 'user.ini') 'BasicWindow' @{ PreviewProgramMode = 'true' }
+
+# The window layout, with the PTZ Controls dock in place.
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-docks.ps1') -ObsDir $ObsDir
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see tools\set-obs-docks.ps1' }
+
+# Open OBS on the installed scene collection.
+if ($Config) {
+    $collection = Get-ChildItem $src -Filter *.json | Select-Object -First 1
+    $name = ([IO.File]::ReadAllText($collection.FullName, [Text.Encoding]::UTF8) | ConvertFrom-Json).name
+    Set-IniValues (Join-Path $ObsDir 'user.ini') 'Basic' @{ SceneCollection = $name; SceneCollectionFile = $collection.Name }
+    Write-Host "    OBS will open with the '$name' scene collection."
 }
 
 # ---- 7. Sacrament graphic and music playlist -----------------------------------

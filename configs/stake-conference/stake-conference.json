@@ -344,39 +344,39 @@
                         "presets": [
                             {
                                 "id": "camera:0",
-                                "name": "Left Pulpit - p0"
+                                "name": "Left Pulpit - P0"
                             },
                             {
                                 "id": "camera:1",
-                                "name": "Left Chorister - p1"
+                                "name": "Left Chorister - P1"
                             },
                             {
                                 "id": "camera:2",
-                                "name": "Left Rostrum - p2"
+                                "name": "Left Rostrum - P2"
                             },
                             {
                                 "id": "camera:3",
-                                "name": "Left Full Room - p3"
+                                "name": "Left Full Room - P3"
                             },
                             {
                                 "id": "camera:4",
-                                "name": "Left Piano - p4"
+                                "name": "Left Piano - P4"
                             },
                             {
                                 "id": "camera:5",
-                                "name": "Left Speaker Close-up - p5"
+                                "name": "Left Speaker Close-up - P5"
                             },
                             {
                                 "id": "camera:6",
-                                "name": "Left Piano and Pulpit - p6"
+                                "name": "Left Piano and Pulpit - P6"
                             },
                             {
                                 "id": "camera:7",
-                                "name": "Left Organ - p7"
+                                "name": "Left Organ - P7"
                             },
                             {
                                 "id": "camera:8",
-                                "name": "Left Choir - p8"
+                                "name": "Left Choir - P8"
                             }
                         ],
                         "host": "192.168.111.245",
@@ -491,39 +491,39 @@
                         "presets": [
                             {
                                 "id": "camera:0",
-                                "name": "Right Pulpit - p0"
+                                "name": "Right Pulpit - P0"
                             },
                             {
                                 "id": "camera:1",
-                                "name": "Right Chorister - p1"
+                                "name": "Right Chorister - P1"
                             },
                             {
                                 "id": "camera:2",
-                                "name": "Right Rostrum - p2"
+                                "name": "Right Rostrum - P2"
                             },
                             {
                                 "id": "camera:3",
-                                "name": "Right Full Room - p3"
+                                "name": "Right Full Room - P3"
                             },
                             {
                                 "id": "camera:4",
-                                "name": "Right Piano - p4"
+                                "name": "Right Piano - P4"
                             },
                             {
                                 "id": "camera:5",
-                                "name": "Right Speaker Close-up - p5"
+                                "name": "Right Speaker Close-up - P5"
                             },
                             {
                                 "id": "camera:6",
-                                "name": "Right Piano and Pulpit - p6"
+                                "name": "Right Piano and Pulpit - P6"
                             },
                             {
                                 "id": "camera:7",
-                                "name": "Right Organ - p7"
+                                "name": "Right Organ - P7"
                             },
                             {
                                 "id": "camera:8",
-                                "name": "Right Choir - p8"
+                                "name": "Right Choir - P8"
                             }
                         ],
                         "host": "192.168.111.246",
@@ -1123,7 +1123,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Pulpit - p0",
+            "name": "Left Pulpit - P0",
             "uuid": "f99b835d-ea63-4bfa-ac88-20b8d17900d8",
             "id": "scene",
             "versioned_id": "scene",
@@ -1382,7 +1382,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Chorister - p1",
+            "name": "Left Chorister - P1",
             "uuid": "8e0dde3f-7625-478d-ad54-a3431cc3cc3b",
             "id": "scene",
             "versioned_id": "scene",
@@ -1390,61 +1390,6 @@
                 "custom_size": false,
                 "id_counter": 5,
                 "items": [
-                    {
-                        "name": "Color",
-                        "source_uuid": "433b0ea0-6b24-49d9-a41f-56794ded3674",
-                        "visible": true,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 3,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "pos_rel": {
-                            "x": -1.7777777910232544,
-                            "y": -1.0
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_rel": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 300
-                        },
-                        "hide_transition": {
-                            "duration": 300
-                        },
-                        "private_settings": {}
-                    },
                     {
                         "name": "Camera Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
@@ -1698,7 +1643,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Rostrum - p2",
+            "name": "Left Rostrum - P2",
             "uuid": "0740274a-19d6-4dfe-acc1-9cfcac867c76",
             "id": "scene",
             "versioned_id": "scene",
@@ -1957,7 +1902,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Full Room - p3",
+            "name": "Left Full Room - P3",
             "uuid": "86a77433-65b2-4b7e-aa01-17dba7100172",
             "id": "scene",
             "versioned_id": "scene",
@@ -2216,7 +2161,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Piano - p4",
+            "name": "Left Piano - P4",
             "uuid": "f521ae98-da25-4b72-8c85-55b48de3fcfb",
             "id": "scene",
             "versioned_id": "scene",
@@ -2475,7 +2420,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Speaker Close-up - p5",
+            "name": "Left Speaker Close-up - P5",
             "uuid": "bae1a12e-73b1-4edb-95ec-92f2e87256d4",
             "id": "scene",
             "versioned_id": "scene",
@@ -2734,7 +2679,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Organ - p7",
+            "name": "Left Organ - P7",
             "uuid": "06fd8195-4a3b-4a59-b209-7099327aa970",
             "id": "scene",
             "versioned_id": "scene",
@@ -2993,7 +2938,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Choir - p8",
+            "name": "Left Choir - P8",
             "uuid": "f3c89dfc-e07b-4da1-81b4-95ec2611a25f",
             "id": "scene",
             "versioned_id": "scene",
@@ -3252,7 +3197,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Pulpit - p0",
+            "name": "Right Pulpit - P0",
             "uuid": "ad3ebd36-8697-4c5e-86cd-3e5e6dc95d8b",
             "id": "scene",
             "versioned_id": "scene",
@@ -3511,7 +3456,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Chorister - p1",
+            "name": "Right Chorister - P1",
             "uuid": "3e8cac54-9c71-4a47-bf92-051cffac778c",
             "id": "scene",
             "versioned_id": "scene",
@@ -3519,61 +3464,6 @@
                 "custom_size": false,
                 "id_counter": 5,
                 "items": [
-                    {
-                        "name": "Color",
-                        "source_uuid": "433b0ea0-6b24-49d9-a41f-56794ded3674",
-                        "visible": true,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 3,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "pos_rel": {
-                            "x": -1.7777777910232544,
-                            "y": -1.0
-                        },
-                        "scale": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "scale_rel": {
-                            "x": 1.0,
-                            "y": 1.0
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 300
-                        },
-                        "hide_transition": {
-                            "duration": 300
-                        },
-                        "private_settings": {}
-                    },
                     {
                         "name": "Camera Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
@@ -3827,7 +3717,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Rostrum - p2",
+            "name": "Right Rostrum - P2",
             "uuid": "361b2786-54e5-49a2-b3b6-09ce7209b4ba",
             "id": "scene",
             "versioned_id": "scene",
@@ -4086,7 +3976,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Full Room - p3",
+            "name": "Right Full Room - P3",
             "uuid": "0012baf7-c64f-4161-8c8f-b6c6b11facee",
             "id": "scene",
             "versioned_id": "scene",
@@ -4345,7 +4235,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Piano - p4",
+            "name": "Right Piano - P4",
             "uuid": "5df7a8d6-bdae-4275-9cc4-1590570caf11",
             "id": "scene",
             "versioned_id": "scene",
@@ -4604,7 +4494,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Speaker Close-up - p5",
+            "name": "Right Speaker Close-up - P5",
             "uuid": "a0169e4b-4901-454b-877c-92d42da8d20d",
             "id": "scene",
             "versioned_id": "scene",
@@ -4863,7 +4753,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Organ - p7",
+            "name": "Right Organ - P7",
             "uuid": "a753585d-1c13-4594-a890-1d2c484ae041",
             "id": "scene",
             "versioned_id": "scene",
@@ -5122,7 +5012,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Right Choir - p8",
+            "name": "Right Choir - P8",
             "uuid": "e2526bcc-99f2-4d60-8017-f2f3d3693eb0",
             "id": "scene",
             "versioned_id": "scene",
@@ -5636,7 +5526,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Left Piano and Pulpit - p6",
+            "name": "Left Piano and Pulpit - P6",
             "uuid": "b2f867ab-d567-4bfa-a667-7d4ea0f0ebea",
             "id": "scene",
             "versioned_id": "scene",
@@ -5812,6 +5702,265 @@
                     {
                         "name": "PTZ Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
+                        "visible": false,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 4,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": [],
+                "libobs.show_scene_item.2": [],
+                "libobs.hide_scene_item.2": [],
+                "libobs.show_scene_item.4": [],
+                "libobs.hide_scene_item.4": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648128,
+            "name": "Right Piano and Pulpit - P6",
+            "uuid": "c54aae51-5bdd-4398-8d7d-e4623f9363e7",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "custom_size": false,
+                "id_counter": 4,
+                "items": [
+                    {
+                        "name": "Camera Right",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "Preset - Right Piano and Pulpit",
+                        "source_uuid": "eab09725-3a77-4542-bf7c-876b48ac0f4e",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 2,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "USB Audio",
+                        "source_uuid": "e4bfb67e-7f6f-4f7c-a8f5-793126eae9bc",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 3,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "PTZ Right",
+                        "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
                         "rot": 0.0,
@@ -6401,58 +6550,58 @@
             "name": "Joystick Right"
         },
         {
-            "name": "Left Pulpit - p0"
+            "name": "Left Pulpit - P0"
         },
         {
-            "name": "Right Pulpit - p0"
+            "name": "Right Pulpit - P0"
         },
         {
-            "name": "Left Chorister - p1"
+            "name": "Left Chorister - P1"
         },
         {
-            "name": "Right Chorister - p1"
+            "name": "Right Chorister - P1"
         },
         {
-            "name": "Left Rostrum - p2"
+            "name": "Left Rostrum - P2"
         },
         {
-            "name": "Right Rostrum - p2"
+            "name": "Right Rostrum - P2"
         },
         {
-            "name": "Left Full Room - p3"
+            "name": "Left Full Room - P3"
         },
         {
-            "name": "Right Full Room - p3"
+            "name": "Right Full Room - P3"
         },
         {
-            "name": "Left Piano - p4"
+            "name": "Left Piano - P4"
         },
         {
-            "name": "Right Piano - p4"
+            "name": "Right Piano - P4"
         },
         {
-            "name": "Left Speaker Close-up - p5"
+            "name": "Left Speaker Close-up - P5"
         },
         {
-            "name": "Right Speaker Close-up - p5"
+            "name": "Right Speaker Close-up - P5"
         },
         {
-            "name": "Left Piano and Pulpit - p6"
+            "name": "Left Piano and Pulpit - P6"
         },
         {
-            "name": "Right Piano and Pulpit - p6"
+            "name": "Right Piano and Pulpit - P6"
         },
         {
-            "name": "Left Organ - p7"
+            "name": "Left Organ - P7"
         },
         {
-            "name": "Right Organ - p7"
+            "name": "Right Organ - P7"
         },
         {
-            "name": "Left Choir - p8"
+            "name": "Left Choir - P8"
         },
         {
-            "name": "Right Choir - p8"
+            "name": "Right Choir - P8"
         },
         {
             "name": "Sacrament"
@@ -6461,8 +6610,8 @@
             "name": "Lower Third Overlay"
         }
     ],
-    "current_scene": "Left Full Room - p3",
-    "current_program_scene": "Left Full Room - p3",
+    "current_scene": "Left Full Room - P3",
+    "current_program_scene": "Left Full Room - P3",
     "canvases": [],
     "current_transition": "Fade",
     "transition_duration": 300,

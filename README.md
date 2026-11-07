@@ -52,18 +52,22 @@ HX2/HX3 cameras.
 - The obs-ptz Flatpak bundle is in `vendor/` (built from <https://github.com/smitchell7/obs-ptz>,
   a fork of <https://github.com/glikely/obs-ptz>, GPL-2.0; the source is in that repo). To use a
   different build, run `sudo PTZ_BUNDLE=/path/to/file.flatpak ./setup-obs-flatpak.sh`.
+- On a first setup it sets OBS's video to a 1920x1080 canvas and output at 30 fps, with recording quality "Same as
+  stream", and skips its Auto-Configuration Wizard (`tools/set-obs-video.py` sets the video again).
+- It installs the OBS window layout in `configs/obs-layout.ini`, with the PTZ Controls dock in the bottom row.
+  A layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
 - It asks which camera setup to install (the folders in `configs/`), or take `--config=single-camera`,
   `--config=dual-camera` or `--no-config` up front. Each is an OBS scene collection with the cameras, PTZ
-  presets and the sacrament scene. Choose it afterwards from OBS's Scene Collection menu. An existing file is
-  saved as `*.bak` first.
+  presets and the sacrament scene. OBS opens on the one just installed. An existing file is saved as `*.bak`
+  first.
   - `single-camera`: one NDI camera at 192.168.111.245. Scenes, in preset order, are named with their slot:
-    Joystick, Pulpit - p0, Chorister - p1, Rostrum - p2, Full Room - p3, Piano - p4, Speaker Close-up - p5,
-    Piano and Pulpit - p6, Organ - p7, Choir - p8, Sacrament. **Joystick** shows the camera without recalling a
+    Joystick, Pulpit - P0, Chorister - P1, Rostrum - P2, Full Room - P3, Piano - P4, Speaker Close-up - P5,
+    Piano and Pulpit - P6, Organ - P7, Choir - P8, Sacrament. **Joystick** shows the camera without recalling a
     preset, so it stays where it is and you can steer it with the PTZ Controls dock.
   - `dual-camera`: adds a second camera at 192.168.111.246 (245 is "Left", 246 is "Right"), each with its own
-    PTZ device. Every scene above except Sacrament comes as a Left and a Right version ("Left Pulpit - p0", ...),
+    PTZ device. Every scene above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...),
     with **Joystick Left** and **Joystick Right** in place of Joystick.
   - Video comes from the cameras (their own NDI audio is not used). Audio comes from the "USB Audio" source, a
     USB input (the Sound Blaster where there is one), in every scene except Sacrament. The installer picks the
@@ -79,7 +83,8 @@ HX2/HX3 cameras.
     PulseAudio itself is not needed (the installer adds `pulseaudio-utils` for `pactl`). PipeWire only reads
     these files when it starts, so if the user is logged in the installer restarts PipeWire when they change
     (audio drops for a moment; not during a Zoom call); otherwise they apply after the next login.
-    `tools/set-obs-monitor.py` points OBS's monitoring device at the speaker.
+    `tools/set-obs-monitor.py` points OBS's monitoring device at the speaker and opens OBS in studio mode
+    (OBS remembers the mode on exit, so if someone turns it off it stays off until the installer runs again).
   - **Zoom settings, once per computer** (Zoom keeps these itself, so the installer cannot set them):
     Settings > Audio: **Microphone** "OBS Mic (for Zoom)", picked by name (not "Same as System"); **Speaker** the computer's
     speakers or headphones, never "OBS Monitoring (not for Zoom)", which would send the meeting back into the
@@ -125,19 +130,25 @@ The script can be downloaded on its own and run from anywhere: it installs Git (
 repo to `C:\church-obs-setup` (or updates it there with `git pull`), and carries on from that checkout, so a
 computer always runs the current version. Run it again at any time to update; close OBS first. It then:
 
-- installs OBS Studio 33+ and the NDI Runtime (`winget`), and the latest DistroAV and obs-ptz releases from
-  GitHub (obs-ptz is upstream `glikely/obs-ptz`, whose 1.0 betas use the same preset format as these configs;
+- installs OBS Studio 33+ and the NDI Runtime (`winget`), and the latest DistroAV, Downstream Keyer
+  (`exeldro/obs-downstream-keyer`) and obs-ptz releases from GitHub (obs-ptz is upstream `glikely/obs-ptz`, whose 1.0 betas use the same preset format as these configs;
   `-PtzInstaller C:\path\...-Installer.exe` uses another build);
 - installs ffmpeg (`winget`, for the playlist) and **VB-Audio Virtual Cable**, the virtual microphone for Zoom.
   VB-CABLE is donationware with its own licence (<https://vb-audio.com/Services/licensing.htm>); its setup
   window opens: click "Install Driver" and accept. It needs a Windows restart: restart, then run the script
   again to finish;
 - installs the scene collection (`-Config`, else it asks; `-NoConfig` skips it; an existing file is saved as
-  `*.bak`). The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
+  `*.bak`) and makes it the one OBS opens on. The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
   else (with a warning) another real input, never "NDI Webcam Audio", whose sound is poor; plug the USB
   input in before running it. `-AudioDevice "part of its name"` picks another;
 - points OBS's audio monitoring at "CABLE Input (VB-Audio Virtual Cable)", so the USB input and the
   sacrament music go to Zoom: in Zoom pick the microphone **CABLE Output (VB-Audio Virtual Cable)**;
+- on a first setup, sets OBS's video to a 1920x1080 canvas and output at 30 fps, with recording quality "Same
+  as stream", and skips its Auto-Configuration Wizard (`tools\set-obs-video.ps1` sets the video again);
+- opens OBS in studio mode (OBS remembers the mode on exit, so if someone turns it off it stays off until the
+  script runs again);
+- installs the OBS window layout in `configs\obs-layout.ini`, with the PTZ Controls dock in the bottom row. A
+  layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run;
 - adds a firewall rule for NDI, makes the sacrament graphic, and builds the sacrament playlist from
   `audio\sacrament-playlist.txt` (`tools\make-sacrament-playlist.ps1`) in `Documents\sacrament`.
 
@@ -152,7 +163,7 @@ computer always runs the current version. Run it again at any time to update; cl
   piano and held notes are removed as noise and the music barely comes through. If the option is missing,
   the Zoom account's web settings (zoom.us > Settings > Audio) must allow it. Camera: "OBS Virtual Camera".
 
-Options: `-Branch` (default `windows`), `-RepoUrl`, `-RepoDir`. Not covered on Windows: the GNOME dock, the
+Options: `-Branch` (default: the repo's default branch), `-RepoUrl`, `-RepoDir`. Not covered on Windows: the GNOME dock, the
 OBS WebSocket password, and the Ubuntu autoinstall. Testing it, and preparing a laptop to test on:
 [docs/windows-testing.md](docs/windows-testing.md).
 

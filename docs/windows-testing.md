@@ -63,10 +63,10 @@ unless they say "at the laptop".
 1. Download only the script and run it, as a fresh computer would:
    ```powershell
    cd $env:TEMP
-   irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/windows/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
+   irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera
    ```
-2. Expect, in order: Git installed; the repo cloned to `C:\church-obs-setup` on branch `windows`; the script
+2. Expect, in order: Git installed; the repo cloned to `C:\church-obs-setup` on its default branch; the script
    continuing from there (`[2/7]` onwards); OBS 33+, NDI Runtime, DistroAV, obs-ptz, ffmpeg installed.
 3. **At the laptop:** the VB-CABLE window opens. Click "Install Driver" and accept. The script then says a
    restart is needed. Restart Windows and sign back in.
@@ -86,11 +86,13 @@ unless they say "at the laptop".
 
 ### C. In OBS (at the laptop, or started over SSH)
 
-1. Scene Collection > Single Camera. The scenes are Joystick, Pulpit - p0 ... Choir - p8, Sacrament.
+1. OBS opens on Single Camera. The scenes are Joystick, Pulpit - P0 ... Choir - P8, Sacrament.
 2. Settings > Audio > Advanced > Monitoring Device is "CABLE Input (VB-Audio Virtual Cable)".
 3. Edit > Advanced Audio Properties: "USB Audio" and "Sacrament Music" say "Monitor and Output".
 4. The "USB Audio" source's device is the USB input; the PTZ Controls dock lists the camera.
 5. The camera's NDI video shows (Windows firewall rule and NDI Runtime).
+6. OBS opens maximized with the PTZ Controls dock in the bottom row, between the Audio Mixer and Scene
+   Transitions. Float it, close OBS and run `tools\set-obs-docks.ps1`: it is back in place at the next start.
 
 ### D. Audio reaches Zoom's microphone
 
