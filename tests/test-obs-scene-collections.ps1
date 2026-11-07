@@ -28,9 +28,18 @@ function Add-FromMenu($answer) {
     $script:out = $answer | & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tool -ObsDir $obs -MusicDir $music *>&1 | Out-String
     $script:code = $LASTEXITCODE
 }
+function Invoke-Git {
+    $ErrorActionPreference = 'Continue'
+    & git @args *>$null
+}
+function Update-FromCheckout([string[]]$toolArgs) {
+    $ErrorActionPreference = 'Continue'
+    $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File (Join-Path $checkout 'tools\update-obs-scene-collections.ps1') @toolArgs -ObsDir $obs -MusicDir $music *>&1 | Out-String
+    $script:code = $LASTEXITCODE
+}
 function Update-SceneCollections {
     $ErrorActionPreference = 'Continue'
-    $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $updateTool -ObsDir $obs -MusicDir $music *>&1 | Out-String
+    $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $updateTool -NoPull -ObsDir $obs -MusicDir $music *>&1 | Out-String
     $script:code = $LASTEXITCODE
 }
 
@@ -135,6 +144,38 @@ try {
     Update-SceneCollections
     Check 'updating with none from this repo changes nothing' ($code -eq 0 -and $out -match 'nothing changed' -and -not (Test-Path (Join-Path $obs 'basic')))
     $obs = $real
+
+    Write-Host 'Updating gets the latest first, from a stand-in for GitHub'
+    $repoRoot = Split-Path -Parent $PSScriptRoot
+    $origin = Join-Path $root 'origin.git'
+    $work = Join-Path $root 'work'
+    $checkout = Join-Path $root 'checkout'
+    Invoke-Git init --bare $origin
+    Invoke-Git clone $origin $work
+    Copy-Item (Join-Path $repoRoot 'tools') $work -Recurse
+    New-Item -ItemType Directory (Join-Path $work 'configs') | Out-Null
+    Copy-Item (Join-Path $repoRoot 'configs\dual-camera') (Join-Path $work 'configs') -Recurse
+    Invoke-Git -C $work add -A
+    Invoke-Git -C $work -c user.name=test -c user.email=test@example.com commit -m first
+    Invoke-Git -C $work push origin HEAD
+    Invoke-Git clone $origin $checkout
+    $workDual = Join-Path $work 'configs\dual-camera\dual-camera.json'
+    [IO.File]::WriteAllText($workDual, [IO.File]::ReadAllText($workDual).Replace('"name": "Dual Camera"', '"name": "Dual Camera Pulled"'))
+    Invoke-Git -C $work -c user.name=test -c user.email=test@example.com commit -am second
+    Invoke-Git -C $work push origin HEAD
+
+    Update-FromCheckout @()
+    Check 'exit code 0' ($code -eq 0)
+    Check 'it says which version it is at' ($out -match 'At [0-9a-f]+ second')
+    Check 'OBS gets the newer collection' ([IO.File]::ReadAllText($dual, [Text.Encoding]::UTF8).Contains('Dual Camera Pulled'))
+
+    Invoke-Git -C $checkout remote set-url origin (Join-Path $root 'gone.git')
+    [IO.File]::WriteAllText($dual, '{"name":"Dual Camera","edited":true}')
+    Update-FromCheckout @()
+    Check 'it fails if GitHub cannot be reached' ($code -ne 0 -and $out -match 'nothing changed')
+    Check 'and leaves the collection alone' ([IO.File]::ReadAllText($dual) -eq '{"name":"Dual Camera","edited":true}')
+    Update-FromCheckout @('-NoPull')
+    Check '-NoPull works without GitHub' ($code -eq 0 -and [IO.File]::ReadAllText($dual, [Text.Encoding]::UTF8).Contains('Dual Camera Pulled'))
 
     Write-Host 'Things it should refuse'
     Add-SceneCollection @('-Config', 'no-such-collection')

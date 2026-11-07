@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Replace every scene collection OBS has with the copy in this repo. Run it as the broadcast user, without sudo.
-# (Linux twin of update-obs-scene-collections.ps1.)
+# Get the latest scene collections from GitHub and replace every one OBS has. Run it as the broadcast user,
+# without sudo. (Linux twin of update-obs-scene-collections.ps1.)
 #
-# Usage:  tools/update-obs-scene-collections.sh
+# Usage:  tools/update-obs-scene-collections.sh [--no-pull]
 # Close OBS first. Changes made to these collections in OBS are replaced, without asking; each old file is kept
 # as *.bak. Collections that did not come from this repo are left alone, none are added, and the collection OBS
-# opens with stays the same. It installs nothing and does not update this repo, so it uses the collections in
-# this checkout.
+# opens with stays the same. It installs nothing. If GitHub cannot be reached, nothing is changed.
+#   --no-pull  skip GitHub and use the collections already in this checkout
 # AUDIO_DEVICE=name forces a PulseAudio source.
 set -euo pipefail
 
@@ -14,9 +14,12 @@ OBS_ID=com.obsproject.Studio
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 CONFIG_ROOT="$SCRIPT_DIR/../configs"
 
+PULL=yes
 for arg in "$@"; do
-  echo "Unknown option: $arg" >&2
-  exit 1
+  case "$arg" in
+    --no-pull) PULL=no ;;
+    *) echo "Unknown option: $arg" >&2; exit 1 ;;
+  esac
 done
 
 if [ "$EUID" -eq 0 ]; then
@@ -33,6 +36,18 @@ SCENES_DIR="$OBS_DIR/basic/scenes"
 MUSIC_DIR="$TARGET_HOME/Documents/sacrament"
 
 check_obs_ready
+
+if [ "$PULL" = yes ]; then
+  REPO_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
+  if ! git -C "$REPO_DIR" pull --quiet --ff-only; then
+    echo "Could not get the latest scene collections from GitHub, so nothing changed. Check the internet connection, or use --no-pull to use the ones already on this computer." >&2
+    echo "If git says this folder is not yours, run this once: sudo chown -R $TARGET_USER:$TARGET_USER $REPO_DIR" >&2
+    exit 1
+  fi
+  echo "At $(git -C "$REPO_DIR" log -1 --format='%h %s')"
+  # Carry on with the copy just pulled, as this script may have changed too.
+  exec bash "$SCRIPT_DIR/update-obs-scene-collections.sh" --no-pull
+fi
 
 UPDATES=()
 for dir in "$CONFIG_ROOT"/*/; do

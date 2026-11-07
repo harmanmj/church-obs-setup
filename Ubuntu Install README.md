@@ -69,7 +69,7 @@ To add a scene collection you do not currently have, close OBS and run the follo
 If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
 
 # Updating All Scene Collections
-To replace every scene collection in OBS with the latest copy from the setup, close OBS and run the following in a normal terminal, without sudo. Scene collections you made yourself in OBS are left alone, and none are added.
+To get the latest scene collections from GitHub and replace every one in OBS, close OBS and run the following in a normal terminal, without sudo. Scene collections you made yourself in OBS are left alone, and none are added.
 
 **Changes made to these scene collections in OBS are replaced without asking**, including any NDI sources you picked by hand, such as the lower thirds. Each old file is saved as a .bak file in `~/.var/app/com.obsproject.Studio/config/obs-studio/basic/scenes`. Plug in the USB audio input first, as the audio input is picked again.
 * **Update All Scene Collections**
@@ -77,7 +77,7 @@ To replace every scene collection in OBS with the latest copy from the setup, cl
     cd ~/church-obs-setup
     ./tools/update-obs-scene-collections.sh
     ```
-This uses the scene collections already on this computer. To get newer ones, run `git pull` first.
+If GitHub cannot be reached, nothing is changed. Add `--no-pull` to the end of the command to use the scene collections already on this computer instead. If git says the folder is not yours, run `sudo chown -R $USER:$USER ~/church-obs-setup` once.
 
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.

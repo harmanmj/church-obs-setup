@@ -103,7 +103,7 @@ check "a number adds that collection" test -e "$DUAL"
 echo "Updating replaces what OBS has from this repo"
 echo '{"name":"edited"}' > "$STAKE"
 echo '{"name":"edited"}' > "$DUAL"
-add bash "$UPDATE"
+add bash "$UPDATE" --no-pull
 check "exit code 0" code_is 0
 check "the first is replaced" no_match 'edited' "$STAKE"
 check "the second is replaced" no_match 'edited' "$DUAL"
@@ -112,7 +112,7 @@ check "collections made in OBS are left alone" grep -q 'Made in OBS' "$SCENES/ma
 check "and it says so" says 'Left alone.*Made in OBS'
 check "nothing new is added" test ! -e "$SCENES/single-camera.json"
 check "the active collection is unchanged" same_ini
-add env FAKE_OBS_RUNNING=1 bash "$UPDATE"
+add env FAKE_OBS_RUNNING=1 bash "$UPDATE" --no-pull
 check "it fails while OBS is running" says 'OBS is running'
 add bash "$UPDATE" --bad-option
 check "an unknown option fails" code_not_0
@@ -126,9 +126,40 @@ for f in "$SCENES"/*.json; do
   case "$f" in "$STAKE"|"$DUAL") ;; *) rm -f "$f" ;; esac
 done
 mv "$SCENES" "$SCENES.moved"
-add bash "$UPDATE"
+add bash "$UPDATE" --no-pull
 check "updating with none from this repo changes nothing" says 'nothing changed'
 mv "$SCENES.moved" "$SCENES"
+
+echo "Updating gets the latest first, from a stand-in for GitHub"
+REPO=$(cd "$(dirname "$TOOL")/.." && pwd)
+GIT_ID=(-c user.name=test -c user.email=test@example.com)
+git init -q --bare "$ROOT/origin.git"
+git clone -q -c core.autocrlf=false "$ROOT/origin.git" "$ROOT/work" 2>/dev/null
+mkdir -p "$ROOT/work/configs"
+cp -r "$REPO/tools" "$ROOT/work/"
+cp -r "$REPO/configs/dual-camera" "$ROOT/work/configs/"
+git -C "$ROOT/work" add -A 2>/dev/null
+git -C "$ROOT/work" "${GIT_ID[@]}" commit -q -m first
+git -C "$ROOT/work" push -q origin HEAD
+git clone -q -c core.autocrlf=false "$ROOT/origin.git" "$ROOT/checkout"
+sed -i 's/"name": "Dual Camera"/"name": "Dual Camera Pulled"/' "$ROOT/work/configs/dual-camera/dual-camera.json"
+git -C "$ROOT/work" "${GIT_ID[@]}" commit -q -am second
+git -C "$ROOT/work" push -q origin HEAD
+PULLED="$ROOT/checkout/tools/update-obs-scene-collections.sh"
+
+add bash "$PULLED"
+check "exit code 0" code_is 0
+check "it says which version it is at" says 'At [0-9a-f]* second'
+check "OBS gets the newer collection" grep -q 'Dual Camera Pulled' "$DUAL"
+
+git -C "$ROOT/checkout" remote set-url origin "$ROOT/gone.git"
+echo '{"name":"edited"}' > "$DUAL"
+add bash "$PULLED"
+check "it fails if GitHub cannot be reached" code_not_0
+check "and says nothing changed" says 'nothing changed'
+check "and leaves the collection alone" grep -q 'edited' "$DUAL"
+add bash "$PULLED" --no-pull
+check "--no-pull works without GitHub" grep -q 'Dual Camera Pulled' "$DUAL"
 
 echo "Things it should warn about or refuse"
 add env FAKE_NO_PLUGINS=1 bash "$TOOL" --config=single-camera

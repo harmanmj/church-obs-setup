@@ -123,6 +123,6 @@ With OBS closed, in a normal PowerShell, from the repo:
    offers only the others. Pick one.
 3. Open OBS: it opens on the same collection as before, and the new one is in the Scene Collection menu. Switch
    to it: the scenes load, with no missing-file warnings, and the "USB Audio" source has the right input.
-4. Change a scene in that collection, close OBS and run
+4. Change a scene in that collection, close OBS and run (it pulls from GitHub first)
    `powershell -ExecutionPolicy Bypass -File .\tools\update-obs-scene-collections.ps1`. The change is gone, a
    `*.bak` holds the old file, and a collection made in OBS is listed as left alone.

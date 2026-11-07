@@ -1,19 +1,20 @@
 <#
 .SYNOPSIS
-  Replace every scene collection OBS has with the copy in this repo. Run it from a normal PowerShell, not as
-  administrator. (Windows twin of update-obs-scene-collections.sh.)
+  Get the latest scene collections from GitHub and replace every one OBS has. Run it from a normal PowerShell,
+  not as administrator. (Windows twin of update-obs-scene-collections.sh.)
 
 .DESCRIPTION
   Close OBS first. Changes made to these collections in OBS are replaced, without asking; each old file is kept
   as *.bak. Collections that did not come from this repo are left alone, none are added, and the collection OBS
-  opens with stays the same. It installs nothing and does not update this repo, so it uses the collections in
-  this checkout.
+  opens with stays the same. It installs nothing. If GitHub cannot be reached, nothing is changed.
 
+.PARAMETER NoPull       Skip GitHub and use the collections already in this checkout.
 .PARAMETER AudioDevice  Part of the name of the audio input to use (default: Sound Blaster, else any USB input).
 .PARAMETER ObsDir       OBS's config folder. Default: %APPDATA%\obs-studio.
 .PARAMETER MusicDir     The sacrament graphic and music folder. Default: Documents\sacrament.
 #>
 param(
+    [switch]$NoPull,
     [string]$AudioDevice,
     [string]$ObsDir = (Join-Path $env:APPDATA 'obs-studio'),
     [string]$MusicDir = (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'sacrament')
@@ -25,6 +26,22 @@ function Fail($msg) { Write-Host "ERROR: $msg" -ForegroundColor Red; exit 1 }
 . (Join-Path $PSScriptRoot 'obs-collection.ps1')
 
 Assert-ObsReady $ObsDir
+
+if (-not $NoPull) {
+    $repoDir = Split-Path -Parent $PSScriptRoot
+    # safe.directory: the setup cloned this as an administrator, which git otherwise refuses for other accounts.
+    & git -c safe.directory=* -C $repoDir pull --quiet --ff-only
+    if ($LASTEXITCODE -ne 0) {
+        Fail 'Could not get the latest scene collections from GitHub, so nothing changed. Check the internet connection, or use -NoPull to use the ones already on this computer.'
+    }
+    Write-Host "    At $(& git -c safe.directory=* -C $repoDir log -1 --format='%h %s')"
+
+    # Carry on with the copy just pulled, as this script may have changed too.
+    $again = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath, '-NoPull', '-ObsDir', $ObsDir, '-MusicDir', $MusicDir)
+    if ($AudioDevice) { $again += @('-AudioDevice', $AudioDevice) }
+    & (Get-Process -Id $PID).Path @again
+    exit $LASTEXITCODE
+}
 
 $scenes = Join-Path $ObsDir 'basic\scenes'
 $repo = @(Get-RepoCollections (Join-Path (Split-Path -Parent $PSScriptRoot) 'configs'))
