@@ -231,7 +231,7 @@ try {
     Invoke-Git -C $checkout remote set-url origin (Join-Path $root 'gone.git')
     Add-FromCheckout @('-Config', 'brand-new')
     Check 'adding still works if GitHub cannot be reached' ($code -eq 0 -and (Test-Path (Join-Path $scenes 'brand-new.json')))
-    Check 'and warns about it' ($out -match 'using the ones already on this computer')
+    Check 'and warns about it' ($out -match 'Could not get the latest scene collections')
     Remove-Item (Join-Path $scenes 'brand-new.json')
 
     [IO.File]::WriteAllText($dual, '{"name":"Dual Camera","edited":true}')
