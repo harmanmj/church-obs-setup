@@ -4,8 +4,9 @@
 #
 # Usage:  tools/add-obs-scene-collection.sh [--config=NAME[,NAME...]] [--force] [--no-pull]
 # Close OBS first. It gets the latest collections from GitHub (or, if it cannot, uses the ones in this checkout),
-# lists the collections OBS already has and asks which of the others to add. It installs nothing and leaves the
-# collection OBS opens with as it is: the new ones appear in OBS's Scene Collection menu.
+# lists the collections OBS already has and asks which of the others to add. The new ones appear in OBS's Scene
+# Collection menu. After adding from the menu it asks which collection OBS should open with; with --config that
+# stays as it is. It installs nothing.
 #   --config=NAME  the collection in configs/NAME to add, instead of asking; separate several with commas
 #   --no-pull      skip GitHub and use the collections already in this checkout
 #   --force        replace the collection if it is already there, keeping the old one as *.bak
@@ -129,3 +130,23 @@ for dir in "${ADDING[@]}"; do
   echo "Installed the '$(basename "$dir")' scene collection. Pick it from OBS's Scene Collection menu."
 done
 warn_missing "$MUSIC_DIR" "${ADDING[@]}"
+
+if [ "$CONFIG_CHOICE" = ask ]; then
+  INSTALLED=("$SCENES_DIR"/*.json)
+  ACTIVE=$(sed -n 's/^SceneCollectionFile=//p' "$OBS_DIR/user.ini" | tr -d '\r' | head -1)
+  echo "Scene collections in OBS:"
+  for i in "${!INSTALLED[@]}"; do
+    note=
+    if [ "$(basename "${INSTALLED[$i]}")" = "$ACTIVE" ]; then note=" (active now)"; fi
+    echo "  $((i + 1))) $(collection_name "${INSTALLED[$i]}")$note"
+  done
+  echo "  0) keep the current one"
+  while read -r -p "Enter the number of the scene collection you want to make active: " n; do
+    [ -n "$n" ] || exit 0
+    if [[ "$n" =~ ^[0-9]{1,3}$ ]] && [ "$((10#$n))" -le "${#INSTALLED[@]}" ]; then
+      [ "$((10#$n))" -ne 0 ] || exit 0
+      python3 -I "$SCRIPT_DIR/set-obs-collection.py" "$OBS_DIR" "${INSTALLED[$((10#$n - 1))]}"
+      break
+    fi
+  done
+fi

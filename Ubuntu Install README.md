@@ -60,7 +60,7 @@
     sudo ./setup-obs-flatpak.sh --config=stake-conference
     ```
 # Adding a Scene Collection
-To add a scene collection you do not currently have, close OBS and run the following in a normal terminal, without sudo. It shows the scene collections already in OBS, then a numbered list of the ones you can add. It first gets the latest list from GitHub; if it cannot, it warns you and uses the scene collections already on this computer. Type one number, or several separated by spaces (for example `1 2`) to add more than one at a time. It only adds the ones you pick: nothing is installed, and OBS still opens with the same collection as before. Afterwards, pick the new ones from the Scene Collection menu in OBS.
+To add a scene collection you do not currently have, close OBS and run the following in a normal terminal, without sudo. It shows the scene collections already in OBS, then a numbered list of the ones you can add. It first gets the latest list from GitHub; if it cannot, it warns you and uses the scene collections already on this computer. Type one number, or several separated by spaces (for example `1 2`) to add more than one at a time. It only adds the ones you pick, and nothing is installed. Afterwards it lists the scene collections in OBS so you can pick which one OBS opens with; enter 0 to keep the current one.
 * **Add a Scene Collection**
     ```terminal
     cd ~/church-obs-setup

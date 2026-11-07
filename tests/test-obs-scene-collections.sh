@@ -24,6 +24,7 @@ cat > "$ROOT/bin/flatpak" <<'STUB'
 [ -z "${FAKE_NO_PLUGINS:-}" ] || { [ "$1" = info ] && [ "$3" = com.obsproject.Studio ]; exit $?; }
 [ "$1" != list ] || echo ca.secretlab.ptz
 STUB
+printf '#!/usr/bin/env bash\necho "$@" > "%s/active"\n' "$ROOT" > "$ROOT/bin/python3"
 cat > "$ROOT/bin/pactl" <<'STUB'
 #!/usr/bin/env bash
 printf '1\talsa_output.pci.monitor\n2\talsa_input.usb-Creative_Sound_Blaster\n'
@@ -160,6 +161,28 @@ check "and says so" says "'dual-camera' scene collection is already there"
 rm -f "$SINGLE"
 add bash "$TOOL" --no-pull --config=dual-camera,stake-conference --force
 check "--force replaces every one in the list" no_match 'edited' "$DUAL"
+
+echo "Choosing the active collection after adding"
+rm -f "$DUAL" "$ROOT/active"
+ANSWER=$'1\n0' add bash "$TOOL" --no-pull
+check "it lists what is in OBS" says ') Stake Conference'
+check "with a way to keep the current one" says 'keep the current one'
+check "0 keeps the active collection" test ! -e "$ROOT/active"
+rm -f "$DUAL"
+ANSWER=$'1\n1' add bash "$TOOL" --no-pull
+check "a number makes that one active" grep -q 'dual-camera.json' "$ROOT/active"
+sed -i 's/^SceneCollection=.*/&\nSceneCollectionFile=dual-camera.json/' "$OBS/user.ini"
+rm -f "$DUAL" "$ROOT/active"
+ANSWER=$'1\n0' add bash "$TOOL" --no-pull
+check "it marks the active one" says 'Dual Camera (active now)'
+printf '%s\n' "$INI_BEFORE" > "$OBS/user.ini"
+rm -f "$DUAL"
+ANSWER=$'1 2\n99\n3' add bash "$TOOL" --no-pull
+check "it also asks after adding several, and a bad number asks again" grep -q 'stake-conference.json' "$ROOT/active"
+rm -f "$DUAL" "$SINGLE" "$ROOT/active"
+add bash "$TOOL" --no-pull --config=dual-camera
+check "--config does not ask" lacks 'keep the current one'
+check "and changes nothing" test ! -e "$ROOT/active"
 
 mv "$SCENES" "$SCENES.moved"
 add bash "$UPDATE" --no-pull

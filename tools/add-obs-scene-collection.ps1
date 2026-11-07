@@ -5,9 +5,10 @@
 
 .DESCRIPTION
   Close OBS first. It gets the latest collections from GitHub (or, if it cannot, uses the ones in this checkout),
-  lists the collections OBS already has and asks which of the others to add. It installs nothing and leaves the
-  collection OBS opens with as it is: the new ones appear in OBS's Scene Collection menu. A collection that is
-  already there is left alone, so scenes changed in OBS survive; -Force replaces it.
+  lists the collections OBS already has and asks which of the others to add. The new ones appear in OBS's Scene
+  Collection menu. After adding from the menu it asks which collection OBS should open with; with -Config that
+  stays as it is. It installs nothing. A collection that is already there is left alone, so scenes changed in
+  OBS survive; -Force replaces it.
 
 .PARAMETER Config       The collections in configs\<name> to add, separated by commas, instead of asking.
 .PARAMETER NoPull       Skip GitHub and use the collections already in this checkout.
@@ -51,7 +52,8 @@ $scenes = Join-Path $ObsDir 'basic\scenes'
 $repo = @(Get-RepoCollections (Join-Path (Split-Path -Parent $PSScriptRoot) 'configs'))
 $present = @(Get-ObsCollections $scenes)
 
-if (-not $Config) {
+$fromMenu = -not $Config
+if ($fromMenu) {
     if ($present) { Write-Host "Already in OBS: $(($present | ForEach-Object Name) -join ', ')" }
     $choices = @($repo | Where-Object { $Force -or -not (Test-InObs $_ $present) })
     if (-not $choices) {
@@ -97,3 +99,24 @@ foreach ($c in $adding) {
     Write-Host "    Installed the '$($c.Config)' scene collection. Pick it from OBS's Scene Collection menu."
 }
 Show-MissingPieces @($adding | ForEach-Object Dir) $MusicDir
+
+if ($fromMenu) {
+    $ini = Join-Path $ObsDir 'user.ini'
+    $installed = @(Get-ObsCollections $scenes)
+    $active = [IO.File]::ReadAllLines($ini) | Where-Object { $_ -match '^SceneCollectionFile=' } | ForEach-Object { $_ -replace '^[^=]*=', '' } | Select-Object -First 1
+    Write-Host 'Scene collections in OBS:'
+    for ($i = 0; $i -lt $installed.Count; $i++) {
+        $note = if ($installed[$i].File -eq $active) { ' (active now)' } else { '' }
+        Write-Host "  $($i + 1)) $($installed[$i].Name)$note"
+    }
+    Write-Host '  0) keep the current one'
+    do {
+        $n = Read-Host 'Enter the number of the scene collection you want to make active'
+        if (-not $n) { exit 0 }
+    } until ($n -match '^\d{1,3}$' -and [int]$n -le $installed.Count)
+    if ([int]$n -ne 0) {
+        $c = $installed[[int]$n - 1]
+        Set-IniValues $ini 'Basic' @{ SceneCollection = $c.Name; SceneCollectionFile = $c.File }
+        Write-Host "    OBS will open with the '$($c.Name)' scene collection."
+    }
+}

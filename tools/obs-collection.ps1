@@ -126,3 +126,27 @@ function Install-Collection($src, $scenes, $musicDir, $deviceId) {
         [IO.File]::WriteAllText($dest, $text, $utf8)
     }
 }
+
+# Set values in one section of an OBS ini file, keeping the rest of it.
+function Set-IniValues($path, $section, [hashtable]$values) {
+    $utf8 = New-Object System.Text.UTF8Encoding $false
+    $lines = if (Test-Path $path) { [IO.File]::ReadAllLines($path) } else { @() }
+    $out = New-Object System.Collections.Generic.List[string]
+    $done = @{}; $inSection = $false; $seen = $false
+    $flush = { foreach ($k in $values.Keys) { if (-not $done[$k]) { $out.Add("$k=$($values[$k])"); $done[$k] = $true } } }
+    foreach ($l in $lines) {
+        if ($l -match '^\s*\[(.+)\]\s*$') {
+            if ($inSection) { & $flush }
+            $inSection = ($Matches[1] -eq $section)
+            if ($inSection) { $seen = $true }
+        } elseif ($inSection -and $l -match '^([^=;#]+)=') {
+            $k = $Matches[1].Trim()
+            if ($values.ContainsKey($k)) { $out.Add("$k=$($values[$k])"); $done[$k] = $true; continue }
+        }
+        $out.Add($l)
+    }
+    if ($inSection) { & $flush }
+    if (-not $seen) { $out.Add("[$section]"); & $flush }
+    New-Item -ItemType Directory -Force (Split-Path $path) | Out-Null
+    [IO.File]::WriteAllLines($path, $out.ToArray(), $utf8)
+}

@@ -166,6 +166,27 @@ try {
     Add-SceneCollection @('-Config', 'dual-camera,stake-conference', '-Force')
     Check '-Force replaces every one in the list' ($code -eq 0 -and [IO.File]::ReadAllText($dual, [Text.Encoding]::UTF8) -match 'wasapi_input_capture')
 
+    Write-Host 'Choosing the active collection after adding'
+    $iniBytes = [IO.File]::ReadAllBytes($ini)
+    Remove-Item $dual
+    Add-FromMenu @('1', '0')
+    Check 'it lists what is in OBS' ($out -match '\d\) Stake Conference' -and $out -match 'keep the current one')
+    Check '0 keeps the active collection' ((Get-FileHash $ini).Hash -eq $iniBefore)
+    Remove-Item $dual
+    Add-FromMenu @('1', '1')
+    Check 'a number makes that one active' ([IO.File]::ReadAllText($ini) -match 'SceneCollection=Dual Camera' -and [IO.File]::ReadAllText($ini) -match 'SceneCollectionFile=dual-camera.json')
+    Remove-Item $dual
+    Add-FromMenu @('1', '0')
+    Check 'it marks the active one' ($out -match 'Dual Camera \(active now\)')
+    [IO.File]::WriteAllBytes($ini, $iniBytes)
+    Remove-Item $dual
+    Add-FromMenu @('1 2', '99', '3')
+    Check 'it also asks after adding several, and a bad number asks again' ([IO.File]::ReadAllText($ini) -match 'SceneCollection=Stake Conference')
+    [IO.File]::WriteAllBytes($ini, $iniBytes)
+    Remove-Item $dual, $single
+    Add-SceneCollection @('-Config', 'dual-camera')
+    Check '-Config does not ask' ($code -eq 0 -and $out -notmatch 'keep the current one' -and (Get-FileHash $ini).Hash -eq $iniBefore)
+
     $real = $obs; $obs = Join-Path $root 'no-collections'
     New-Item -ItemType Directory -Force $obs | Out-Null
     Copy-Item $ini $obs
