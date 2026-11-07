@@ -57,6 +57,7 @@ fi
 TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d: -f6)
 [ -d "$TARGET_HOME" ] || { echo "No home directory for $TARGET_USER" >&2; exit 1; }
 as_user() { sudo -u "$TARGET_USER" -H "$@"; }
+source "$SCRIPT_DIR/tools/obs-collection.sh"
 
 NDI_LIBS="$TARGET_HOME/.var/app/$OBS_ID/data/ndi-libs"
 PTZ_STAMP=/var/lib/church-obs-ptz-bundle.sha256
@@ -215,34 +216,11 @@ if [ "$CONFIG_CHOICE" != none ]; then
   CONFIG_SRC="$SCRIPT_DIR/configs/$CONFIG_CHOICE"
   [ -d "$CONFIG_SRC" ] || { echo "No such configuration: $CONFIG_CHOICE (have: ${CONFIGS[*]:-none})" >&2; exit 1; }
   SCENES_DIR="$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio/basic/scenes"
-  as_user mkdir -p "$SCENES_DIR"
-  # Audio comes from a USB input (the Sound Blaster where there is one). Use AUDIO_DEVICE=name to force a
-  # PulseAudio source, else pick the Sound Blaster, else any USB input, else the system default.
-  if [ -z "${AUDIO_DEVICE:-}" ]; then
-    TARGET_UID=$(id -u "$TARGET_USER")
-    SOURCES=$(as_user env XDG_RUNTIME_DIR="/run/user/$TARGET_UID" pactl list short sources 2>/dev/null | cut -f2 | grep -v '\.monitor$' || true)
-    AUDIO_DEVICE=$(grep -i 'sound_blaster' <<<"$SOURCES" | head -1 || true)
-    [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=$(grep -i '^alsa_input\.usb' <<<"$SOURCES" | head -1 || true)
-    # Else any real input, by name: "default" could one day be OBS Mic, which would feed OBS back into itself.
-    [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=$(grep '^alsa_input\.' <<<"$SOURCES" | head -1 || true)
-    [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=default
-  fi
-  echo "Audio input for OBS: $AUDIO_DEVICE (change it on the 'USB Audio' source in OBS if this is wrong)"
+  pick_audio_device
   if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
     echo "WARNING: OBS is running; it will overwrite these changes when it exits. Close OBS and run this again." >&2
   fi
-  for f in "$CONFIG_SRC"/*.json; do
-    dest="$SCENES_DIR/$(basename "$f")"
-    rendered=$(mktemp)
-    sed -e "s|@HOME@|$TARGET_HOME|g" -e "s|@AUDIO_DEVICE@|$AUDIO_DEVICE|g" "$f" > "$rendered"
-    if [ -e "$dest" ] && cmp -s "$rendered" "$dest"; then
-      echo "$(basename "$f") is already up to date."
-    else
-      [ -e "$dest" ] && as_user cp "$dest" "$dest.$(date +%Y%m%d-%H%M%S).bak"
-      as_user tee "$dest" < "$rendered" >/dev/null
-    fi
-    rm -f "$rendered"
-  done
+  install_collection "$CONFIG_SRC" "$SCENES_DIR"
   echo "Installed the '$CONFIG_CHOICE' scene collection."
 
   # Zoom audio: a virtual "OBS Mic (for Zoom)" microphone fed by OBS's audio monitoring (PipeWire's

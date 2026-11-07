@@ -59,7 +59,26 @@
     git pull
     sudo ./setup-obs-flatpak.sh --config=stake-conference
     ```
-If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
+# Adding a Scene Collection
+To add a scene collection you do not currently have, close OBS and run one of the following in a normal terminal, without sudo. It only adds the scene collection: nothing is installed or updated, and OBS still opens with the same collection as before. Afterwards, pick the new one from the Scene Collection menu in OBS.
+
+A scene collection that is already on the computer is left alone, so changes made in OBS are kept. Add `--force` to the end of the command to replace it; the old one is saved as a .bak file.
+* **Single Camera Configuration**
+    ```terminal
+    cd ~/church-obs-setup
+    ./tools/add-obs-scene-collection.sh --config=single-camera
+    ```
+* **Dual Camera Configuration**
+    ```terminal
+    cd ~/church-obs-setup
+    ./tools/add-obs-scene-collection.sh --config=dual-camera
+    ```
+* **Stake Conference Camera Configuration**
+    ```terminal
+    cd ~/church-obs-setup
+    ./tools/add-obs-scene-collection.sh --config=stake-conference
+    ```
+If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
 
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.

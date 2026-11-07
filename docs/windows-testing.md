@@ -112,3 +112,14 @@ Record "CABLE Output (VB-Audio Virtual Cable)" (what Zoom hears) with ffmpeg whi
 
 Run the script a third time: it should change nothing it does not need to, keep a `*.bak` of the scene
 file, and not rebuild the playlist ("playlist is up to date").
+
+### F. Adding a scene collection without administrator
+
+With OBS closed, in a normal PowerShell, from the repo:
+
+1. `powershell -ExecutionPolicy Bypass -File .\tests\test-add-obs-scene-collection.ps1` checks the script in a
+   throwaway folder and ends with "All checks passed". It does not touch the real OBS settings.
+2. Add a collection this computer does not have:
+   `powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1 -Config dual-camera`
+3. Open OBS: it opens on the same collection as before, and Dual Camera is in the Scene Collection menu. Switch
+   to it: the scenes load, with no missing-file warnings, and the "USB Audio" source has the right input.
