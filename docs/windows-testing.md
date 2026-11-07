@@ -119,7 +119,7 @@ With OBS closed, in a normal PowerShell, from the repo:
 
 1. `powershell -ExecutionPolicy Bypass -File .\tests\test-obs-scene-collections.ps1` checks both scripts in a
    throwaway folder and ends with "All checks passed". It does not touch the real OBS settings.
-2. `powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1`: it lists what OBS has, then
+2. `powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1`: it pulls, lists what OBS has, then
    offers only the others. Pick one.
 3. Open OBS: it opens on the same collection as before, and the new one is in the Scene Collection menu. Switch
    to it: the scenes load, with no missing-file warnings, and the "USB Audio" source has the right input.

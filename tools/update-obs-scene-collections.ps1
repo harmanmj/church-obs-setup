@@ -28,13 +28,9 @@ function Fail($msg) { Write-Host "ERROR: $msg" -ForegroundColor Red; exit 1 }
 Assert-ObsReady $ObsDir
 
 if (-not $NoPull) {
-    $repoDir = Split-Path -Parent $PSScriptRoot
-    # safe.directory: the setup cloned this as an administrator, which git otherwise refuses for other accounts.
-    & git -c safe.directory=* -C $repoDir pull --quiet --ff-only
-    if ($LASTEXITCODE -ne 0) {
+    if (-not (Update-Checkout (Split-Path -Parent $PSScriptRoot))) {
         Fail 'Could not get the latest scene collections from GitHub, so nothing changed. Check the internet connection, or use -NoPull to use the ones already on this computer.'
     }
-    Write-Host "    At $(& git -c safe.directory=* -C $repoDir log -1 --format='%h %s')"
 
     # Carry on with the copy just pulled, as this script may have changed too.
     $again = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath, '-NoPull', '-ObsDir', $ObsDir, '-MusicDir', $MusicDir)

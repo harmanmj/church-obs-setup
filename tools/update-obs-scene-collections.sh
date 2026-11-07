@@ -38,13 +38,10 @@ MUSIC_DIR="$TARGET_HOME/Documents/sacrament"
 check_obs_ready
 
 if [ "$PULL" = yes ]; then
-  REPO_DIR=$(cd "$SCRIPT_DIR/.." && pwd)
-  if ! git -C "$REPO_DIR" pull --quiet --ff-only; then
+  if ! update_checkout "$(cd "$SCRIPT_DIR/.." && pwd)"; then
     echo "Could not get the latest scene collections from GitHub, so nothing changed. Check the internet connection, or use --no-pull to use the ones already on this computer." >&2
-    echo "If git says this folder is not yours, run this once: sudo chown -R $TARGET_USER:$TARGET_USER $REPO_DIR" >&2
     exit 1
   fi
-  echo "At $(git -C "$REPO_DIR" log -1 --format='%h %s')"
   # Carry on with the copy just pulled, as this script may have changed too.
   exec bash "$SCRIPT_DIR/update-obs-scene-collections.sh" --no-pull
 fi

@@ -52,7 +52,7 @@ no_baks() { ! ls "$SCENES"/stake-conference.json.*.bak >/dev/null 2>&1; }
 one_bak() { [ "$(ls "$SCENES"/stake-conference.json.*.bak | wc -l)" -eq 1 ] && grep -q 'Changed in OBS' "$SCENES"/stake-conference.json.*.bak; }
 
 echo "Adding a collection"
-add bash "$TOOL" --config=stake-conference
+add bash "$TOOL" --no-pull --config=stake-conference
 check "exit code 0" code_is 0
 check "the collection file is there" test -e "$STAKE"
 check "no placeholders are left" no_match '@HOME@\|@AUDIO_DEVICE@' "$STAKE"
@@ -65,7 +65,7 @@ check "the active collection is unchanged" same_ini
 
 echo "Adding a second collection"
 touch "$MUSIC/sacrament-graphic.png" "$MUSIC/sacrament-playlist.mp3"
-add env AUDIO_DEVICE=my_mic bash "$TOOL" --config=dual-camera
+add env AUDIO_DEVICE=my_mic bash "$TOOL" --no-pull --config=dual-camera
 check "exit code 0" code_is 0
 check "both collections are there" test -e "$SCENES/dual-camera.json" -a -e "$STAKE"
 check "AUDIO_DEVICE is used" grep -q 'my_mic' "$SCENES/dual-camera.json"
@@ -73,14 +73,14 @@ check "no sacrament warning once the files exist" lacks 'is not in'
 
 echo "Adding it again keeps changes made in OBS"
 echo '{"name":"Changed in OBS"}' > "$STAKE"
-add bash "$TOOL" --config=stake-conference
+add bash "$TOOL" --no-pull --config=stake-conference
 check "exit code 0" code_is 0
 check "it says nothing changed" says 'nothing changed'
 check "the file is left alone" grep -q 'Changed in OBS' "$STAKE"
 check "no backup was made" no_baks
 
 echo "--force replaces it and keeps a backup"
-add bash "$TOOL" --config=stake-conference --force
+add bash "$TOOL" --no-pull --config=stake-conference --force
 check "exit code 0" code_is 0
 check "the file is replaced" no_match 'Changed in OBS' "$STAKE"
 check "the old one is the backup" one_bak
@@ -90,14 +90,14 @@ DUAL="$SCENES/dual-camera.json"
 rm -f "$DUAL"
 printf '{\n    "name": "Made in OBS"\n}\n' > "$SCENES/made-in-obs.json"
 printf '{\n    "name": "Single Camera"\n}\n' > "$SCENES/Single_Camera.json"
-ANSWER=$'9\n0' add bash "$TOOL"
+ANSWER=$'9\n0' add bash "$TOOL" --no-pull
 check "exit code 0" code_is 0
 check "it lists what is in OBS" says 'Already in OBS:.*Made in OBS'
 check "it offers what is missing" says ') Dual Camera'
 check "it does not offer what is there" lacks ') Stake Conference'
 check "it knows a collection by name, whatever the file" lacks ') Single Camera$'
 check "a bad answer asks again and 0 cancels" test ! -e "$DUAL"
-ANSWER=1 add bash "$TOOL"
+ANSWER=1 add bash "$TOOL" --no-pull
 check "a number adds that collection" test -e "$DUAL"
 
 echo "Updating replaces what OBS has from this repo"
@@ -119,8 +119,8 @@ check "an unknown option fails" code_not_0
 
 echo "When everything is there"
 rm -f "$SCENES/made-in-obs.json" "$SCENES/Single_Camera.json"
-for dir in "$(dirname "$TOOL")"/../configs/*/; do add bash "$TOOL" --config="$(basename "$dir")"; done
-add bash "$TOOL"
+for dir in "$(dirname "$TOOL")"/../configs/*/; do add bash "$TOOL" --no-pull --config="$(basename "$dir")"; done
+add bash "$TOOL" --no-pull
 check "the menu says so instead of asking" says 'already in OBS'
 for f in "$SCENES"/*.json; do
   case "$f" in "$STAKE"|"$DUAL") ;; *) rm -f "$f" ;; esac
@@ -152,7 +152,24 @@ check "exit code 0" code_is 0
 check "it says which version it is at" says 'At [0-9a-f]* second'
 check "OBS gets the newer collection" grep -q 'Dual Camera Pulled' "$DUAL"
 
+mkdir "$ROOT/work/configs/brand-new"
+printf '{\n    "name": "Brand New"\n}\n' > "$ROOT/work/configs/brand-new/brand-new.json"
+git -C "$ROOT/work" add -A 2>/dev/null
+git -C "$ROOT/work" "${GIT_ID[@]}" commit -q -m third
+git -C "$ROOT/work" push -q origin HEAD
+ADD_PULLED="$ROOT/checkout/tools/add-obs-scene-collection.sh"
+ANSWER=1 add bash "$ADD_PULLED"
+check "the menu offers a collection that is only on GitHub" says ') Brand New'
+check "and adding gets it" test -e "$SCENES/brand-new.json"
+check "and says which version it is at" says 'At [0-9a-f]* third'
+rm -f "$SCENES/brand-new.json"
+
 git -C "$ROOT/checkout" remote set-url origin "$ROOT/gone.git"
+add bash "$ADD_PULLED" --config=brand-new
+check "adding still works if GitHub cannot be reached" test -e "$SCENES/brand-new.json"
+check "and warns about it" says 'using the ones already on this computer'
+rm -f "$SCENES/brand-new.json"
+
 echo '{"name":"edited"}' > "$DUAL"
 add bash "$PULLED"
 check "it fails if GitHub cannot be reached" code_not_0
@@ -162,25 +179,25 @@ add bash "$PULLED" --no-pull
 check "--no-pull works without GitHub" grep -q 'Dual Camera Pulled' "$DUAL"
 
 echo "Things it should warn about or refuse"
-add env FAKE_NO_PLUGINS=1 bash "$TOOL" --config=single-camera
+add env FAKE_NO_PLUGINS=1 bash "$TOOL" --no-pull --config=single-camera
 check "missing plugins are warned about" says 'DistroAV plugin was not found'
 check "as is obs-ptz" says 'obs-ptz plugin was not found'
 check "Downstream Keyer is not needed by this one" lacks 'Downstream Keyer plugin'
-add env FAKE_NO_PLUGINS=1 bash "$TOOL" --config=stake-conference --force
+add env FAKE_NO_PLUGINS=1 bash "$TOOL" --no-pull --config=stake-conference --force
 check "but is warned about for stake-conference" says 'Downstream Keyer plugin was not found'
 rm -f "$SCENES/single-camera.json"
-add bash "$TOOL" --config=no-such-collection
+add bash "$TOOL" --no-pull --config=no-such-collection
 check "an unknown name fails" code_not_0
 check "and says so" says 'No such configuration'
-add bash "$TOOL" --bad-option
+add bash "$TOOL" --no-pull --bad-option
 check "an unknown option fails" code_not_0
-add env FAKE_NO_OBS=1 bash "$TOOL" --config=single-camera
+add env FAKE_NO_OBS=1 bash "$TOOL" --no-pull --config=single-camera
 check "it fails without OBS" says 'OBS is not installed'
-add env FAKE_OBS_RUNNING=1 bash "$TOOL" --config=single-camera
+add env FAKE_OBS_RUNNING=1 bash "$TOOL" --no-pull --config=single-camera
 check "it fails while OBS is running" says 'OBS is running'
 check "and writes nothing" test ! -e "$SCENES/single-camera.json"
 mv "$OBS/user.ini" "$OBS/user.ini.moved"
-add bash "$TOOL" --config=single-camera
+add bash "$TOOL" --no-pull --config=single-camera
 check "an account without OBS settings fails" says 'not set up'
 mv "$OBS/user.ini.moved" "$OBS/user.ini"
 

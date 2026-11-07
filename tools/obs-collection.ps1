@@ -56,6 +56,16 @@ function Assert-ObsReady($obsDir) {
     if (Get-Process obs64 -ErrorAction SilentlyContinue) { Fail 'OBS is running. Close it and run this again.' }
 }
 
+# Get the latest of this repo from GitHub. Returns whether that worked.
+function Update-Checkout($repoDir) {
+    if (-not (Get-Command git -ErrorAction SilentlyContinue)) { return $false }
+    # safe.directory: the setup cloned this as an administrator, which git otherwise refuses for other accounts.
+    & git -c safe.directory=* -C $repoDir pull --quiet --ff-only
+    if ($LASTEXITCODE -ne 0) { return $false }
+    Write-Host "    At $(& git -c safe.directory=* -C $repoDir log -1 --format='%h %s')"
+    return $true
+}
+
 function Get-CollectionName($path) {
     try { return ([IO.File]::ReadAllText($path, [Text.Encoding]::UTF8) | ConvertFrom-Json).name }
     catch { return [IO.Path]::GetFileNameWithoutExtension($path) }

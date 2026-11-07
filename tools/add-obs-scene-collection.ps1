@@ -4,12 +4,13 @@
   (Windows twin of add-obs-scene-collection.sh.)
 
 .DESCRIPTION
-  Close OBS first. It lists the collections OBS already has and asks which of the others to add. It installs
-  nothing, does not update this repo, and leaves the collection OBS opens with as it is: the new one appears in
-  OBS's Scene Collection menu. Only collections in this checkout can be added. A collection that is already
-  there is left alone, so scenes changed in OBS survive; -Force replaces it.
+  Close OBS first. It gets the latest collections from GitHub (or, if it cannot, uses the ones in this checkout),
+  lists the collections OBS already has and asks which of the others to add. It installs nothing and leaves the
+  collection OBS opens with as it is: the new one appears in OBS's Scene Collection menu. A collection that is
+  already there is left alone, so scenes changed in OBS survive; -Force replaces it.
 
 .PARAMETER Config       The collection in configs\<name> to add, instead of asking.
+.PARAMETER NoPull       Skip GitHub and use the collections already in this checkout.
 .PARAMETER AudioDevice  Part of the name of the audio input to use (default: Sound Blaster, else any USB input).
 .PARAMETER Force        Replace the collection if it is already there, keeping the old one as *.bak.
 .PARAMETER ObsDir       OBS's config folder. Default: %APPDATA%\obs-studio.
@@ -17,6 +18,7 @@
 #>
 param(
     [string]$Config,
+    [switch]$NoPull,
     [string]$AudioDevice,
     [switch]$Force,
     [string]$ObsDir = (Join-Path $env:APPDATA 'obs-studio'),
@@ -29,6 +31,21 @@ function Fail($msg) { Write-Host "ERROR: $msg" -ForegroundColor Red; exit 1 }
 . (Join-Path $PSScriptRoot 'obs-collection.ps1')
 
 Assert-ObsReady $ObsDir
+
+if (-not $NoPull) {
+    if (Update-Checkout (Split-Path -Parent $PSScriptRoot)) {
+        # Carry on with the copy just pulled, as this script may have changed too.
+        $again = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', $PSCommandPath, '-NoPull', '-ObsDir', $ObsDir, '-MusicDir', $MusicDir)
+        foreach ($p in 'Config', 'AudioDevice') {
+            $v = Get-Variable $p -ValueOnly
+            if ($v) { $again += @("-$p", $v) }
+        }
+        if ($Force) { $again += '-Force' }
+        & (Get-Process -Id $PID).Path @again
+        exit $LASTEXITCODE
+    }
+    Write-Warning 'Could not get the latest scene collections from GitHub; using the ones already on this computer.'
+}
 
 $scenes = Join-Path $ObsDir 'basic\scenes'
 $repo = @(Get-RepoCollections (Join-Path (Split-Path -Parent $PSScriptRoot) 'configs'))

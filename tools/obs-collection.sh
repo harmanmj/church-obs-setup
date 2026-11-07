@@ -34,6 +34,15 @@ check_obs_ready() {
   fi
 }
 
+# update_checkout REPO_DIR: get the latest of this repo from GitHub.
+update_checkout() {
+  if ! git -C "$1" pull --quiet --ff-only; then
+    echo "If git says this folder is not yours, run this once: sudo chown -R $TARGET_USER:$TARGET_USER $1" >&2
+    return 1
+  fi
+  echo "At $(git -C "$1" log -1 --format='%h %s')"
+}
+
 # collection_name FILE: the top-level "name", which OBS writes with a four-space indent.
 collection_name() {
   sed -n '/^    "name":/{s/^    "name": *"\([^"]*\)".*/\1/p;q}' "$1"

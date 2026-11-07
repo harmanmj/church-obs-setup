@@ -19,18 +19,23 @@ function Check($what, $ok) {
 }
 function Add-SceneCollection([string[]]$toolArgs) {
     $ErrorActionPreference = 'Continue'
-    $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $tool @toolArgs -ObsDir $obs -MusicDir $music *>&1 | Out-String
+    $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $tool -NoPull @toolArgs -ObsDir $obs -MusicDir $music *>&1 | Out-String
     $script:code = $LASTEXITCODE
 }
 
 function Add-FromMenu($answer) {
     $ErrorActionPreference = 'Continue'
-    $script:out = $answer | & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tool -ObsDir $obs -MusicDir $music *>&1 | Out-String
+    $script:out = $answer | & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tool -NoPull -ObsDir $obs -MusicDir $music *>&1 | Out-String
     $script:code = $LASTEXITCODE
 }
 function Invoke-Git {
     $ErrorActionPreference = 'Continue'
     & git @args *>$null
+}
+function Add-FromCheckout([string[]]$toolArgs) {
+    $ErrorActionPreference = 'Continue'
+    $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File (Join-Path $checkout 'tools\add-obs-scene-collection.ps1') @toolArgs -ObsDir $obs -MusicDir $music *>&1 | Out-String
+    $script:code = $LASTEXITCODE
 }
 function Update-FromCheckout([string[]]$toolArgs) {
     $ErrorActionPreference = 'Continue'
@@ -169,7 +174,22 @@ try {
     Check 'it says which version it is at' ($out -match 'At [0-9a-f]+ second')
     Check 'OBS gets the newer collection' ([IO.File]::ReadAllText($dual, [Text.Encoding]::UTF8).Contains('Dual Camera Pulled'))
 
+    New-Item -ItemType Directory (Join-Path $work 'configs\brand-new') | Out-Null
+    [IO.File]::WriteAllText((Join-Path $work 'configs\brand-new\brand-new.json'), '{"name":"Brand New"}')
+    Invoke-Git -C $work add -A
+    Invoke-Git -C $work -c user.name=test -c user.email=test@example.com commit -m third
+    Invoke-Git -C $work push origin HEAD
+    Add-FromCheckout @('-Config', 'brand-new')
+    Check 'adding gets a collection that is only on GitHub' ($code -eq 0 -and (Test-Path (Join-Path $scenes 'brand-new.json')))
+    Check 'and says which version it is at' ($out -match 'At [0-9a-f]+ third')
+    Remove-Item (Join-Path $scenes 'brand-new.json')
+
     Invoke-Git -C $checkout remote set-url origin (Join-Path $root 'gone.git')
+    Add-FromCheckout @('-Config', 'brand-new')
+    Check 'adding still works if GitHub cannot be reached' ($code -eq 0 -and (Test-Path (Join-Path $scenes 'brand-new.json')))
+    Check 'and warns about it' ($out -match 'using the ones already on this computer')
+    Remove-Item (Join-Path $scenes 'brand-new.json')
+
     [IO.File]::WriteAllText($dual, '{"name":"Dual Camera","edited":true}')
     Update-FromCheckout @()
     Check 'it fails if GitHub cannot be reached' ($code -ne 0 -and $out -match 'nothing changed')

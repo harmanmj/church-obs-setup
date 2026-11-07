@@ -2,11 +2,12 @@
 # Add one scene collection to OBS, and nothing else. Run it as the broadcast user, without sudo.
 # (Linux twin of add-obs-scene-collection.ps1.)
 #
-# Usage:  tools/add-obs-scene-collection.sh [--config=NAME] [--force]
-# Close OBS first. It lists the collections OBS already has and asks which of the others to add. It installs
-# nothing, does not update this repo, and leaves the collection OBS opens with as it is: the new one appears in
-# OBS's Scene Collection menu. Only collections in this checkout can be added.
+# Usage:  tools/add-obs-scene-collection.sh [--config=NAME] [--force] [--no-pull]
+# Close OBS first. It gets the latest collections from GitHub (or, if it cannot, uses the ones in this checkout),
+# lists the collections OBS already has and asks which of the others to add. It installs nothing and leaves the
+# collection OBS opens with as it is: the new one appears in OBS's Scene Collection menu.
 #   --config=NAME  the collection in configs/NAME to add, instead of asking
+#   --no-pull      skip GitHub and use the collections already in this checkout
 #   --force        replace the collection if it is already there, keeping the old one as *.bak
 #                  (without it a collection already there is left alone, so scenes changed in OBS survive)
 # AUDIO_DEVICE=name forces a PulseAudio source.
@@ -18,10 +19,12 @@ CONFIG_ROOT="$SCRIPT_DIR/../configs"
 
 CONFIG_CHOICE=ask
 FORCE=no
+PULL=yes
 for arg in "$@"; do
   case "$arg" in
     --config=*) CONFIG_CHOICE=${arg#--config=} ;;
     --force) FORCE=yes ;;
+    --no-pull) PULL=no ;;
     *) echo "Unknown option: $arg" >&2; exit 1 ;;
   esac
 done
@@ -40,6 +43,14 @@ SCENES_DIR="$OBS_DIR/basic/scenes"
 MUSIC_DIR="$TARGET_HOME/Documents/sacrament"
 
 check_obs_ready
+
+if [ "$PULL" = yes ]; then
+  if update_checkout "$(cd "$SCRIPT_DIR/.." && pwd)"; then
+    # Carry on with the copy just pulled, as this script may have changed too.
+    exec bash "$SCRIPT_DIR/add-obs-scene-collection.sh" --no-pull "$@"
+  fi
+  echo "WARNING: could not get the latest scene collections from GitHub; using the ones already on this computer." >&2
+fi
 
 CONFIGS=()
 for dir in "$CONFIG_ROOT"/*/; do

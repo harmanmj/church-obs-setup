@@ -47,13 +47,13 @@ Run these from **PowerShell as administrator** (Start, type `powershell`, right-
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config stake-conference
     ```
 # Adding a Scene Collection
-To add a scene collection you do not currently have, close OBS and run the following in a normal PowerShell (not as administrator). It shows the scene collections already in OBS, then a numbered list of the ones you can add. It only adds the one you pick: nothing is installed or updated, and OBS still opens with the same collection as before. Afterwards, pick the new one from the Scene Collection menu in OBS.
+To add a scene collection you do not currently have, close OBS and run the following in a normal PowerShell (not as administrator). It shows the scene collections already in OBS, then a numbered list of the ones you can add. It first gets the latest list from GitHub; if it cannot, it warns you and uses the scene collections already on this computer. It only adds the one you pick: nothing is installed, and OBS still opens with the same collection as before. Afterwards, pick the new one from the Scene Collection menu in OBS.
 * **Add a Scene Collection**
     ```powershell
     cd c:\church-obs-setup
     powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1
     ```
-If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
+If the command is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
 
 # Updating All Scene Collections
 To get the latest scene collections from GitHub and replace every one in OBS, close OBS and run the following in a normal PowerShell (not as administrator). Scene collections you made yourself in OBS are left alone, and none are added.
