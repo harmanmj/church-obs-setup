@@ -58,11 +58,11 @@ if (-not $Config) {
         Write-Host 'Every scene collection in this repo is already in OBS. To replace them, run tools\update-obs-scene-collections.ps1.'
         exit 0
     }
-    Write-Host 'Which scene collection should be added?'
+    Write-Host 'Scene collections you can add:'
     for ($i = 0; $i -lt $choices.Count; $i++) { Write-Host "  $($i + 1)) $($choices[$i].Name)" }
     Write-Host '  0) cancel'
     do {
-        $n = Read-Host 'Number'
+        $n = Read-Host 'Enter the number of the scene collection you want to add to OBS'
     } until ($n -match '^\d+$' -and [int]$n -le $choices.Count)
     if ([int]$n -eq 0) { exit 0 }
     $Config = $choices[[int]$n - 1].Config

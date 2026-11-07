@@ -41,8 +41,12 @@ check_obs_ready() {
 
 # update_checkout REPO_DIR: get the latest of this repo from GitHub.
 update_checkout() {
-  if ! git -C "$1" pull --quiet --ff-only; then
-    echo "If git says this folder is not yours, run this once: sudo chown -R $TARGET_USER:$TARGET_USER $1" >&2
+  local out
+  if ! out=$(git -C "$1" pull --quiet --ff-only 2>&1); then
+    echo "$out" >&2
+    if grep -q -E 'dubious ownership|Permission denied' <<<"$out"; then
+      echo "This folder belongs to another account. Run this once to fix that: sudo chown -R $TARGET_USER:$TARGET_USER $1" >&2
+    fi
     return 1
   fi
   echo "At $(git -C "$1" log -1 --format='%h %s')"

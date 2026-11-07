@@ -32,6 +32,7 @@ cat > "$ROOT/bin/pgrep" <<'STUB'
 #!/usr/bin/env bash
 [ -n "${FAKE_OBS_RUNNING:-}" ] && [[ " $* " == *" -x obs "* ]]
 STUB
+printf '#!/usr/bin/env bash\n[ -z "${FAKE_NOT_OURS:-}" ] || { echo "fatal: detected dubious ownership in repository" >&2; exit 128; }\nexec "%s" "$@"\n' "$(command -v git)" > "$ROOT/bin/git"
 chmod +x "$ROOT"/bin/*
 
 failed=0
@@ -168,6 +169,10 @@ git -C "$ROOT/checkout" remote set-url origin "$ROOT/gone.git"
 add bash "$ADD_PULLED" --config=brand-new
 check "adding still works if GitHub cannot be reached" test -e "$SCENES/brand-new.json"
 check "and warns about it" says 'using the ones already on this computer'
+check "with no ownership hint, as that is not the problem" lacks 'sudo chown'
+rm -f "$SCENES/brand-new.json"
+add env FAKE_NOT_OURS=1 bash "$ADD_PULLED" --config=brand-new
+check "a folder owned by another account gets the hint" says 'sudo chown'
 rm -f "$SCENES/brand-new.json"
 
 echo '{"name":"edited"}' > "$DUAL"

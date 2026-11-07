@@ -75,12 +75,12 @@ if [ "$CONFIG_CHOICE" = ask ]; then
     echo "Every scene collection in this repo is already in OBS. To replace them, run tools/update-obs-scene-collections.sh."
     exit 0
   fi
-  echo "Which scene collection should be added?"
+  echo "Scene collections you can add:"
   for i in "${!CHOICES[@]}"; do
     echo "  $((i + 1))) $(collection_name "$CONFIG_ROOT/${CHOICES[$i]}/${CHOICES[$i]}.json")"
   done
   echo "  0) cancel"
-  while read -r -p "Number: " n; do
+  while read -r -p "Enter the number of the scene collection you want to add to OBS: " n; do
     if [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -le "${#CHOICES[@]}" ]; then
       [ "$n" -ne 0 ] || exit 0
       CONFIG_CHOICE=${CHOICES[$((n - 1))]}
