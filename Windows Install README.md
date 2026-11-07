@@ -47,25 +47,24 @@ Run these from **PowerShell as administrator** (Start, type `powershell`, right-
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config stake-conference
     ```
 # Adding a Scene Collection
-To add a scene collection you do not currently have, close OBS and run one of the following in a normal PowerShell (not as administrator). It only adds the scene collection: nothing is installed or updated, and OBS still opens with the same collection as before. Afterwards, pick the new one from the Scene Collection menu in OBS.
-
-A scene collection that is already on the computer is left alone, so changes made in OBS are kept. Add `-Force` to the end of the command to replace it; the old one is saved as a .bak file.
-* **Single Camera Configuration**
+To add a scene collection you do not currently have, close OBS and run the following in a normal PowerShell (not as administrator). It shows the scene collections already in OBS, then a numbered list of the ones you can add. It only adds the one you pick: nothing is installed or updated, and OBS still opens with the same collection as before. Afterwards, pick the new one from the Scene Collection menu in OBS.
+* **Add a Scene Collection**
     ```powershell
     cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1 -Config single-camera
-    ```
-* **Dual Camera Configuration**
-    ```powershell
-    cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1 -Config dual-camera
-    ```
-* **Stake Conference Camera Configuration**
-    ```powershell
-    cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1 -Config stake-conference
+    powershell -ExecutionPolicy Bypass -File .\tools\add-obs-scene-collection.ps1
     ```
 If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
+
+# Updating All Scene Collections
+To replace every scene collection in OBS with the latest copy from the setup, close OBS and run the following in a normal PowerShell (not as administrator). Scene collections you made yourself in OBS are left alone, and none are added.
+
+**Changes made to these scene collections in OBS are replaced without asking**, including any NDI sources you picked by hand, such as the lower thirds. Each old file is saved as a .bak file in `%APPDATA%\obs-studio\basic\scenes`. Plug in the USB audio input first, as the audio input is picked again.
+* **Update All Scene Collections**
+    ```powershell
+    cd c:\church-obs-setup
+    powershell -ExecutionPolicy Bypass -File .\tools\update-obs-scene-collections.ps1
+    ```
+This uses the scene collections already on this computer. To get newer ones, run the update above first.
 
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal PowerShell. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.

@@ -45,6 +45,59 @@ function Select-AudioInput($AudioDevice) {
     return $deviceId
 }
 
+# Stop unless OBS can be changed for this account: installed, set up and closed. The caller defines Fail.
+function Assert-ObsReady($obsDir) {
+    if (-not (Test-Path (Join-Path $env:ProgramFiles 'obs-studio\bin\64bit\obs64.exe'))) {
+        Fail 'OBS is not installed. Run setup-obs-windows.ps1 first.'
+    }
+    if (-not (Test-Path (Join-Path $obsDir 'user.ini'))) {
+        Fail "OBS is not set up for $env:USERNAME. Sign in as the person who uses OBS, or run setup-obs-windows.ps1 first."
+    }
+    if (Get-Process obs64 -ErrorAction SilentlyContinue) { Fail 'OBS is running. Close it and run this again.' }
+}
+
+function Get-CollectionName($path) {
+    try { return ([IO.File]::ReadAllText($path, [Text.Encoding]::UTF8) | ConvertFrom-Json).name }
+    catch { return [IO.Path]::GetFileNameWithoutExtension($path) }
+}
+
+# The collections OBS has now, whether they came from this repo or were made in OBS.
+function Get-ObsCollections($scenes) {
+    if (-not (Test-Path $scenes)) { return }
+    foreach ($f in Get-ChildItem $scenes -Filter *.json) {
+        [pscustomobject]@{ File = $f.Name; Name = Get-CollectionName $f.FullName }
+    }
+}
+
+# The collections in this repo: Config is the folder under configs\.
+function Get-RepoCollections($configRoot) {
+    foreach ($d in Get-ChildItem $configRoot -Directory) {
+        $f = Get-ChildItem $d.FullName -Filter *.json | Select-Object -First 1
+        if ($f) { [pscustomobject]@{ Config = $d.Name; Dir = $d.FullName; File = $f.Name; Name = Get-CollectionName $f.FullName } }
+    }
+}
+
+# By name as well as file: OBS names the file itself when a collection is imported or made there.
+function Test-InObs($collection, $present) {
+    return [bool]($present | Where-Object { $_.File -eq $collection.File -or $_.Name -eq $collection.Name })
+}
+
+# Warn about what these collections need that only the full setup can add.
+function Show-MissingPieces($dirs, $musicDir) {
+    # Every collection uses these; OBS opens without them, but with those sources missing.
+    $plugins = Join-Path $env:ProgramData 'obs-studio\plugins'
+    foreach ($p in 'distroav', 'obs-ptz') {
+        if (-not (Test-Path (Join-Path $plugins $p))) { Write-Warning "The $p plugin was not found. Run setup-obs-windows.ps1 to install it." }
+    }
+    $usesKeyer = $dirs | Where-Object { Select-String -Path (Join-Path $_ '*.json') -Pattern 'downstream' -Quiet }
+    if ($usesKeyer -and -not (Test-Path (Join-Path $env:ProgramFiles 'obs-studio\obs-plugins\64bit\downstream-keyer.dll'))) {
+        Write-Warning 'The Downstream Keyer plugin was not found. Run setup-obs-windows.ps1 to install it.'
+    }
+    foreach ($f in 'sacrament-graphic.png', 'sacrament-playlist.mp3') {
+        if (-not (Test-Path (Join-Path $musicDir $f))) { Write-Warning "$f is not in $musicDir. Run setup-obs-windows.ps1 to make it." }
+    }
+}
+
 # Copy the collection in $src into OBS's scenes folder, made to suit this computer. An existing file is kept as *.bak.
 function Install-Collection($src, $scenes, $musicDir, $deviceId) {
     $utf8 = New-Object System.Text.UTF8Encoding $false

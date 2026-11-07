@@ -3,9 +3,10 @@
 # (Linux twin of add-obs-scene-collection.ps1.)
 #
 # Usage:  tools/add-obs-scene-collection.sh [--config=NAME] [--force]
-# Close OBS first. It installs nothing, does not update this repo, and leaves the collection OBS opens with as
-# it is: the new one appears in OBS's Scene Collection menu. Only collections in this checkout can be added.
-#   --config=NAME  the collection in configs/NAME to add (without it, it asks)
+# Close OBS first. It lists the collections OBS already has and asks which of the others to add. It installs
+# nothing, does not update this repo, and leaves the collection OBS opens with as it is: the new one appears in
+# OBS's Scene Collection menu. Only collections in this checkout can be added.
+#   --config=NAME  the collection in configs/NAME to add, instead of asking
 #   --force        replace the collection if it is already there, keeping the old one as *.bak
 #                  (without it a collection already there is left alone, so scenes changed in OBS survive)
 # AUDIO_DEVICE=name forces a PulseAudio source.
@@ -38,45 +39,51 @@ OBS_DIR="$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
 SCENES_DIR="$OBS_DIR/basic/scenes"
 MUSIC_DIR="$TARGET_HOME/Documents/sacrament"
 
-if ! flatpak info --system "$OBS_ID" >/dev/null 2>&1; then
-  echo "OBS is not installed. Run setup-obs-flatpak.sh first." >&2
-  exit 1
-fi
-if [ ! -e "$OBS_DIR/user.ini" ]; then
-  echo "OBS is not set up for $TARGET_USER. Sign in as the person who uses OBS, or run setup-obs-flatpak.sh first." >&2
-  exit 1
-fi
-if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
-  echo "OBS is running. Close it and run this again." >&2
-  exit 1
-fi
+check_obs_ready
 
-mapfile -t CONFIGS < <(cd "$CONFIG_ROOT" && ls -d */ | tr -d /)
-
-is_installed() {
-  local f
-  for f in "$CONFIG_ROOT/$1"/*.json; do
-    [ -e "$SCENES_DIR/$(basename "$f")" ] && return 0
-  done
-  return 1
-}
+CONFIGS=()
+for dir in "$CONFIG_ROOT"/*/; do
+  dir=${dir%/}
+  if compgen -G "$dir/*.json" >/dev/null; then CONFIGS+=("$(basename "$dir")"); fi
+done
 
 if [ "$CONFIG_CHOICE" = ask ]; then
-  echo "Which scene collection should be added?"
+  PRESENT=()
+  for p in "$SCENES_DIR"/*.json; do
+    if [ -e "$p" ]; then PRESENT+=("$(collection_name "$p")"); fi
+  done
+  if [ "${#PRESENT[@]}" -gt 0 ]; then
+    list=$(printf ', %s' "${PRESENT[@]}")
+    echo "Already in OBS: ${list:2}"
+  fi
+  CHOICES=()
   for name in "${CONFIGS[@]}"; do
-    if is_installed "$name"; then echo "  $name (already added)"; else echo "  $name"; fi
+    if [ "$FORCE" = yes ] || ! in_obs "$CONFIG_ROOT/$name" "$SCENES_DIR"; then CHOICES+=("$name"); fi
   done
-  select choice in "${CONFIGS[@]}"; do
-    [ -n "$choice" ] && { CONFIG_CHOICE=$choice; break; }
-    echo "Pick a number from the list."
+  if [ "${#CHOICES[@]}" -eq 0 ]; then
+    echo "Every scene collection in this repo is already in OBS. To replace them, run tools/update-obs-scene-collections.sh."
+    exit 0
+  fi
+  echo "Which scene collection should be added?"
+  for i in "${!CHOICES[@]}"; do
+    echo "  $((i + 1))) $(collection_name "$CONFIG_ROOT/${CHOICES[$i]}/${CHOICES[$i]}.json")"
   done
+  echo "  0) cancel"
+  while read -r -p "Number: " n; do
+    if [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -le "${#CHOICES[@]}" ]; then
+      [ "$n" -ne 0 ] || exit 0
+      CONFIG_CHOICE=${CHOICES[$((n - 1))]}
+      break
+    fi
+  done
+  [ "$CONFIG_CHOICE" != ask ] || exit 0   # no more input
 fi
-if [ ! -d "$CONFIG_ROOT/$CONFIG_CHOICE" ]; then
+if ! compgen -G "$CONFIG_ROOT/$CONFIG_CHOICE/*.json" >/dev/null; then
   echo "No such configuration: $CONFIG_CHOICE (have: ${CONFIGS[*]})" >&2
   exit 1
 fi
 
-if is_installed "$CONFIG_CHOICE" && [ "$FORCE" = no ]; then
+if in_obs "$CONFIG_ROOT/$CONFIG_CHOICE" "$SCENES_DIR" && [ "$FORCE" = no ]; then
   echo "The '$CONFIG_CHOICE' scene collection is already there; nothing changed. Use --force to replace it."
   exit 0
 fi
@@ -84,15 +91,4 @@ fi
 pick_audio_device
 install_collection "$CONFIG_ROOT/$CONFIG_CHOICE" "$SCENES_DIR"
 echo "Installed the '$CONFIG_CHOICE' scene collection. Pick it from OBS's Scene Collection menu."
-
-# Every collection uses these; OBS opens without them, but with those sources missing.
-flatpak info --system "$OBS_ID.Plugin.DistroAV" >/dev/null 2>&1 ||
-  echo "WARNING: the DistroAV plugin was not found. Run setup-obs-flatpak.sh to install it." >&2
-flatpak list --system --columns=application 2>/dev/null | grep -qi 'ptz' ||
-  echo "WARNING: the obs-ptz plugin was not found. Run setup-obs-flatpak.sh to install it." >&2
-if grep -qi downstream "$CONFIG_ROOT/$CONFIG_CHOICE"/*.json && ! flatpak info --system "$OBS_ID.Plugin.DownstreamKeyer" >/dev/null 2>&1; then
-  echo "WARNING: the Downstream Keyer plugin was not found. Run setup-obs-flatpak.sh to install it." >&2
-fi
-for f in sacrament-graphic.png sacrament-playlist.mp3; do
-  [ -e "$MUSIC_DIR/$f" ] || echo "WARNING: $f is not in $MUSIC_DIR. Run setup-obs-flatpak.sh to make it." >&2
-done
+warn_missing "$MUSIC_DIR" "$CONFIG_ROOT/$CONFIG_CHOICE"

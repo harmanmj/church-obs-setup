@@ -60,25 +60,24 @@
     sudo ./setup-obs-flatpak.sh --config=stake-conference
     ```
 # Adding a Scene Collection
-To add a scene collection you do not currently have, close OBS and run one of the following in a normal terminal, without sudo. It only adds the scene collection: nothing is installed or updated, and OBS still opens with the same collection as before. Afterwards, pick the new one from the Scene Collection menu in OBS.
-
-A scene collection that is already on the computer is left alone, so changes made in OBS are kept. Add `--force` to the end of the command to replace it; the old one is saved as a .bak file.
-* **Single Camera Configuration**
+To add a scene collection you do not currently have, close OBS and run the following in a normal terminal, without sudo. It shows the scene collections already in OBS, then a numbered list of the ones you can add. It only adds the one you pick: nothing is installed or updated, and OBS still opens with the same collection as before. Afterwards, pick the new one from the Scene Collection menu in OBS.
+* **Add a Scene Collection**
     ```terminal
     cd ~/church-obs-setup
-    ./tools/add-obs-scene-collection.sh --config=single-camera
-    ```
-* **Dual Camera Configuration**
-    ```terminal
-    cd ~/church-obs-setup
-    ./tools/add-obs-scene-collection.sh --config=dual-camera
-    ```
-* **Stake Conference Camera Configuration**
-    ```terminal
-    cd ~/church-obs-setup
-    ./tools/add-obs-scene-collection.sh --config=stake-conference
+    ./tools/add-obs-scene-collection.sh
     ```
 If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
+
+# Updating All Scene Collections
+To replace every scene collection in OBS with the latest copy from the setup, close OBS and run the following in a normal terminal, without sudo. Scene collections you made yourself in OBS are left alone, and none are added.
+
+**Changes made to these scene collections in OBS are replaced without asking**, including any NDI sources you picked by hand, such as the lower thirds. Each old file is saved as a .bak file in `~/.var/app/com.obsproject.Studio/config/obs-studio/basic/scenes`. Plug in the USB audio input first, as the audio input is picked again.
+* **Update All Scene Collections**
+    ```terminal
+    cd ~/church-obs-setup
+    ./tools/update-obs-scene-collections.sh
+    ```
+This uses the scene collections already on this computer. To get newer ones, run `git pull` first.
 
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.

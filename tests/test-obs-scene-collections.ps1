@@ -1,15 +1,17 @@
 <#
 .SYNOPSIS
-  Test tools\add-obs-scene-collection.ps1 in a throwaway folder. Your real OBS settings are not touched.
+  Test tools\add-obs-scene-collection.ps1 and update-obs-scene-collections.ps1 in a throwaway folder.
+  Your real OBS settings are not touched.
 
 .DESCRIPTION
   Run it from a normal PowerShell, not as administrator, with OBS closed:
-    powershell -ExecutionPolicy Bypass -File .\tests\test-add-obs-scene-collection.ps1
+    powershell -ExecutionPolicy Bypass -File .\tests\test-obs-scene-collections.ps1
   It needs OBS installed, and exits non-zero if a check fails.
 #>
 $ErrorActionPreference = 'Stop'
 
 $tool = Join-Path (Split-Path -Parent $PSScriptRoot) 'tools\add-obs-scene-collection.ps1'
+$updateTool = Join-Path (Split-Path -Parent $PSScriptRoot) 'tools\update-obs-scene-collections.ps1'
 $failed = 0
 function Check($what, $ok) {
     if ($ok) { Write-Host "  ok    $what" -ForegroundColor Green }
@@ -18,6 +20,17 @@ function Check($what, $ok) {
 function Add-SceneCollection([string[]]$toolArgs) {
     $ErrorActionPreference = 'Continue'
     $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $tool @toolArgs -ObsDir $obs -MusicDir $music *>&1 | Out-String
+    $script:code = $LASTEXITCODE
+}
+
+function Add-FromMenu($answer) {
+    $ErrorActionPreference = 'Continue'
+    $script:out = $answer | & powershell.exe -NoProfile -ExecutionPolicy Bypass -File $tool -ObsDir $obs -MusicDir $music *>&1 | Out-String
+    $script:code = $LASTEXITCODE
+}
+function Update-SceneCollections {
+    $ErrorActionPreference = 'Continue'
+    $script:out = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $updateTool -ObsDir $obs -MusicDir $music *>&1 | Out-String
     $script:code = $LASTEXITCODE
 }
 
@@ -79,6 +92,50 @@ try {
     $bak = @(Get-ChildItem $scenes -Filter 'stake-conference.json.*.bak')
     Check 'the old one is the backup' ($bak.Count -eq 1 -and [IO.File]::ReadAllText($bak[0].FullName) -eq '{"name":"Changed in OBS"}')
 
+    Write-Host 'The menu reads what OBS already has'
+    $dual = Join-Path $scenes 'dual-camera.json'
+    $made = Join-Path $scenes 'made-in-obs.json'
+    $renamed = Join-Path $scenes 'Single_Camera.json'
+    Remove-Item $dual
+    [IO.File]::WriteAllText($made, '{"name":"Made in OBS"}')
+    [IO.File]::WriteAllText($renamed, '{"name":"Single Camera"}')
+    Add-FromMenu '0'
+    Check 'exit code 0' ($code -eq 0)
+    Check 'it lists what is in OBS' ($out -match 'Already in OBS:.*Made in OBS')
+    Check 'it offers what is missing' ($out -match '\d\) Dual Camera')
+    Check 'it does not offer what is there' ($out -notmatch '\d\) Stake Conference')
+    Check 'it knows a collection by name, whatever the file' ($out -notmatch '(?m)\d\) Single Camera\s*$')
+    Check '0 cancels' (-not (Test-Path $dual))
+    Add-FromMenu '1'
+    Check 'a number adds that collection' ((Test-Path $dual) -and $out -match "Installed the 'dual-camera'")
+
+    Write-Host 'Updating replaces what OBS has from this repo'
+    [IO.File]::WriteAllText($stake, '{"name":"Stake Conference","edited":true}')
+    [IO.File]::WriteAllText($dual, '{"name":"Dual Camera","edited":true}')
+    Update-SceneCollections
+    Check 'exit code 0' ($code -eq 0)
+    Check 'the first is replaced' ([IO.File]::ReadAllText($stake, [Text.Encoding]::UTF8) -match 'wasapi_input_capture')
+    Check 'the second is replaced' ([IO.File]::ReadAllText($dual, [Text.Encoding]::UTF8) -match 'wasapi_input_capture')
+    Check 'each old file is kept' (@(Get-ChildItem $scenes -Filter '*.bak' | Where-Object { [IO.File]::ReadAllText($_.FullName) -match '"edited":true' }).Count -eq 2)
+    Check 'collections made in OBS are left alone' ([IO.File]::ReadAllText($made) -eq '{"name":"Made in OBS"}' -and [IO.File]::ReadAllText($renamed) -eq '{"name":"Single Camera"}')
+    Check 'and it says so' ($out -match 'Left alone.*Made in OBS')
+    Check 'nothing new is added' (-not (Test-Path (Join-Path $scenes 'single-camera.json')))
+    Check 'the active collection is unchanged' ((Get-FileHash $ini).Hash -eq $iniBefore)
+
+    Write-Host 'When everything is there'
+    Remove-Item $made, $renamed
+    foreach ($c in Get-ChildItem (Join-Path (Split-Path -Parent $PSScriptRoot) 'configs') -Directory) { Add-SceneCollection @('-Config', $c.Name) }
+    Add-SceneCollection @()
+    Check 'the menu says so instead of asking' ($code -eq 0 -and $out -match 'already in OBS')
+    Get-ChildItem $scenes -Filter '*.json' | Where-Object { $_.Name -notin 'stake-conference.json', 'dual-camera.json' } | Remove-Item
+
+    $real = $obs; $obs = Join-Path $root 'no-collections'
+    New-Item -ItemType Directory -Force $obs | Out-Null
+    Copy-Item $ini $obs
+    Update-SceneCollections
+    Check 'updating with none from this repo changes nothing' ($code -eq 0 -and $out -match 'nothing changed' -and -not (Test-Path (Join-Path $obs 'basic')))
+    $obs = $real
+
     Write-Host 'Things it should refuse'
     Add-SceneCollection @('-Config', 'no-such-collection')
     Check 'an unknown name fails' ($code -ne 0 -and $out -match 'No such configuration')
@@ -95,6 +152,8 @@ try {
     Add-SceneCollection @('-Config', 'single-camera')
     Check 'it fails while OBS is running' ($code -ne 0 -and $out -match 'OBS is running')
     Check 'and writes nothing' (-not (Test-Path (Join-Path $scenes 'single-camera.json')))
+    Update-SceneCollections
+    Check 'updating fails while OBS is running' ($code -ne 0 -and $out -match 'OBS is running')
 
     Write-Host 'Your real OBS settings'
     Check 'nothing changed in %APPDATA%\obs-studio' (((Get-RealState) -join "`n") -eq $realBefore)

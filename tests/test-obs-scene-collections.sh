@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
-# Test tools/add-obs-scene-collection.sh in a throwaway home folder, with stand-ins for flatpak, pactl and pgrep.
-# Your real OBS settings are not touched. Run it without sudo: bash tests/test-add-obs-scene-collection.sh
+# Test tools/add-obs-scene-collection.sh and update-obs-scene-collections.sh in a throwaway home folder, with
+# stand-ins for flatpak, pactl and pgrep.
+# Your real OBS settings are not touched. Run it without sudo: bash tests/test-obs-scene-collections.sh
 # It exits non-zero if a check fails.
 set -uo pipefail
 
 TOOL="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)/tools/add-obs-scene-collection.sh"
+UPDATE="$(dirname "$TOOL")/update-obs-scene-collections.sh"
 ROOT=$(mktemp -d)
 trap 'rm -rf "$ROOT"' EXIT
 OBS="$ROOT/home/.var/app/com.obsproject.Studio/config/obs-studio"
@@ -38,7 +40,7 @@ check() { # description, then the test to run
   if "$@"; then echo "  ok    $what"; else echo "  FAIL  $what"; failed=$((failed + 1)); fi
 }
 add() { # options for the tool; VAR=value arguments before them set the stand-ins
-  out=$(env HOME="$ROOT/home" PATH="$ROOT/bin:$PATH" "$@" 2>&1); code=$?
+  out=$(env HOME="$ROOT/home" PATH="$ROOT/bin:$PATH" "$@" 2>&1 <<<"${ANSWER:-}"); code=$?
 }
 says() { grep -q -- "$1" <<<"$out"; }
 lacks() { ! grep -q -- "$1" <<<"$out"; }
@@ -82,6 +84,51 @@ add bash "$TOOL" --config=stake-conference --force
 check "exit code 0" code_is 0
 check "the file is replaced" no_match 'Changed in OBS' "$STAKE"
 check "the old one is the backup" one_bak
+
+echo "The menu reads what OBS already has"
+DUAL="$SCENES/dual-camera.json"
+rm -f "$DUAL"
+printf '{\n    "name": "Made in OBS"\n}\n' > "$SCENES/made-in-obs.json"
+printf '{\n    "name": "Single Camera"\n}\n' > "$SCENES/Single_Camera.json"
+ANSWER=$'9\n0' add bash "$TOOL"
+check "exit code 0" code_is 0
+check "it lists what is in OBS" says 'Already in OBS:.*Made in OBS'
+check "it offers what is missing" says ') Dual Camera'
+check "it does not offer what is there" lacks ') Stake Conference'
+check "it knows a collection by name, whatever the file" lacks ') Single Camera$'
+check "a bad answer asks again and 0 cancels" test ! -e "$DUAL"
+ANSWER=1 add bash "$TOOL"
+check "a number adds that collection" test -e "$DUAL"
+
+echo "Updating replaces what OBS has from this repo"
+echo '{"name":"edited"}' > "$STAKE"
+echo '{"name":"edited"}' > "$DUAL"
+add bash "$UPDATE"
+check "exit code 0" code_is 0
+check "the first is replaced" no_match 'edited' "$STAKE"
+check "the second is replaced" no_match 'edited' "$DUAL"
+check "each old file is kept" test "$(grep -l edited "$SCENES"/*.bak | wc -l)" -eq 2
+check "collections made in OBS are left alone" grep -q 'Made in OBS' "$SCENES/made-in-obs.json"
+check "and it says so" says 'Left alone.*Made in OBS'
+check "nothing new is added" test ! -e "$SCENES/single-camera.json"
+check "the active collection is unchanged" same_ini
+add env FAKE_OBS_RUNNING=1 bash "$UPDATE"
+check "it fails while OBS is running" says 'OBS is running'
+add bash "$UPDATE" --bad-option
+check "an unknown option fails" code_not_0
+
+echo "When everything is there"
+rm -f "$SCENES/made-in-obs.json" "$SCENES/Single_Camera.json"
+for dir in "$(dirname "$TOOL")"/../configs/*/; do add bash "$TOOL" --config="$(basename "$dir")"; done
+add bash "$TOOL"
+check "the menu says so instead of asking" says 'already in OBS'
+for f in "$SCENES"/*.json; do
+  case "$f" in "$STAKE"|"$DUAL") ;; *) rm -f "$f" ;; esac
+done
+mv "$SCENES" "$SCENES.moved"
+add bash "$UPDATE"
+check "updating with none from this repo changes nothing" says 'nothing changed'
+mv "$SCENES.moved" "$SCENES"
 
 echo "Things it should warn about or refuse"
 add env FAKE_NO_PLUGINS=1 bash "$TOOL" --config=single-camera
