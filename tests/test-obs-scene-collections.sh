@@ -126,6 +126,41 @@ check "the menu says so instead of asking" says 'already in OBS'
 for f in "$SCENES"/*.json; do
   case "$f" in "$STAKE"|"$DUAL") ;; *) rm -f "$f" ;; esac
 done
+
+echo "Adding several at once"
+SINGLE="$SCENES/single-camera.json"
+both_there() { [ -e "$DUAL" ] && [ -e "$SINGLE" ]; }
+neither_there() { [ ! -e "$DUAL" ] && [ ! -e "$SINGLE" ]; }
+audio_once() { [ "$(grep -c 'Audio input for OBS' <<<"$out")" -eq 1 ]; }
+dual_once() { [ "$(grep -c "Installed the 'dual-camera'" <<<"$out")" -eq 1 ]; }
+rm -f "$DUAL" "$STAKE"
+ANSWER='1 2' add bash "$TOOL" --no-pull
+check "two numbers add both" both_there
+check "and leave the third" test ! -e "$STAKE"
+check "it picks the audio input once" audio_once
+rm -f "$DUAL" "$SINGLE"
+ANSWER='1,1, 2' add bash "$TOOL" --no-pull
+check "commas work" both_there
+check "and a repeat counts once" dual_once
+rm -f "$DUAL" "$SINGLE"
+ANSWER=$'1 99\n0 1\nabc 1\n0' add bash "$TOOL" --no-pull
+check "a bad number in the list adds nothing" neither_there
+check "and cancelling after it exits cleanly" code_is 0
+add bash "$TOOL" --no-pull --config=dual-camera,no-such-collection
+check "a mistyped name fails" code_not_0
+check "and names the bad one" says 'No such configuration: no-such-collection'
+check "and adds nothing" test ! -e "$DUAL"
+add bash "$TOOL" --no-pull --config=dual-camera,stake-conference
+check "--config takes several" test -e "$DUAL" -a -e "$STAKE"
+echo '{"name":"edited"}' > "$DUAL"
+add bash "$TOOL" --no-pull --config=dual-camera,single-camera
+check "a list adds what is missing" test -e "$SINGLE"
+check "and keeps what is there" grep -q edited "$DUAL"
+check "and says so" says "'dual-camera' scene collection is already there"
+rm -f "$SINGLE"
+add bash "$TOOL" --no-pull --config=dual-camera,stake-conference --force
+check "--force replaces every one in the list" no_match 'edited' "$DUAL"
+
 mv "$SCENES" "$SCENES.moved"
 add bash "$UPDATE" --no-pull
 check "updating with none from this repo changes nothing" says 'nothing changed'

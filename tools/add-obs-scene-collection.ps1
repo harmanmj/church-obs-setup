@@ -1,15 +1,15 @@
 <#
 .SYNOPSIS
-  Add one scene collection to OBS, and nothing else. Run it from a normal PowerShell, not as administrator.
+  Add scene collections to OBS, and nothing else. Run it from a normal PowerShell, not as administrator.
   (Windows twin of add-obs-scene-collection.sh.)
 
 .DESCRIPTION
   Close OBS first. It gets the latest collections from GitHub (or, if it cannot, uses the ones in this checkout),
   lists the collections OBS already has and asks which of the others to add. It installs nothing and leaves the
-  collection OBS opens with as it is: the new one appears in OBS's Scene Collection menu. A collection that is
+  collection OBS opens with as it is: the new ones appear in OBS's Scene Collection menu. A collection that is
   already there is left alone, so scenes changed in OBS survive; -Force replaces it.
 
-.PARAMETER Config       The collection in configs\<name> to add, instead of asking.
+.PARAMETER Config       The collections in configs\<name> to add, separated by commas, instead of asking.
 .PARAMETER NoPull       Skip GitHub and use the collections already in this checkout.
 .PARAMETER AudioDevice  Part of the name of the audio input to use (default: Sound Blaster, else any USB input).
 .PARAMETER Force        Replace the collection if it is already there, keeping the old one as *.bak.
@@ -62,21 +62,38 @@ if (-not $Config) {
     for ($i = 0; $i -lt $choices.Count; $i++) { Write-Host "  $($i + 1)) $($choices[$i].Name)" }
     Write-Host '  0) cancel'
     do {
-        $n = Read-Host 'Enter the number of the scene collection you want to add to OBS'
-    } until ($n -match '^\d+$' -and [int]$n -le $choices.Count)
-    if ([int]$n -eq 0) { exit 0 }
-    $Config = $choices[[int]$n - 1].Config
+        $n = Read-Host 'Enter the numbers of the scene collections you want to add to OBS, separated by spaces'
+        if ($null -eq $n) { exit 0 }   # no more input
+        $picks = @($n -split '[\s,]+' | Where-Object { $_ })
+        $valid = $picks.Count -gt 0 -and -not ($picks | Where-Object { $_ -notmatch '^\d{1,3}$' -or [int]$_ -gt $choices.Count })
+        # 0 cancels, so it only counts on its own.
+        if ($valid -and $picks.Count -gt 1 -and ($picks | Where-Object { [int]$_ -eq 0 })) { $valid = $false }
+    } until ($valid)
+    if ([int]$picks[0] -eq 0) { exit 0 }
+    $names = @($picks | ForEach-Object { [int]$_ } | Select-Object -Unique | ForEach-Object { $choices[$_ - 1].Config })
+} else {
+    $names = @($Config -split ',' | ForEach-Object { $_.Trim() } | Where-Object { $_ } | Select-Object -Unique)
 }
 
-$collection = $repo | Where-Object Config -eq $Config | Select-Object -First 1
-if (-not $collection) { Fail "No such configuration: $Config (have: $(($repo | ForEach-Object Config) -join ', '))" }
+# Check them all first, so a mistyped name adds nothing.
+$collections = @(foreach ($name in $names) {
+    $c = $repo | Where-Object Config -eq $name | Select-Object -First 1
+    if (-not $c) { Fail "No such configuration: $name (have: $(($repo | ForEach-Object Config) -join ', '))" }
+    $c
+})
 
-if ((Test-InObs $collection $present) -and -not $Force) {
-    Write-Host "    The '$Config' scene collection is already there; nothing changed. Use -Force to replace it."
-    exit 0
-}
+$adding = @(foreach ($c in $collections) {
+    if ((Test-InObs $c $present) -and -not $Force) {
+        Write-Host "    The '$($c.Config)' scene collection is already there; nothing changed. Use -Force to replace it."
+    } else {
+        $c
+    }
+})
+if (-not $adding) { exit 0 }
 
 $deviceId = Select-AudioInput $AudioDevice
-Install-Collection $collection.Dir $scenes $MusicDir $deviceId
-Write-Host "    Installed the '$Config' scene collection. Pick it from OBS's Scene Collection menu."
-Show-MissingPieces @($collection.Dir) $MusicDir
+foreach ($c in $adding) {
+    Install-Collection $c.Dir $scenes $MusicDir $deviceId
+    Write-Host "    Installed the '$($c.Config)' scene collection. Pick it from OBS's Scene Collection menu."
+}
+Show-MissingPieces @($adding | ForEach-Object Dir) $MusicDir

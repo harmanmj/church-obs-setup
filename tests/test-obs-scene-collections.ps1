@@ -143,6 +143,29 @@ try {
     Check 'the menu says so instead of asking' ($code -eq 0 -and $out -match 'already in OBS')
     Get-ChildItem $scenes -Filter '*.json' | Where-Object { $_.Name -notin 'stake-conference.json', 'dual-camera.json' } | Remove-Item
 
+    Write-Host 'Adding several at once'
+    $single = Join-Path $scenes 'single-camera.json'
+    Remove-Item $dual, $stake
+    Add-FromMenu '1 2'
+    Check 'two numbers add both' ($code -eq 0 -and (Test-Path $dual) -and (Test-Path $single) -and -not (Test-Path $stake))
+    Check 'it picks the audio input once' (([regex]::Matches($out, 'Audio input for OBS')).Count -eq 1)
+    Remove-Item $dual, $single
+    Add-FromMenu '1,1, 2'
+    Check 'commas and repeats work' ($code -eq 0 -and (Test-Path $dual) -and (Test-Path $single) -and ([regex]::Matches($out, "Installed the 'dual-camera'")).Count -eq 1)
+    Remove-Item $dual, $single
+    Add-FromMenu @('1 99', '0 1', '0')
+    Check 'a bad number in the list adds nothing' ($code -eq 0 -and -not (Test-Path $dual) -and -not (Test-Path $single))
+    Add-SceneCollection @('-Config', 'dual-camera,no-such-collection')
+    Check 'a mistyped name adds nothing' ($code -ne 0 -and $out -match 'No such configuration: no-such-collection' -and -not (Test-Path $dual))
+    Add-SceneCollection @('-Config', 'dual-camera,stake-conference')
+    Check '-Config takes several' ($code -eq 0 -and (Test-Path $dual) -and (Test-Path $stake))
+    [IO.File]::WriteAllText($dual, '{"name":"Dual Camera","edited":true}')
+    Add-SceneCollection @('-Config', 'dual-camera,single-camera')
+    Check 'a list adds what is missing and keeps what is there' ($code -eq 0 -and (Test-Path $single) -and [IO.File]::ReadAllText($dual) -match '"edited":true' -and $out -match "'dual-camera' scene collection is already there")
+    Remove-Item $single
+    Add-SceneCollection @('-Config', 'dual-camera,stake-conference', '-Force')
+    Check '-Force replaces every one in the list' ($code -eq 0 -and [IO.File]::ReadAllText($dual, [Text.Encoding]::UTF8) -match 'wasapi_input_capture')
+
     $real = $obs; $obs = Join-Path $root 'no-collections'
     New-Item -ItemType Directory -Force $obs | Out-Null
     Copy-Item $ini $obs

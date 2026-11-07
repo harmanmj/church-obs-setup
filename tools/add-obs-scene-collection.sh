@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-# Add one scene collection to OBS, and nothing else. Run it as the broadcast user, without sudo.
+# Add scene collections to OBS, and nothing else. Run it as the broadcast user, without sudo.
 # (Linux twin of add-obs-scene-collection.ps1.)
 #
-# Usage:  tools/add-obs-scene-collection.sh [--config=NAME] [--force] [--no-pull]
+# Usage:  tools/add-obs-scene-collection.sh [--config=NAME[,NAME...]] [--force] [--no-pull]
 # Close OBS first. It gets the latest collections from GitHub (or, if it cannot, uses the ones in this checkout),
 # lists the collections OBS already has and asks which of the others to add. It installs nothing and leaves the
-# collection OBS opens with as it is: the new one appears in OBS's Scene Collection menu.
-#   --config=NAME  the collection in configs/NAME to add, instead of asking
+# collection OBS opens with as it is: the new ones appear in OBS's Scene Collection menu.
+#   --config=NAME  the collection in configs/NAME to add, instead of asking; separate several with commas
 #   --no-pull      skip GitHub and use the collections already in this checkout
 #   --force        replace the collection if it is already there, keeping the old one as *.bak
 #                  (without it a collection already there is left alone, so scenes changed in OBS survive)
@@ -80,26 +80,52 @@ if [ "$CONFIG_CHOICE" = ask ]; then
     echo "  $((i + 1))) $(collection_name "$CONFIG_ROOT/${CHOICES[$i]}/${CHOICES[$i]}.json")"
   done
   echo "  0) cancel"
-  while read -r -p "Enter the number of the scene collection you want to add to OBS: " n; do
-    if [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -le "${#CHOICES[@]}" ]; then
-      [ "$n" -ne 0 ] || exit 0
-      CONFIG_CHOICE=${CHOICES[$((n - 1))]}
-      break
-    fi
+  SELECTED=()
+  while read -r -p "Enter the numbers of the scene collections you want to add to OBS, separated by spaces: " n; do
+    IFS=', ' read -r -a picks <<<"$n"
+    valid=yes
+    [ "${#picks[@]}" -gt 0 ] || valid=no
+    for p in ${picks[@]+"${picks[@]}"}; do
+      if ! [[ "$p" =~ ^[0-9]{1,3}$ ]] || [ "$((10#$p))" -gt "${#CHOICES[@]}" ]; then
+        valid=no
+      elif [ "$((10#$p))" -eq 0 ] && [ "${#picks[@]}" -gt 1 ]; then
+        valid=no   # 0 cancels, so it only counts on its own
+      fi
+    done
+    [ "$valid" = yes ] || continue
+    [ "$((10#${picks[0]}))" -ne 0 ] || exit 0
+    for p in "${picks[@]}"; do
+      name=${CHOICES[$((10#$p - 1))]}
+      if [[ " ${SELECTED[*]:-} " != *" $name "* ]]; then SELECTED+=("$name"); fi
+    done
+    break
   done
-  [ "$CONFIG_CHOICE" != ask ] || exit 0   # no more input
-fi
-if ! compgen -G "$CONFIG_ROOT/$CONFIG_CHOICE/*.json" >/dev/null; then
-  echo "No such configuration: $CONFIG_CHOICE (have: ${CONFIGS[*]})" >&2
-  exit 1
+  [ "${#SELECTED[@]}" -gt 0 ] || exit 0   # no more input
+else
+  IFS=',' read -r -a SELECTED <<<"$CONFIG_CHOICE"
 fi
 
-if in_obs "$CONFIG_ROOT/$CONFIG_CHOICE" "$SCENES_DIR" && [ "$FORCE" = no ]; then
-  echo "The '$CONFIG_CHOICE' scene collection is already there; nothing changed. Use --force to replace it."
-  exit 0
-fi
+# Check them all first, so a mistyped name adds nothing.
+for name in "${SELECTED[@]}"; do
+  if ! compgen -G "$CONFIG_ROOT/$name/*.json" >/dev/null; then
+    echo "No such configuration: $name (have: ${CONFIGS[*]})" >&2
+    exit 1
+  fi
+done
+
+ADDING=()
+for name in "${SELECTED[@]}"; do
+  if in_obs "$CONFIG_ROOT/$name" "$SCENES_DIR" && [ "$FORCE" = no ]; then
+    echo "The '$name' scene collection is already there; nothing changed. Use --force to replace it."
+  else
+    ADDING+=("$CONFIG_ROOT/$name")
+  fi
+done
+[ "${#ADDING[@]}" -gt 0 ] || exit 0
 
 pick_audio_device
-install_collection "$CONFIG_ROOT/$CONFIG_CHOICE" "$SCENES_DIR"
-echo "Installed the '$CONFIG_CHOICE' scene collection. Pick it from OBS's Scene Collection menu."
-warn_missing "$MUSIC_DIR" "$CONFIG_ROOT/$CONFIG_CHOICE"
+for dir in "${ADDING[@]}"; do
+  install_collection "$dir" "$SCENES_DIR"
+  echo "Installed the '$(basename "$dir")' scene collection. Pick it from OBS's Scene Collection menu."
+done
+warn_missing "$MUSIC_DIR" "${ADDING[@]}"
