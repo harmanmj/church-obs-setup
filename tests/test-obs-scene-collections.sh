@@ -30,7 +30,7 @@ printf '1\talsa_output.pci.monitor\n2\talsa_input.usb-Creative_Sound_Blaster\n'
 STUB
 cat > "$ROOT/bin/pgrep" <<'STUB'
 #!/usr/bin/env bash
-[ -n "${FAKE_OBS_RUNNING:-}" ]
+[ -n "${FAKE_OBS_RUNNING:-}" ] && [[ " $* " == *" -x obs "* ]]
 STUB
 chmod +x "$ROOT"/bin/*
 

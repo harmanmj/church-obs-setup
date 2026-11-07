@@ -68,7 +68,6 @@ if [ "${#UPDATES[@]}" -gt 0 ]; then
   pick_audio_device
   for dir in "${UPDATES[@]}"; do
     install_collection "$dir" "$SCENES_DIR"
-    echo "Updated the '$(basename "$dir")' scene collection."
   done
 else
   echo "OBS has no scene collections from this repo; nothing changed. Use tools/add-obs-scene-collection.sh to add one."

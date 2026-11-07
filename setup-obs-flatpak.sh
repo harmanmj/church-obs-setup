@@ -217,7 +217,7 @@ if [ "$CONFIG_CHOICE" != none ]; then
   [ -d "$CONFIG_SRC" ] || { echo "No such configuration: $CONFIG_CHOICE (have: ${CONFIGS[*]:-none})" >&2; exit 1; }
   SCENES_DIR="$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio/basic/scenes"
   pick_audio_device
-  if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
+  if obs_running; then
     echo "WARNING: OBS is running; it will overwrite these changes when it exits. Close OBS and run this again." >&2
   fi
   install_collection "$CONFIG_SRC" "$SCENES_DIR"

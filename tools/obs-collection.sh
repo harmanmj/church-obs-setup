@@ -18,6 +18,11 @@ pick_audio_device() {
   echo "Audio input for OBS: $AUDIO_DEVICE (change it on the 'USB Audio' source in OBS if this is wrong)"
 }
 
+# By process name: Flatpak's sandbox keeps the app id out of OBS's command line, so pgrep -f cannot see it.
+obs_running() {
+  pgrep -u "$TARGET_USER" -x obs >/dev/null
+}
+
 # Stop unless OBS can be changed for this account: installed, set up and closed. Needs OBS_ID and OBS_DIR.
 check_obs_ready() {
   if ! flatpak info --system "$OBS_ID" >/dev/null 2>&1; then
@@ -28,7 +33,7 @@ check_obs_ready() {
     echo "OBS is not set up for $TARGET_USER. Sign in as the person who uses OBS, or run setup-obs-flatpak.sh first." >&2
     exit 1
   fi
-  if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
+  if obs_running; then
     echo "OBS is running. Close it and run this again." >&2
     exit 1
   fi
@@ -94,7 +99,10 @@ install_collection() {
     if [ -e "$dest" ] && cmp -s "$rendered" "$dest"; then
       echo "$(basename "$f") is already up to date."
     else
-      [ -e "$dest" ] && as_user cp "$dest" "$dest.$(date +%Y%m%d-%H%M%S).bak"
+      if [ -e "$dest" ]; then
+        as_user cp "$dest" "$dest.$(date +%Y%m%d-%H%M%S).bak"
+        echo "$(basename "$f") is updated; the old one is kept as a .bak file."
+      fi
       as_user tee "$dest" < "$rendered" >/dev/null
     fi
     rm -f "$rendered"
