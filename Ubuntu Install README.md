@@ -80,10 +80,10 @@ A scene collection that is already on the computer is left alone, so changes mad
     ```
 * **Primary Program Config - Installing from this Fork and Branch**
 
-    The Primary Program scene collection is only on the `custom-scene-collections` branch of the harmanmj fork. These commands clone that branch into a separate `~/church-obs-setup-temp` folder, so the main `~/church-obs-setup` folder is left as it is. Close OBS, then run them in a normal terminal, without `sudo`:
+    The Primary Program scene collection is only on the `primary-program-config-files` branch of the harmanmj fork. These commands clone that branch into a separate `~/church-obs-setup-temp` folder, so the main `~/church-obs-setup` folder is left as it is. Close OBS, then run them in a normal terminal, without `sudo`:
     ```terminal
     cd ~
-    git clone -b custom-scene-collections https://github.com/harmanmj/church-obs-setup.git ~/church-obs-setup-temp
+    git clone -b primary-program-config-files https://github.com/harmanmj/church-obs-setup.git ~/church-obs-setup-temp
     cd ~/church-obs-setup-temp
     ./tools/add-obs-scene-collection.sh --config=primary-program
     ```
