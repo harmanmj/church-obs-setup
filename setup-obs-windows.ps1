@@ -363,6 +363,9 @@ if ($Config) {
         $text = $text.Replace('@HOME@/Documents/sacrament', $sacramentFwd).Replace('DejaVu Serif', 'Georgia')
         $text = $text.Replace('"id": "pulse_input_capture"', '"id": "wasapi_input_capture"')
         $text = $text.Replace('"versioned_id": "pulse_input_capture"', '"versioned_id": "wasapi_input_capture"')
+        # Video capture devices (the ATEM Mini) are V4L2 inputs in the repo; on Windows they are DirectShow inputs.
+        $text = $text.Replace('"id": "v4l2_input"', '"id": "dshow_input"')
+        $text = $text.Replace('"versioned_id": "v4l2_input"', '"versioned_id": "dshow_input"')
         $text = $text.Replace('@AUDIO_DEVICE@', $deviceId)
         [IO.File]::WriteAllText($dest, $text, $utf8)
     }
