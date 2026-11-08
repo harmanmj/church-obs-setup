@@ -62,7 +62,7 @@
 If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
 
 # RTSP Scene Collections
-If the cameras' NDI video does not work, use the RTSP version of your scene collection. It is the same collection, named "... (RTSP)" in OBS, but the camera video comes from `rtsp://<camera IP>:554/1` instead of NDI. It is installed alongside the NDI version, so you can switch between them in OBS's Scene Collection menu. Close OBS, then run the one for your building:
+If the cameras' NDI video does not work, use the RTSP version of your scene collection. It is the same collection, named "... - RTSP" in OBS (the NDI version is "... - NDI"), but the camera video comes from `rtsp://<camera IP>:554/1` instead of NDI. It is installed alongside the NDI version, so you can switch between them in OBS's Scene Collection menu. Close OBS, then run the one for your building:
 * **Single Camera Configuration (RTSP)**
     ```terminal
     cd ~/church-obs-setup
