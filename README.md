@@ -43,7 +43,8 @@ previous scene file is saved as `*.bak` whenever it changes.
 Options: `--install` (also update what is already installed), `--config=single-camera|dual-camera` or `--no-config`
 (without either it asks in a terminal), `--pin-dock` or `--no-pin-dock` (add OBS to the dock). Environment:
 `TARGET_USER=name` (default: whoever ran sudo), `AUDIO_DEVICE=name` (force the OBS audio input),
-`PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build).
+`PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build), `DSK_BUNDLE=/path/file.flatpak` (a different
+Downstream Keyer build).
 
 `--install` installs OBS Studio, DistroAV (NDI) and the obs-ptz PTZ Controls extension system-wide,
 lets OBS reach the local network, and installs the FFmpeg libraries that NDI needs to decode
@@ -52,6 +53,20 @@ HX2/HX3 cameras.
 - The obs-ptz Flatpak bundle is in `vendor/` (built from <https://github.com/smitchell7/obs-ptz>,
   a fork of <https://github.com/glikely/obs-ptz>, GPL-2.0; the source is in that repo). To use a
   different build, run `sudo PTZ_BUNDLE=/path/to/file.flatpak ./setup-obs-flatpak.sh`.
+- The Downstream Keyer Flatpak bundle is in `vendor/` (built from the `load-on-scene` branch of
+  <https://github.com/harmanmj/obs-downstream-keyer>, a fork of <https://github.com/exeldro/obs-downstream-keyer>,
+  GPL-2.0). It adds Load On Scene, which shows a keyer only on the program scenes you choose. A computer that has
+  Flathub's Downstream Keyer is switched to the bundle on the next run. Delete the bundle from `vendor/` to go back
+  to Flathub's. To build a new bundle on Ubuntu (needs `flatpak-builder` and `org.kde.Sdk//6.6` from Flathub):
+
+  ```bash
+  git clone -b load-on-scene https://github.com/harmanmj/obs-downstream-keyer.git && cd obs-downstream-keyer
+  flatpak-builder --force-clean --repo=dsk-repo build-dir flatpak/com.obsproject.Studio.Plugin.DownstreamKeyer.yaml
+  flatpak build-bundle --runtime dsk-repo "obs-downstream-keyer-load-on-scene-$(git rev-parse --short HEAD)-flatpak-x86_64.flatpak" \
+    com.obsproject.Studio.Plugin.DownstreamKeyer stable
+  ```
+
+  Put the new file in `vendor/` and delete the old one.
 - On a first setup it sets OBS's video to a 1920x1080 canvas and output at 30 fps, with recording quality "Same as
   stream", and skips its Auto-Configuration Wizard (`tools/set-obs-video.py` sets the video again).
 - It installs the OBS window layout in `configs/obs-layout.ini`, with the PTZ Controls dock in the bottom row.
