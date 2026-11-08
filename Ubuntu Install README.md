@@ -78,6 +78,18 @@ A scene collection that is already on the computer is left alone, so changes mad
     cd ~/church-obs-setup
     ./tools/add-obs-scene-collection.sh --config=stake-conference
     ```
+* **Primary Program Config - Installing from this Fork and Branch**
+
+    The Primary Program scene collection is only on the `custom-scene-collections` branch of the harmanmj fork. These commands clone that branch into a separate `~/church-obs-setup-temp` folder, so the main `~/church-obs-setup` folder is left as it is. Close OBS, then run them in a normal terminal, without `sudo`:
+    ```terminal
+    cd ~
+    git clone -b custom-scene-collections https://github.com/harmanmj/church-obs-setup.git ~/church-obs-setup-temp
+    cd ~/church-obs-setup-temp
+    ./tools/add-obs-scene-collection.sh --config=primary-program
+    ```
+    If `~/church-obs-setup-temp` is already there from an earlier time, run `cd ~/church-obs-setup-temp` and `git pull` instead of the `git clone` line. The scene collection is copied into OBS, so the temp folder can be deleted afterwards with `rm -rf ~/church-obs-setup-temp`.
+
+    Pick Primary Program from the Scene Collection menu in OBS. The two FreeShow lower third sources start blank, so select the NDI output from the computer running FreeShow for each one. If the script warns that a plugin is missing, run `cd ~/church-obs-setup` and then `sudo ./setup-obs-flatpak.sh --no-config` once. This installs the plugins without changing any scene collection.
 If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
 
 # Resetting OBS Video Settings
