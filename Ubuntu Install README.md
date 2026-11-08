@@ -7,6 +7,10 @@
   The Dual Camera Scene Collection is intended for use in the Independence Building (Stake Center)
   The Stake Conference Scene Collection is intended for use for meetings where an additional computer will be generating and sending overlay graphics to OBS using NDI. It is based on the Dual Camera Scene Collection. If it is being used in the Alkire or Quail buildings for a meeting ONLY the scenes labeled left will work correctly
 
+# Downstream Keyer
+  `setup-obs-flatpak.sh` installs Downstream Keyer from the Flatpak bundle in the `vendor` folder instead of from Flathub. The bundle is built from the `load-on-scene` branch of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer), which adds the Load On Scene option: a keyer can be set to show only on the program scenes you choose.
+  Each time the setup script runs, it installs Downstream Keyer from the bundle if it is missing, and replaces it if it came from Flathub or from an older bundle. If the bundle is removed from the `vendor` folder, the next run goes back to the Flathub version.
+
 # First Time Ubuntu Install
   1. Open Terminal
   2. Run one of the following depending on required camera configuration for your building
