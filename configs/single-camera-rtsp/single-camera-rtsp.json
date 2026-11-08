@@ -1,5 +1,5 @@
 {
-    "name": "Single Camera (RTSP)",
+    "name": "Single Camera - RTSP",
     "sources": [
         {
             "prev_ver": 553648128,
