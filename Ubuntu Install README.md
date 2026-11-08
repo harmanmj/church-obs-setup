@@ -61,6 +61,30 @@
     ```
 If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
 
+# RTSP Scene Collections
+If the cameras' NDI video does not work, use the RTSP version of your scene collection. It is the same collection, named "... (RTSP)" in OBS, but the camera video comes from `rtsp://<camera IP>:554/1` instead of NDI. It is installed alongside the NDI version, so you can switch between them in OBS's Scene Collection menu. Close OBS, then run the one for your building:
+* **Single Camera Configuration (RTSP)**
+    ```terminal
+    cd ~/church-obs-setup
+    git checkout main
+    git pull
+    sudo ./setup-obs-flatpak.sh --config=single-camera-rtsp
+    ```
+* **Dual Camera Configuration (RTSP)**
+    ```terminal
+    cd ~/church-obs-setup
+    git checkout main
+    git pull
+    sudo ./setup-obs-flatpak.sh --config=dual-camera-rtsp
+    ```
+* **Stake Conference Camera Configuration (RTSP)**
+    ```terminal
+    cd ~/church-obs-setup
+    git checkout main
+    git pull
+    sudo ./setup-obs-flatpak.sh --config=stake-conference-rtsp
+    ```
+
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
 * **Reset OBS Video Settings**
