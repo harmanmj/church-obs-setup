@@ -89,12 +89,13 @@ A scene collection that is already on the computer is left alone, so changes mad
     cd ~
     git clone -b primary-program-config-files https://github.com/harmanmj/church-obs-setup.git ~/church-obs-setup-temp
     cd ~/church-obs-setup-temp
+    sudo ./setup-obs-flatpak.sh --no-config
     ./tools/add-obs-scene-collection.sh --config=primary-program
     ```
+    The `sudo ./setup-obs-flatpak.sh --no-config` line installs or updates Downstream Keyer from the fork's bundle in the `vendor` folder (see Downstream Keyer above), and any other missing plugins, without changing any scene collection.
     If `~/church-obs-setup-temp` is already there from an earlier time, run `cd ~/church-obs-setup-temp` and `git pull` instead of the `git clone` line. The scene collection is copied into OBS, so the temp folder can be deleted afterwards with `rm -rf ~/church-obs-setup-temp`.
 
-    Pick Primary Program from the Scene Collection menu in OBS. The two FreeShow lower third sources start blank, so select the NDI output from the computer running FreeShow for each one. If the script warns that a plugin is missing, run `cd ~/church-obs-setup` and then `sudo ./setup-obs-flatpak.sh --no-config` once. This installs the plugins without changing any scene collection.
-If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
+    Pick Primary Program from the Scene Collection menu in OBS. The two FreeShow lower third sources start blank, so select the NDI output from the computer running FreeShow for each one.If the command or the scene collection is not found, this computer has an older copy of the setup. Run the update above once, then this will work.
 
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
