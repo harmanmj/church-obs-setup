@@ -142,8 +142,12 @@ if want "$NEED_DSK"; then
     if [ "$NEED_DSK" = 0 ]; then
       echo "Downstream Keyer is already installed from this bundle."
     else
-      # --reinstall replaces a copy from Flathub or from an older bundle
-      flatpak install --system -y --reinstall --bundle "$DSK_BUNDLE"
+      # Remove a copy from Flathub or from an older bundle first: --reinstall would keep its remote, and
+      # Flathub refuses the unsigned bundle ("GPG verification enabled, but no signatures found").
+      if flatpak info --system "$DSK_ID" >/dev/null 2>&1; then
+        flatpak uninstall --system -y "$DSK_ID"
+      fi
+      flatpak install --system -y --bundle "$DSK_BUNDLE"
       echo "$DSK_SUM" > "$DSK_STAMP"
     fi
   else
