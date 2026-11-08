@@ -5,10 +5,11 @@
 # cameras are the ones in cameras.json, next to this script, or the ones given with -CameraHost.
 # OBS and its scene collections are not used. When only the first camera (192.168.111.245)
 # answers, the church has one camera: it is shown as "PTZ Camera". Otherwise each camera that
-# answers is shown by its name, PTZ Left and PTZ Right, and each one that does not as "Error: PTZ
-# Left not found". A menu then asks whether to change nothing, set every camera on, or set every
-# camera to standby; only the cameras found are changed. -Set On or -Set Standby does that without
-# the menu. With no answer to read (input that has run out), the menu changes nothing.
+# answers is shown by its name, PTZ House Left and PTZ House Right, and each one that does not as
+# "Error: PTZ House Left not found". A menu then asks whether to change nothing, set every camera
+# on, or set every camera to standby; only the cameras found are changed. -Set On or -Set Standby
+# does that without the menu. With no answer to read (input that has run out), the menu changes
+# nothing.
 #
 # Exit status: 0 when every camera answered (or the one camera of a single-camera church did), 1
 # when any was not found or gave no answer.
@@ -133,8 +134,8 @@ function Show-Report($found, $change) {
 }
 
 # A church with one camera has it at the first address: when that is the only one to answer, it is
-# named PTZ Camera. Any other camera that is the only one to answer keeps its name, PTZ Right, and
-# the first one is reported missing.
+# named PTZ Camera. Any other camera that is the only one to answer keeps its name, PTZ House
+# Right, and the first one is reported missing.
 function Select-Single($results) {
     $answered = @($results | Where-Object Answered)
     if ($answered.Count -ne 1 -or $answered[0] -ne $results[0]) { return $null }

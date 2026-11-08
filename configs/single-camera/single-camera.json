@@ -197,7 +197,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Camera",
+            "name": "PTZ Camera",
             "uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
             "id": "ndi_source",
             "versioned_id": "ndi_source",
@@ -651,7 +651,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -910,7 +910,7 @@
                 "id_counter": 5,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1171,7 +1171,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1430,7 +1430,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1689,7 +1689,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1948,7 +1948,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2207,7 +2207,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2466,7 +2466,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2980,7 +2980,7 @@
                 "id_counter": 3,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -3184,7 +3184,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera",
+                        "name": "PTZ Camera",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
