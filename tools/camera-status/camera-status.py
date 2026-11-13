@@ -5,10 +5,10 @@ Sends each camera the VISCA power inquiry (81 09 04 00 FF) over TCP and prints O
 cameras are the ones in cameras.json, next to this script, or the ones given with --host. OBS and
 its scene collections are not used. When only the first camera (192.168.111.245) answers, the
 church has one camera: it is shown as "PTZ Camera". Otherwise each camera that answers is shown by
-its name, PTZ Left and PTZ Right, and each one that does not as "Error: PTZ Left not found". A menu
-then asks whether to change nothing, set every camera on, or set every camera to standby; only the
-cameras found are changed. --set on or --set standby does that without the menu. With no answer to
-read (input that has run out), the menu changes nothing.
+its name, PTZ House Left and PTZ House Right, and each one that does not as "Error: PTZ House Left
+not found". A menu then asks whether to change nothing, set every camera on, or set every camera to
+standby; only the cameras found are changed. --set on or --set standby does that without the menu.
+With no answer to read (input that has run out), the menu changes nothing.
 
 Exit status: 0 when every camera answered (or the one camera of a single-camera church did), 1 when
 any was not found or gave no answer.
@@ -125,7 +125,7 @@ def present(found, results):
     """The cameras that answered, with what each said, and the ones that did not. A church with
     one camera has it at the first address: when that is the only one to answer, it is named PTZ
     Camera and the others are not missing. Any other camera that is the only one to answer keeps
-    its name, PTZ Right, and the first one is missing."""
+    its name, PTZ House Right, and the first one is missing."""
     answered = [(cam, r) for cam, r in zip(found, results) if r[1]]
     missing = [cam for cam, r in zip(found, results) if not r[1]]
     if len(answered) == 1 and answered[0][0] == found[0]:

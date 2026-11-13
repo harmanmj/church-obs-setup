@@ -1,5 +1,5 @@
 {
-    "name": "Dual Camera",
+    "name": "Dual Camera - NDI",
     "sources": [
         {
             "prev_ver": 553648128,
@@ -197,7 +197,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Camera Left",
+            "name": "PTZ Camera - House Left",
             "uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
             "id": "ndi_source",
             "versioned_id": "ndi_source",
@@ -234,7 +234,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "Camera Right",
+            "name": "PTZ Camera - House Right",
             "uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
             "id": "ndi_source",
             "versioned_id": "ndi_source",
@@ -271,7 +271,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "PTZ Left",
+            "name": "PTZ House Left",
             "uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
             "id": "color_source",
             "versioned_id": "color_source_v3",
@@ -418,7 +418,7 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "PTZ Right",
+            "name": "PTZ House Right",
             "uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
             "id": "color_source",
             "versioned_id": "color_source_v3",
@@ -1096,7 +1096,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1261,7 +1261,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -1355,7 +1355,7 @@
                 "id_counter": 5,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1520,7 +1520,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -1616,7 +1616,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1781,7 +1781,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -1875,7 +1875,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2040,7 +2040,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -2134,7 +2134,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2299,7 +2299,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -2393,7 +2393,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2558,7 +2558,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -2652,7 +2652,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2817,7 +2817,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -2911,7 +2911,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -3076,7 +3076,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -3170,7 +3170,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -3335,7 +3335,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -3429,7 +3429,7 @@
                 "id_counter": 5,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -3594,7 +3594,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -3690,7 +3690,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -3855,7 +3855,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -3949,7 +3949,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4114,7 +4114,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -4208,7 +4208,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4373,7 +4373,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -4467,7 +4467,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4632,7 +4632,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -4726,7 +4726,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4891,7 +4891,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -4985,7 +4985,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -5150,7 +5150,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -5499,7 +5499,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -5664,7 +5664,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -5758,7 +5758,7 @@
                 "id_counter": 3,
                 "items": [
                     {
-                        "name": "Camera Left",
+                        "name": "PTZ Camera - House Left",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -5868,7 +5868,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Left",
+                        "name": "PTZ House Left",
                         "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
                         "visible": false,
                         "locked": false,
@@ -5962,7 +5962,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -6127,7 +6127,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,
@@ -6221,7 +6221,7 @@
                 "id_counter": 3,
                 "items": [
                     {
-                        "name": "Camera Right",
+                        "name": "PTZ Camera - House Right",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -6331,7 +6331,7 @@
                         "private_settings": {}
                     },
                     {
-                        "name": "PTZ Right",
+                        "name": "PTZ House Right",
                         "source_uuid": "ae655ad1-03c3-4ab8-8363-d1d453d74781",
                         "visible": false,
                         "locked": false,

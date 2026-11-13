@@ -69,6 +69,10 @@ HX2/HX3 cameras.
   - `dual-camera`: adds a second camera at 192.168.111.246 (245 is "Left", 246 is "Right"), each with its own
     PTZ device. Every scene above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...),
     with **Joystick Left** and **Joystick Right** in place of Joystick.
+  - `single-camera-rtsp`, `dual-camera-rtsp` and `stake-conference-rtsp`: the same collections, but the camera
+    video comes over RTSP (`rtsp://<camera IP>:554/1`, over UDP with no buffering for the least delay, which needs a wired network connection) instead of NDI, for cameras whose NDI does not
+    work. They are named "... - RTSP" in OBS (the NDI ones "... - NDI") and are installed alongside them. PTZ control is the same
+    (VISCA over TCP). The FreeShow lower third in Stake Conference - RTSP still comes over NDI.
   - Video comes from the cameras (their own NDI audio is not used). Audio comes from the "USB Audio" source, a
     USB input (the Sound Blaster where there is one), in every scene except Sacrament. The installer picks the
     Sound Blaster, else any USB input, else the system default (`AUDIO_DEVICE=name` forces one; at first boot
