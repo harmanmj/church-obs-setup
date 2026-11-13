@@ -7,6 +7,11 @@
   The Dual Camera Scene Collection is intended for use in the Independence Building (Stake Center)
   The Stake Conference Scene Collection is intended for use for meetings where an additional computer will be generating and sending overlay graphics to OBS using NDI. It is based on the Dual Camera Scene Collection. If it is being used in the Alkire or Quail buildings for a meeting ONLY the scenes labeled left will work correctly
 
+
+# Downstream Keyer
+The setup script installs Downstream Keyer from the newest release of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer), which adds the Load On Scene option: a keyer can be set to show only on the program scenes you choose. If the fork has no release published, it installs exeldro's release (https://github.com/exeldro/obs-downstream-keyer) instead. Each time the setup script runs, it installs the newest release over the one already there.
+
+
 # First Time Windows Install
   1. Open **PowerShell as administrator** (Start, type `powershell`, right-click > Run as administrator)
   2. Run one of the following depending on required camera configuration for your building
