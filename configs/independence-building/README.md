@@ -4,8 +4,8 @@ This Scene Collection, for the Independence Building, is the Stake Conference co
 
 | Source | Device | Scenes |
 |---|---|---|
-| **House Left - ATEM Mini** | Blackmagic ATEM Mini (shows as "Blackmagic Design") | every "Left ..." scene, Joystick Left and Blackmagic |
-| **House Right - USB3.0 Video** | USB HDMI capture device (shows as "USB3.0 Video") | every "Right ..." scene and Joystick Right |
+| **House Left - USB3.0 Video** | USB HDMI capture device (shows as "USB3.0 Video") | every "Left ..." scene and Joystick Left |
+| **House Right - ATEM Mini** | Blackmagic ATEM Mini (shows as "Blackmagic Design") | every "Right ..." scene, Joystick Right and Blackmagic |
 
 PTZ control is unchanged: the preset scenes still move the cameras over the network (VISCA), so the cameras must stay on the network as well as being plugged into the capture devices.
 
@@ -16,6 +16,6 @@ Sound comes from the "USB Audio" source, as in the other collections. The captur
 ## Differences from the old Stake Conference collection
 
 - The camera sources are video capture devices instead of NDI.
-- There is no separate "ATEM Mini" source, because the ATEM Mini is now the House Left camera and two sources can't use the same capture device at once. The **Blackmagic** scene, just after Sacrament and above the Lower Thirds scenes, shows the House Left - ATEM Mini source with sound from "USB Audio".
-- The "Lower Thirds - Camera" scene, which the **Video Overlay** keyer shows, has only the House Right camera (Joystick Right). House Left isn't in it.
+- There is no separate "ATEM Mini" source, because the ATEM Mini is now the House Right camera and two sources can't use the same capture device at once. The **Blackmagic** scene, just after Sacrament and above the Lower Thirds scenes, shows the House Right - ATEM Mini source with sound from "USB Audio".
+- The "Lower Thirds - Camera" scene, which the **Video Overlay** keyer shows, has only the House Right camera (Joystick Right, the ATEM Mini). House Left isn't in it.
 - The FreeShow lower thirds still come over NDI.
