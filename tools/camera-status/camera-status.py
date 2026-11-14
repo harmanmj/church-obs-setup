@@ -5,7 +5,7 @@ Sends each camera the VISCA power inquiry (81 09 04 00 FF) over TCP and prints O
 cameras are the ones in cameras.json, next to this script, or the ones given with --host. OBS and
 its scene collections are not used. When only the first camera (192.168.111.245) answers, the
 church has one camera: it is shown as "PTZ Camera". Otherwise each camera that answers is shown by
-its name, PTZ House Left and PTZ House Right, and each one that does not as "Error: PTZ House Left
+its name, PTZ House Right and PTZ House Left, and each one that does not as "Error: PTZ House Left
 not found". A menu then asks whether to change nothing, set every camera on, or set every camera to
 standby; only the cameras found are changed. --set on or --set standby does that without the menu.
 With no answer to read (input that has run out), the menu changes nothing.
@@ -125,7 +125,7 @@ def present(found, results):
     """The cameras that answered, with what each said, and the ones that did not. A church with
     one camera has it at the first address: when that is the only one to answer, it is named PTZ
     Camera and the others are not missing. Any other camera that is the only one to answer keeps
-    its name, PTZ House Right, and the first one is missing."""
+    its name, PTZ House Left, and the first one is missing."""
     answered = [(cam, r) for cam, r in zip(found, results) if r[1]]
     missing = [cam for cam, r in zip(found, results) if not r[1]]
     if len(answered) == 1 and answered[0][0] == found[0]:
@@ -136,7 +136,7 @@ def present(found, results):
 
 def show_none_found(found):
     """What to check when no camera answered. A one-camera building has its camera at the first
-    address; a two-camera building has the left camera there and the right one at the second."""
+    address; a two-camera building has the right camera there and the left one at the second."""
     if len(found) < 2:
         for name, host, _ in found:
             print("  Error: PTZ camera not found. Check that this computer is connected to the church network, check "
@@ -144,8 +144,8 @@ def show_none_found(found):
         return
     print("  Error: PTZ cameras not found. Check that this computer is connected to the church network, check that "
           "all PTZ cameras are plugged in, connected to the network and at the correct addresses. For a one camera building the address is (%s) and for "
-          "two camera buildings the addresses are (%s) for the left camera and (%s) for the right camera"
-          % (found[0][1], found[0][1], found[1][1]))
+          "two camera buildings the addresses are (%s) for %s and (%s) for %s"
+          % (found[0][1], found[0][1], found[0][0], found[1][1], found[1][0]))
 
 
 def show_missing(missing):
