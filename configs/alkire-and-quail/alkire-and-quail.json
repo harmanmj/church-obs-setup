@@ -265,7 +265,36 @@
             "deinterlace_field_order": 0,
             "monitoring_type": 2,
             "monitoring_enabled": true,
-            "private_settings": {}
+            "private_settings": {},
+            "filters": [
+                {
+                    "prev_ver": 553648129,
+                    "name": "HumNotch",
+                    "uuid": "12930d4b-0383-490c-83c9-68a5de2c79a6",
+                    "id": "vst_filter",
+                    "versioned_id": "vst_filter",
+                    "settings": {
+                        "plugin_path": "@HOME@/.vst/HumNotch.so"
+                    },
+                    "mixers": 255,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                }
+            ]
         },
         {
             "prev_ver": 553648128,

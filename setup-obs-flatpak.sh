@@ -330,9 +330,10 @@ if [ "$CONFIG_CHOICE" != none ]; then
     [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=default
   fi
   HW_AUDIO_DEVICE=$AUDIO_DEVICE
-  # OBS records the hum-filtered copy of that microphone (audio/hum-notch.conf) unless NOTCH=0 or there is
-  # no real hardware input to filter.
-  if [ "${NOTCH:-1}" != 0 ] && [ "$AUDIO_DEVICE" != default ]; then AUDIO_DEVICE=hum_notch; fi
+  # The hum notch is an OBS filter on "USB Audio" (the HumNotch VST, built below), so OBS records the plain
+  # hardware microphone. NOTCH=1 switches to the always-on PipeWire filter (audio/hum-notch.conf) instead;
+  # don't use both, or the hum is filtered twice.
+  if [ "${NOTCH:-0}" = 1 ] && [ "$AUDIO_DEVICE" != default ]; then AUDIO_DEVICE=hum_notch; fi
   echo "Audio input for OBS: $AUDIO_DEVICE (hardware: $HW_AUDIO_DEVICE; change it on the 'USB Audio' source in OBS if this is wrong)"
   if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
     echo "WARNING: OBS is running; it will overwrite these changes when it exits. Close OBS and run this again." >&2
@@ -350,6 +351,13 @@ if [ "$CONFIG_CHOICE" != none ]; then
     rm -f "$rendered"
   done
   echo "Installed the scene collections: ${CONFIGS[*]}."
+
+  # Hum notch for the "USB Audio" source's HumNotch filter: a small VST 2.x plugin built into ~/.vst/.
+  if command -v gcc >/dev/null 2>&1; then
+    as_user bash "$SCRIPT_DIR/tools/hum-notch-vst/build.sh" || echo "WARNING: could not build the HumNotch VST; the filter on 'USB Audio' will not load." >&2
+  else
+    echo "WARNING: gcc is missing, so the HumNotch VST was not built (sudo apt-get install -y gcc, then run this again)." >&2
+  fi
 
   # Zoom audio: a virtual "OBS Mic (for Zoom)" microphone fed by OBS's audio monitoring (PipeWire's
   # PulseAudio layer is already on Ubuntu; only the pactl tool is added).
