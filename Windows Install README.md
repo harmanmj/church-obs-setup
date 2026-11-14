@@ -5,7 +5,7 @@
   use the code labeled below for the scene collection you want to install
   The single camera Scene Collection is intended for use in the Alkire and Quail Building
   The Dual Camera Scene Collection is intended for use in the Independence Building (Stake Center)
-  The Stake Conference Scene Collection is intended for use for meetings where an additional computer will be generating and sending overlay graphics to OBS using NDI. It is based on the Dual Camera Scene Collection. If it is being used in the Alkire or Quail buildings for a meeting ONLY the scenes labeled left will work correctly. Both Stake Conference collections also have a Blackmagic scene for a Blackmagic ATEM Mini connected by USB; after setup, pick the ATEM Mini as the Device on the "ATEM Mini" source in OBS (see configs/stake-conference/README.md)
+  The Stake Conference Scene Collection is intended for use for meetings where an additional computer will be generating and sending overlay graphics to OBS using NDI. It is based on the Dual Camera Scene Collection. If it is being used in the Alkire or Quail buildings for a meeting ONLY the scenes labeled right will work correctly. Both Stake Conference collections also have a Blackmagic scene for a Blackmagic ATEM Mini connected by USB; after setup, pick the ATEM Mini as the Device on the "ATEM Mini" source in OBS (see configs/stake-conference/README.md)
 
 
 # Downstream Keyer

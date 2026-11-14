@@ -203,9 +203,9 @@
             "versioned_id": "ndi_source",
             "settings": {
                 "ndi_fix_alpha_blending": false,
-                "ndi_source_name": "UHD CAMERA (NDI HX3, 192.168.111.245)",
+                "ndi_source_name": "UHD CAMERA (NDI HX3, 192.168.111.246)",
                 "ndi_behavior": 0,
-                "web_control_url": "http://192.168.111.245/"
+                "web_control_url": "http://192.168.111.246/"
             },
             "mixers": 0,
             "sync": 0,
@@ -240,9 +240,9 @@
             "versioned_id": "ndi_source",
             "settings": {
                 "ndi_fix_alpha_blending": false,
-                "ndi_source_name": "UHD CAMERA (NDI HX3, 192.168.111.246)",
+                "ndi_source_name": "UHD CAMERA (NDI HX3, 192.168.111.245)",
                 "ndi_behavior": 0,
-                "web_control_url": "http://192.168.111.246/"
+                "web_control_url": "http://192.168.111.245/"
             },
             "mixers": 0,
             "sync": 0,
@@ -343,7 +343,7 @@
                                 "name": "Left Choir - P8"
                             }
                         ],
-                        "host": "192.168.111.245",
+                        "host": "192.168.111.246",
                         "port": 5678,
                         "type": "visca-over-tcp",
                         "pantilt_speed_max": 1.0,
@@ -490,7 +490,7 @@
                                 "name": "Right Choir - P8"
                             }
                         ],
-                        "host": "192.168.111.246",
+                        "host": "192.168.111.245",
                         "port": 5678,
                         "type": "visca-over-tcp",
                         "pantilt_speed_max": 1.0,

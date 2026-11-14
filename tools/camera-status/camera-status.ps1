@@ -5,7 +5,7 @@
 # cameras are the ones in cameras.json, next to this script, or the ones given with -CameraHost.
 # OBS and its scene collections are not used. When only the first camera (192.168.111.245)
 # answers, the church has one camera: it is shown as "PTZ Camera". Otherwise each camera that
-# answers is shown by its name, PTZ House Left and PTZ House Right, and each one that does not as
+# answers is shown by its name, PTZ House Right and PTZ House Left, and each one that does not as
 # "Error: PTZ House Left not found". A menu then asks whether to change nothing, set every camera
 # on, or set every camera to standby; only the cameras found are changed. -Set On or -Set Standby
 # does that without the menu. With no answer to read (input that has run out), the menu changes
@@ -135,7 +135,7 @@ function Show-Report($found, $change) {
 
 # A church with one camera has it at the first address: when that is the only one to answer, it is
 # named PTZ Camera. Any other camera that is the only one to answer keeps its name, PTZ House
-# Right, and the first one is reported missing.
+# Left, and the first one is reported missing.
 function Select-Single($results) {
     $answered = @($results | Where-Object Answered)
     if ($answered.Count -ne 1 -or $answered[0] -ne $results[0]) { return $null }
@@ -145,7 +145,7 @@ function Select-Single($results) {
 }
 
 # What to check when no camera answered. A one-camera building has its camera at the first address;
-# a two-camera building has the left camera there and the right one at the second.
+# a two-camera building has the right camera there and the left one at the second.
 function Show-NoneFound($found) {
     if ($found.Count -lt 2) {
         foreach ($cam in $found) {
@@ -154,8 +154,8 @@ function Show-NoneFound($found) {
         return
     }
     $msg = '  Error: PTZ cameras not found. Check that this computer is connected to the church network, check that all PTZ cameras are plugged in, connected to the network and at the correct addresses. ' +
-        'For a one camera building the address is ({0}) and for two camera buildings the addresses are ({0}) for the left camera and ({1}) for the right camera'
-    Write-Host ($msg -f $found[0].Host, $found[1].Host)
+        'For a one camera building the address is ({0}) and for two camera buildings the addresses are ({0}) for {1} and ({2}) for {3}'
+    Write-Host ($msg -f $found[0].Host, $found[0].Source, $found[1].Host, $found[1].Source)
 }
 
 function Show-Missing($missing) {

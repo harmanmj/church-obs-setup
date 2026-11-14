@@ -76,7 +76,7 @@ HX2/HX3 cameras.
     Joystick, Pulpit - P0, Chorister - P1, Rostrum - P2, Full Room - P3, Piano - P4, Speaker Close-up - P5,
     Piano and Pulpit - P6, Organ - P7, Choir - P8, Sacrament. **Joystick** shows the camera without recalling a
     preset, so it stays where it is and you can steer it with the PTZ Controls dock.
-  - `dual-camera`: adds a second camera at 192.168.111.246 (245 is "Left", 246 is "Right"), each with its own
+  - `dual-camera`: adds a second camera at 192.168.111.246 (245 is "Right", 246 is "Left"), each with its own
     PTZ device. Every scene above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...),
     with **Joystick Left** and **Joystick Right** in place of Joystick.
   - `single-camera-rtsp`, `dual-camera-rtsp` and `stake-conference-rtsp`: the same collections, but the camera
