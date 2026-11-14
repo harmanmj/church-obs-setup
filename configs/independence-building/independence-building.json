@@ -6875,8 +6875,8 @@
                 "custom_size": false,
                 "items": [
                     {
-                        "name": "Joystick Right",
-                        "source_uuid": "e5369387-c0aa-4c8e-b3e6-f7e4217856f6",
+                        "name": "Joystick Left",
+                        "source_uuid": "4747f42d-edc4-4f51-b669-4529bb133a0f",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,

@@ -17,5 +17,5 @@ Sound comes from the "USB Audio" source, as in the other collections. The captur
 
 - The camera sources are video capture devices instead of NDI.
 - There is no separate "ATEM Mini" source, because the ATEM Mini is now the House Right camera and two sources can't use the same capture device at once. The **Blackmagic** scene, just after Sacrament and above the Lower Thirds scenes, shows the House Right - ATEM Mini source with sound from "USB Audio".
-- The "Lower Thirds - Camera" scene, which the **Video Overlay** keyer shows, has only the House Right camera (Joystick Right, the ATEM Mini). House Left isn't in it.
+- The "Lower Thirds - Camera" scene, which the **Video Overlay** keyer shows, has only the House Left camera (Joystick Left, the USB3.0 capture device), at 25% in the bottom-right corner. House Right isn't in it.
 - The FreeShow lower thirds still come over NDI.
