@@ -10,3 +10,10 @@ gcc -O2 -fPIC -shared -fvisibility=hidden -Wall -Wextra -o "$HOME/.vst/HumNotch.
 echo "Installed $HOME/.vst/HumNotch.so"
 gcc -O2 -fPIC -shared -fvisibility=hidden -Wall -Wextra -o "$HOME/.vst/SquealNotch.so" "$HERE/squeal_notch_vst.c" -lm
 echo "Installed $HOME/.vst/SquealNotch.so"
+# Fixed notches for two steady tones measured on the Independence Building microphone (Q 12, about 500 and 1100 Hz wide).
+gcc -O2 -fPIC -shared -fvisibility=hidden -Wall -Wextra -DNOTCH_HZ=6381.0 -DNOTCH_Q=12.0 -DNOTCH_NAME='"Notch 6381 Hz"' -DNOTCH_ID=0x4e363338 \
+  -o "$HOME/.vst/Notch6381.so" "$HERE/tone_notch_vst.c" -lm
+echo "Installed $HOME/.vst/Notch6381.so"
+gcc -O2 -fPIC -shared -fvisibility=hidden -Wall -Wextra -DNOTCH_HZ=13623.0 -DNOTCH_Q=12.0 -DNOTCH_NAME='"Notch 13623 Hz"' -DNOTCH_ID=0x4e313336 \
+  -o "$HOME/.vst/Notch13623.so" "$HERE/tone_notch_vst.c" -lm
+echo "Installed $HOME/.vst/Notch13623.so"
