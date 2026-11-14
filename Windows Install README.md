@@ -70,6 +70,14 @@ If the cameras' NDI video does not work, use the RTSP version of your scene coll
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config stake-conference-rtsp
     ```
 
+# Independence Building - Hardware Scene Collection
+Based on the Stake Conference collection, for the Independence Building where the camera video comes into the OBS computer through USB video capture devices instead of over NDI: House Left from a Blackmagic ATEM Mini and House Right from a USB HDMI capture device ("USB3.0 Video"). It is named "Independence Building - Hardware" in OBS and is installed alongside the other collections. PTZ presets still move the cameras over the network. After setup, plug in both devices, open OBS and pick the Device on the "House Left - ATEM Mini" and "House Right - USB3.0 Video" sources (see configs/independence-building/README.md). Close OBS, then run in **PowerShell as administrator**:
+* **Independence Building - Hardware Configuration**
+    ```powershell
+    cd c:\church-obs-setup
+    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config independence-building
+    ```
+
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal PowerShell. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
 * **Reset OBS Video Settings**

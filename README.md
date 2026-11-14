@@ -83,6 +83,10 @@ HX2/HX3 cameras.
     video comes over RTSP (`rtsp://<camera IP>:554/1`, over UDP with no buffering for the least delay, which needs a wired network connection) instead of NDI, for cameras whose NDI does not
     work. They are named "... - RTSP" in OBS (the NDI ones "... - NDI") and are installed alongside them. PTZ control is the same
     (VISCA over TCP). The FreeShow lower third in Stake Conference - RTSP still comes over NDI.
+  - `independence-building`: the Stake Conference collection with the camera video from USB video capture devices instead
+    of NDI: House Left from a Blackmagic ATEM Mini, House Right from a USB HDMI capture device. Pick each
+    source's Device in OBS after setup (see `configs/independence-building/README.md`). PTZ control is the
+    same.
   - Video comes from the cameras (their own NDI audio is not used). Audio comes from the "USB Audio" source, a
     USB input (the Sound Blaster where there is one), in every scene except Sacrament. The installer picks the
     Sound Blaster, else any USB input, else the system default (`AUDIO_DEVICE=name` forces one; at first boot
