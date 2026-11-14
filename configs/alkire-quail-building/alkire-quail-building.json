@@ -1,6 +1,78 @@
 {
-    "name": "Single Camera - RTSP",
+    "name": "Alkire and Quail Building - NDI",
     "sources": [
+        {
+            "prev_ver": 553648128,
+            "name": "Freeshow Lower Thirds - Lyrics",
+            "uuid": "5a7c3e91-2b4d-4f68-9c1a-7e3d8b0f6a24",
+            "id": "ndi_source",
+            "versioned_id": "ndi_source",
+            "settings": {
+                "ndi_fix_alpha_blending": false,
+                "ndi_source_name": "",
+                "ndi_behavior": 0
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "libobs.mute": [],
+                "libobs.unmute": [],
+                "libobs.monitor-on": [],
+                "libobs.monitor-off": [],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648128,
+            "name": "Freeshow Lower Thirds - Speakers",
+            "uuid": "e8f1b242-b327-4261-b938-939cf23601b3",
+            "id": "ndi_source",
+            "versioned_id": "ndi_source",
+            "settings": {
+                "ndi_fix_alpha_blending": false,
+                "ndi_source_name": "",
+                "ndi_behavior": 0
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "libobs.mute": [],
+                "libobs.unmute": [],
+                "libobs.monitor-on": [],
+                "libobs.monitor-off": [],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {}
+        },
         {
             "prev_ver": 553648128,
             "name": "Image 2",
@@ -199,19 +271,13 @@
             "prev_ver": 553648128,
             "name": "PTZ Camera",
             "uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
-            "id": "ffmpeg_source",
-            "versioned_id": "ffmpeg_source",
+            "id": "ndi_source",
+            "versioned_id": "ndi_source",
             "settings": {
-                "is_local_file": false,
-                "input": "rtsp://192.168.111.245:554/1",
-                "input_format": "",
-                "ffmpeg_options": "rtsp_transport=udp fflags=nobuffer",
-                "buffering_mb": 0,
-                "reconnect_delay_sec": 2,
-                "hw_decode": true,
-                "close_when_inactive": false,
-                "restart_on_activate": false,
-                "clear_on_media_end": false
+                "ndi_fix_alpha_blending": false,
+                "ndi_source_name": "UHD CAMERA (NDI HX3, 192.168.111.245)",
+                "ndi_behavior": 0,
+                "web_control_url": "http://192.168.111.245/"
             },
             "mixers": 0,
             "sync": 0,
@@ -3437,6 +3503,186 @@
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
             "private_settings": {}
+        },
+        {
+            "prev_ver": 553648128,
+            "name": "Lower Thirds - Lyrics",
+            "uuid": "c91e4b7a-6d2f-4a83-b5e0-1f8a3c7d9e52",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "custom_size": false,
+                "id_counter": 1,
+                "items": [
+                    {
+                        "name": "Freeshow Lower Thirds - Lyrics",
+                        "source_uuid": "5a7c3e91-2b4d-4f68-9c1a-7e3d8b0f6a24",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648128,
+            "name": "Lower Thirds - Speakers",
+            "uuid": "68b60e8d-ec07-4420-b59e-74c1405b75fd",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "custom_size": false,
+                "id_counter": 1,
+                "items": [
+                    {
+                        "name": "Freeshow Lower Thirds - Speakers",
+                        "source_uuid": "e8f1b242-b327-4261-b938-939cf23601b3",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
         }
     ],
     "groups": [],
@@ -3473,6 +3719,12 @@
         },
         {
             "name": "Sacrament"
+        },
+        {
+            "name": "Lower Thirds - Lyrics"
+        },
+        {
+            "name": "Lower Thirds - Speakers"
         }
     ],
     "current_scene": "Full Room - P3",
@@ -3527,6 +3779,51 @@
             "provider": "mssapi",
             "source": ""
         },
+        "downstream_keyers": [
+            {
+                "name": "Lyrics",
+                "transition": "",
+                "transition_duration": 300,
+                "show_transition": "",
+                "show_transition_duration": 300,
+                "hide_transition": "Fade",
+                "hide_transition_duration": 300,
+                "hide_after": 0,
+                "tie": false,
+                "scenes": [
+                    {
+                        "name": "Lower Thirds - Lyrics"
+                    }
+                ],
+                "scene": "",
+                "null_hotkey": [],
+                "enable_tie_hotkey": [],
+                "disable_tie_hotkey": [],
+                "exclude_scenes": []
+            },
+            {
+                "name": "Speaker Names",
+                "transition": "",
+                "transition_duration": 300,
+                "show_transition": "",
+                "show_transition_duration": 300,
+                "hide_transition": "Fade",
+                "hide_transition_duration": 300,
+                "hide_after": 10000,
+                "tie": false,
+                "scenes": [
+                    {
+                        "name": "Lower Thirds - Speakers"
+                    }
+                ],
+                "scene": "",
+                "null_hotkey": [],
+                "enable_tie_hotkey": [],
+                "disable_tie_hotkey": [],
+                "exclude_scenes": []
+            }
+        ],
+        "downstream_keyers_channel": 7,
         "output-timer": {
             "streamTimerHours": 0,
             "streamTimerMinutes": 0,

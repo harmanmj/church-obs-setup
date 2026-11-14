@@ -1,11 +1,12 @@
 # Ubuntu Script Instructions
 
 # Scene Collection information
-  There are three total Scene collections you can install - single camera, dual camera and stake conference - depending on the number of cameras installed in your building and if you need the additional scenes used for stake conference broadcasts
-  use the code labeled below for the scene collection you want to install
-  The single camera Scene Collection is intended for use in the Alkire and Quail Building
-  The Dual Camera Scene Collection is intended for use in the Independence Building (Stake Center)
-  The Stake Conference Scene Collection is intended for use for meetings where an additional computer will be generating and sending overlay graphics to OBS using NDI. It is based on the Dual Camera Scene Collection. If it is being used in the Alkire or Quail buildings for a meeting ONLY the scenes labeled right will work correctly. Both Stake Conference collections also have a Blackmagic scene for a Blackmagic ATEM Mini connected by USB; after setup, pick the ATEM Mini as the Device on the "ATEM Mini" source in OBS (see configs/stake-conference/README.md)
+  The setup script installs both Scene collections, Alkire and Quail Building - NDI and Independence Building - Hardware, and asks which one OBS should open on by default:
+    1) alkire-quail-building
+    2) independence-building
+  Either one can be opened later from OBS's Scene Collection menu.
+  The Alkire and Quail Building - NDI Scene Collection is intended for use in the Alkire and Quail Buildings. Its camera video comes over NDI. It also has the FreeShow lower thirds (Lower Thirds - Lyrics and Lower Thirds - Speakers, over NDI, with the Lyrics and Speaker Names downstream keyers).
+  The Independence Building - Hardware Scene Collection is intended for use in the Independence Building (Stake Center). The camera video comes into the OBS computer through USB video capture devices: House Left from a Blackmagic ATEM Mini and House Right from a USB HDMI capture device ("USB3.0 Video"). PTZ presets still move the cameras over the network. It also has the stake conference scenes: the FreeShow lower thirds over NDI, the camera Video Overlay and a Blackmagic scene. After setup, plug in both devices, open OBS and pick the Device on the "House Left - ATEM Mini" and "House Right - USB3.0 Video" sources (see configs/independence-building/README.md)
 
 # Downstream Keyer
   `setup-obs-flatpak.sh` installs Downstream Keyer from the Flatpak attached to the newest release of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer) instead of from Flathub. The fork adds the Load On Scene option (a keyer can be set to show only on the program scenes you choose) and Go Live / Go to Preview controls that work with Studio Mode.
@@ -13,27 +14,12 @@
 
 # First Time Ubuntu Install
   1. Open Terminal
-  2. Run one of the following depending on required camera configuration for your building
-* **Single Camera Configuration**
+  2. Run the following, then type 1 or 2 when it asks which scene collection should be the default
     ```terminal
     cd ~
     sudo git clone https://github.com/smitchell7/church-obs-setup.git
     cd ~/church-obs-setup
-    sudo ./setup-obs-flatpak.sh --config=single-camera --pin-dock
-    ```
-* **Dual Camera Configuration**
-    ```terminal
-    cd ~
-    sudo git clone https://github.com/smitchell7/church-obs-setup.git
-    cd ~/church-obs-setup
-    sudo ./setup-obs-flatpak.sh --config=dual-camera --pin-dock
-    ```
-* **Stake Conference Camera Configuration**
-    ```terminal
-    cd ~
-    sudo git clone https://github.com/smitchell7/church-obs-setup.git
-    cd ~/church-obs-setup
-    sudo ./setup-obs-flatpak.sh --config=stake-conference --pin-dock
+    sudo ./setup-obs-flatpak.sh --pin-dock
     ```
 
 # Updating configuration on Existing Installations
@@ -42,61 +28,12 @@
     cd ~/church-obs-setup
     sudo chown -R $USER:$USER ~/church-obs-setup
     ```
-* **Single Camera Configuration**
+* **Update** (type 1 or 2 when it asks which scene collection should be the default)
     ```terminal
     cd ~/church-obs-setup
     git checkout main
     git pull
-    sudo ./setup-obs-flatpak.sh --config=single-camera
-    ```
-* **Dual Camera Configuration**
-    ```terminal
-    cd ~/church-obs-setup
-    git checkout main
-    git pull
-    sudo ./setup-obs-flatpak.sh --config=dual-camera
-    ```
-* **Stake Conference Camera Configuration**
-    ```terminal
-    cd ~/church-obs-setup
-    git checkout main
-    git pull
-    sudo ./setup-obs-flatpak.sh --config=stake-conference
-    ```
-If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
-
-# RTSP Scene Collections
-If the cameras' NDI video does not work, use the RTSP version of your scene collection. It is the same collection, named "... - RTSP" in OBS (the NDI version is "... - NDI"), but the camera video comes from `rtsp://<camera IP>:554/1` instead of NDI. It is installed alongside the NDI version, so you can switch between them in OBS's Scene Collection menu. Close OBS, then run the one for your building:
-* **Single Camera Configuration (RTSP)**
-    ```terminal
-    cd ~/church-obs-setup
-    git checkout main
-    git pull
-    sudo ./setup-obs-flatpak.sh --config=single-camera-rtsp
-    ```
-* **Dual Camera Configuration (RTSP)**
-    ```terminal
-    cd ~/church-obs-setup
-    git checkout main
-    git pull
-    sudo ./setup-obs-flatpak.sh --config=dual-camera-rtsp
-    ```
-* **Stake Conference Camera Configuration (RTSP)**
-    ```terminal
-    cd ~/church-obs-setup
-    git checkout main
-    git pull
-    sudo ./setup-obs-flatpak.sh --config=stake-conference-rtsp
-    ```
-
-# Independence Building - Hardware Scene Collection
-Based on the Stake Conference collection, for the Independence Building where the camera video comes into the OBS computer through USB video capture devices instead of over NDI: House Left from a Blackmagic ATEM Mini and House Right from a USB HDMI capture device ("USB3.0 Video"). It is named "Independence Building - Hardware" in OBS and is installed alongside the other collections. PTZ presets still move the cameras over the network. After setup, plug in both devices, open OBS and pick the Device on the "House Left - ATEM Mini" and "House Right - USB3.0 Video" sources (see configs/independence-building/README.md). Close OBS, then run:
-* **Independence Building - Hardware Configuration**
-    ```terminal
-    cd ~/church-obs-setup
-    git checkout main
-    git pull
-    sudo ./setup-obs-flatpak.sh --config=independence-building
+    sudo ./setup-obs-flatpak.sh
     ```
 
 # Resetting OBS Video Settings

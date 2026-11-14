@@ -64,7 +64,7 @@ unless they say "at the laptop".
    ```powershell
    cd $env:TEMP
    irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
-   powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera
+   powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config alkire-quail-building
    ```
 2. Expect, in order: Git installed; the repo cloned to `C:\church-obs-setup` on its default branch; the script
    continuing from there (`[2/7]` onwards); OBS 33+, NDI Runtime, DistroAV, obs-ptz, ffmpeg installed.
@@ -76,7 +76,7 @@ unless they say "at the laptop".
 
 ### B. Files it should leave
 
-- `%APPDATA%\obs-studio\basic\scenes\single-camera.json`: valid JSON; "USB Audio" is `wasapi_input_capture`
+- `%APPDATA%\obs-studio\basic\scenes\alkire-quail-building.json`: valid JSON; "USB Audio" is `wasapi_input_capture`
   with the chosen `device_id`; "USB Audio" and "Sacrament Music" have `monitoring_type` 2 and
   `monitoring_enabled` true; no `@HOME@` or `@AUDIO_DEVICE@` left.
 - `%APPDATA%\obs-studio\basic\profiles\*\basic.ini`: `[Audio]` has `MonitoringDeviceId` and
@@ -86,7 +86,7 @@ unless they say "at the laptop".
 
 ### C. In OBS (at the laptop, or started over SSH)
 
-1. OBS opens on Single Camera. The scenes are Joystick, Pulpit - P0 ... Choir - P8, Sacrament.
+1. OBS opens on Alkire and Quail Building - NDI. The scenes are Joystick, Pulpit - P0 ... Choir - P8, Sacrament.
 2. Settings > Audio > Advanced > Monitoring Device is "CABLE Input (VB-Audio Virtual Cable)".
 3. Edit > Advanced Audio Properties: "USB Audio" and "Sacrament Music" say "Monitor and Output".
 4. The "USB Audio" source's device is the USB input; the PTZ Controls dock lists the camera.

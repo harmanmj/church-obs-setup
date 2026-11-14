@@ -31,8 +31,8 @@ These are the key objectives:
 ## Install OBS (Flatpak) on a new computer
 
 ```bash
-sudo ./setup-obs-flatpak.sh --config=dual-camera             # new computer or later: install what is missing, refresh the configuration
-sudo ./setup-obs-flatpak.sh --install --config=dual-camera   # also update the software that is already installed
+sudo ./setup-obs-flatpak.sh             # new computer or later: install what is missing, refresh the configuration
+sudo ./setup-obs-flatpak.sh --install   # also update the software that is already installed
 ```
 
 The script can be run again at any time. It first checks that OBS, DistroAV, obs-ptz, the NDI decoder
@@ -40,8 +40,8 @@ libraries and the system tools are installed and installs only what is missing (
 installs nothing), then refreshes the configuration (scenes, audio, Zoom microphone); close OBS first. Your
 previous scene file is saved as `*.bak` whenever it changes.
 
-Options: `--install` (also update what is already installed), `--config=single-camera|dual-camera` or `--no-config`
-(without either it asks in a terminal), `--pin-dock` or `--no-pin-dock` (add OBS to the dock). Environment:
+Options: `--install` (also update what is already installed), `--config=alkire-quail-building|independence-building`
+(the scene collection OBS opens on; without it, it asks in a terminal) or `--no-config` (skip the scene collections), `--pin-dock` or `--no-pin-dock` (add OBS to the dock). Environment:
 `TARGET_USER=name` (default: whoever ran sudo), `AUDIO_DEVICE=name` (force the OBS audio input),
 `PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build), `DSK_REPO=owner/name` (download Downstream Keyer
 from a different GitHub repo's releases), `DSK_BUNDLE=/path/file.flatpak` (install Downstream Keyer from a local
@@ -68,26 +68,26 @@ HX2/HX3 cameras.
   A layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
-- It asks which camera setup to install (the folders in `configs/`), or take `--config=single-camera`,
-  `--config=dual-camera` or `--no-config` up front. Each is an OBS scene collection with the cameras, PTZ
-  presets and the sacrament scene. OBS opens on the one just installed. An existing file is saved as `*.bak`
-  first.
-  - `single-camera`: one NDI camera at 192.168.111.245. Scenes, in preset order, are named with their slot:
+- It installs every scene collection in `configs/` (alkire-quail-building and independence-building), then asks which
+  one OBS opens on by default (1 alkire-quail-building, 2 independence-building), or take `--config=alkire-quail-building` or
+  `--config=independence-building` up front; `--no-config` skips them. Each is an OBS scene collection with the
+  cameras, PTZ presets and the sacrament scene. An existing file is saved as `*.bak` first. Run without a
+  terminal and without `--config`, it installs them and leaves OBS's default collection as it is.
+  - `alkire-quail-building`: one NDI camera at 192.168.111.245. Scenes, in preset order, are named with their slot:
     Joystick, Pulpit - P0, Chorister - P1, Rostrum - P2, Full Room - P3, Piano - P4, Speaker Close-up - P5,
     Piano and Pulpit - P6, Organ - P7, Choir - P8, Sacrament. **Joystick** shows the camera without recalling a
-    preset, so it stays where it is and you can steer it with the PTZ Controls dock.
-  - `dual-camera`: adds a second camera at 192.168.111.246 (245 is "Right", 246 is "Left"), each with its own
-    PTZ device. Every scene above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...),
-    with **Joystick Left** and **Joystick Right** in place of Joystick.
-  - `single-camera-rtsp`, `dual-camera-rtsp` and `stake-conference-rtsp`: the same collections, but the camera
-    video comes over RTSP (`rtsp://<camera IP>:554/1`, over UDP with no buffering for the least delay, which needs a wired network connection) instead of NDI, for cameras whose NDI does not
-    work. They are named "... - RTSP" in OBS (the NDI ones "... - NDI") and are installed alongside them. PTZ control is the same
-    (VISCA over TCP). The FreeShow lower third in Stake Conference - RTSP still comes over NDI.
-  - `independence-building`: the Stake Conference collection with the camera video from USB video capture devices instead
+    preset, so it stays where it is and you can steer it with the PTZ Controls dock. Below Sacrament are
+    **Lower Thirds - Lyrics** and **Lower Thirds - Speakers**, FreeShow lower thirds over NDI (pick the FreeShow
+    output on each "Freeshow Lower Thirds" source in OBS), shown over the program by the **Lyrics** and
+    **Speaker Names** downstream keyers.
+  - `independence-building` ("Independence Building - Hardware" in OBS): two cameras, House Left
+    (PTZ at 192.168.111.246) and House Right (PTZ at 192.168.111.245), each with its own PTZ device. Every scene
+    above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...), with **Joystick Left**
+    and **Joystick Right** in place of Joystick. The camera video comes from USB video capture devices instead
     of NDI: House Left from a Blackmagic ATEM Mini, House Right from a USB HDMI capture device. Pick each
-    source's Device in OBS after setup (see `configs/independence-building/README.md`). PTZ control is the
-    same.
-  - Video comes from the cameras (their own NDI audio is not used). Audio comes from the "USB Audio" source, a
+    source's Device in OBS after setup (see `configs/independence-building/README.md`). It also has the stake
+    conference scenes: FreeShow lower thirds over NDI, a camera Video Overlay and a Blackmagic scene.
+  - Video comes from the cameras (their own audio is not used). Audio comes from the "USB Audio" source, a
     USB input (the Sound Blaster where there is one), in every scene except Sacrament. The installer picks the
     Sound Blaster, else any USB input, else the system default (`AUDIO_DEVICE=name` forces one; at first boot
     there is no desktop session, so it usually falls back to default: set the device on the source in OBS).
@@ -141,7 +141,7 @@ One run installs everything and configures it. From an elevated PowerShell (righ
 administrator), signed in as the person who will use OBS:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera   # or dual-camera
+powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1   # asks: 1 alkire-quail-building, 2 independence-building
 ```
 
 The script can be downloaded on its own and run from anywhere: it installs Git (via `winget`), clones this
@@ -157,8 +157,9 @@ computer always runs the current version. Run it again at any time to update; cl
   VB-CABLE is donationware with its own licence (<https://vb-audio.com/Services/licensing.htm>); its setup
   window opens: click "Install Driver" and accept. It needs a Windows restart: restart, then run the script
   again to finish;
-- installs the scene collection (`-Config`, else it asks; `-NoConfig` skips it; an existing file is saved as
-  `*.bak`) and makes it the one OBS opens on. The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
+- installs every scene collection in `configs\` (an existing file is saved as `*.bak`) and makes the chosen
+  one the one OBS opens on (`-Config alkire-quail-building|independence-building`, else it asks 1 or 2; `-NoConfig`
+  skips the collections). The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
   else (with a warning) another real input, never "NDI Webcam Audio", whose sound is poor; plug the USB
   input in before running it. `-AudioDevice "part of its name"` picks another;
 - points OBS's audio monitoring at "CABLE Input (VB-Audio Virtual Cable)", so the USB input and the

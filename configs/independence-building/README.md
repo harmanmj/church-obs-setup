@@ -13,7 +13,7 @@ The setup scripts don't choose the capture devices. On each computer that uses t
 
 Sound comes from the "USB Audio" source, as in the other collections. The capture devices' own audio is muted.
 
-## Differences from Stake Conference
+## Differences from the old Stake Conference collection
 
 - The camera sources are video capture devices instead of NDI.
 - There is no separate "ATEM Mini" source, because the ATEM Mini is now the House Left camera and two sources can't use the same capture device at once. The **Blackmagic** scene, just after Sacrament and above the Lower Thirds scenes, shows the House Left - ATEM Mini source with sound from "USB Audio".
