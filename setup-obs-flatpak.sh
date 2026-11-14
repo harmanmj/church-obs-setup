@@ -329,7 +329,11 @@ if [ "$CONFIG_CHOICE" != none ]; then
     [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=$(grep '^alsa_input\.' <<<"$SOURCES" | head -1 || true)
     [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=default
   fi
-  echo "Audio input for OBS: $AUDIO_DEVICE (change it on the 'USB Audio' source in OBS if this is wrong)"
+  HW_AUDIO_DEVICE=$AUDIO_DEVICE
+  # OBS records the hum-filtered copy of that microphone (audio/hum-notch.conf) unless NOTCH=0 or there is
+  # no real hardware input to filter.
+  if [ "${NOTCH:-1}" != 0 ] && [ "$AUDIO_DEVICE" != default ]; then AUDIO_DEVICE=hum_notch; fi
+  echo "Audio input for OBS: $AUDIO_DEVICE (hardware: $HW_AUDIO_DEVICE; change it on the 'USB Audio' source in OBS if this is wrong)"
   if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
     echo "WARNING: OBS is running; it will overwrite these changes when it exits. Close OBS and run this again." >&2
   fi
@@ -351,11 +355,17 @@ if [ "$CONFIG_CHOICE" != none ]; then
   # PulseAudio layer is already on Ubuntu; only the pactl tool is added).
   PW_DIR="$TARGET_HOME/.config/pipewire/pipewire.conf.d"
   PWP_DIR="$TARGET_HOME/.config/pipewire/pipewire-pulse.conf.d"
-  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)  # not there on a first run
+  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PW_DIR/hum-notch.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)  # not there on a first run
   as_user mkdir -p "$PW_DIR" "$PWP_DIR"
   as_user cp "$SCRIPT_DIR/audio/obs-to-zoom.conf" "$PW_DIR/obs-to-zoom.conf"
   as_user cp "$SCRIPT_DIR/audio/obs-mic.conf" "$PWP_DIR/obs-mic.conf"
-  PW_AFTER=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" | md5sum)
+  # 60/120/180 Hz hum notch on the hardware microphone (see audio/hum-notch.conf).
+  if [ "$AUDIO_DEVICE" = hum_notch ]; then
+    sed "s|@AUDIO_DEVICE@|$HW_AUDIO_DEVICE|g" "$SCRIPT_DIR/audio/hum-notch.conf" | as_user tee "$PW_DIR/hum-notch.conf" >/dev/null
+  else
+    rm -f "$PW_DIR/hum-notch.conf"
+  fi
+  PW_AFTER=$(cat "$PW_DIR/obs-to-zoom.conf" "$PW_DIR/hum-notch.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-monitor.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # Video, on a first setup only, and skip OBS's Auto-Configuration Wizard.
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-video.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" --if-first-setup
