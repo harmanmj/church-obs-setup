@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # Install OBS Studio (Flatpak) with the plugins this setup needs:
 #   - DistroAV (NDI) from Flathub, plus the FFmpeg libraries NDI needs to decode HX2/HX3 cameras
-#   - Downstream Keyer (overlay scenes kept on top of every scene) from Flathub
+#   - Downstream Keyer (overlay scenes kept on top of every scene) as a Flatpak extension, downloaded from
+#     the newest release (pre-releases included) of https://github.com/harmanmj/obs-downstream-keyer,
+#     or from Flathub when that fork has no Flatpak published
 #   - obs-ptz (PTZ Controls) as a Flatpak extension, from the bundle in vendor/
 #     (built by https://github.com/smitchell7/obs-ptz, release v0.0.1-pre1)
 #
@@ -17,12 +19,15 @@
 #                               (without either, it asks when run in a terminal)
 # The user to configure is whoever ran sudo; override with TARGET_USER=name.
 # PTZ_BUNDLE=/path/to/file.flatpak uses a different obs-ptz bundle than vendor/.
+# DSK_REPO=owner/name downloads Downstream Keyer from a different GitHub repo's releases.
+# DSK_BUNDLE=/path/to/file.flatpak installs Downstream Keyer from a local file instead of downloading it.
 set -euo pipefail
 
 OBS_ID=com.obsproject.Studio
 DSK_ID=$OBS_ID.Plugin.DownstreamKeyer
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 PTZ_ASSET='obs-ptz-*-flatpak-x86_64.flatpak'
+DSK_ASSET='obs-downstream-keyer-*-flatpak-x86_64.flatpak'
 # NDI's libndi loads FFmpeg 7.1 builds named libavcodec-ndi.so.61 / libavutil-ndi.so.59.
 # The DistroAV extension does not ship them, so HX sources show black video with
 # "NDI video decoder not found". We borrow stock FFmpeg 7.1 from the 25.08 runtime.
@@ -60,6 +65,44 @@ as_user() { sudo -u "$TARGET_USER" -H "$@"; }
 
 NDI_LIBS="$TARGET_HOME/.var/app/$OBS_ID/data/ndi-libs"
 PTZ_STAMP=/var/lib/church-obs-ptz-bundle.sha256
+DSK_STAMP=/var/lib/church-obs-dsk-bundle.sha256
+# Downstream Keyer comes from the Flatpak attached to the newest release (pre-releases included) of DSK_REPO,
+# a fork with features Flathub's lacks. DSK_BUNDLE=/path/to/file.flatpak uses a local file instead.
+DSK_REPO="${DSK_REPO:-harmanmj/obs-downstream-keyer}"
+DSK_BUNDLE="${DSK_BUNDLE:-}"
+# DSK_SOURCE is one of: file (DSK_BUNDLE was given), release (downloaded from DSK_REPO), flathub (DSK_REPO has
+# no Flatpak published), unknown (GitHub could not be reached, or curl is not installed yet)
+DSK_SOURCE=unknown DSK_SUM= DSK_NAME=
+DSK_TMP=$(mktemp -d)
+trap 'rm -rf "$DSK_TMP"' EXIT
+dsk_lookup() {
+  if [ -n "$DSK_BUNDLE" ]; then
+    [ -f "$DSK_BUNDLE" ] || { echo "No Downstream Keyer bundle at $DSK_BUNDLE" >&2; exit 1; }
+    DSK_SOURCE=file DSK_NAME=$(basename "$DSK_BUNDLE")
+  else
+    command -v curl >/dev/null || return 0
+    local json url
+    json=$(curl -fsSL --max-time 30 -H 'Accept: application/vnd.github+json' \
+      "https://api.github.com/repos/$DSK_REPO/releases?per_page=30") || return 0
+    # Releases come newest first; take the first one with a matching Flatpak attached.
+    url=$(printf '%s' "$json" | python3 -I -c '
+import fnmatch, json, sys
+for r in json.load(sys.stdin):
+    if r.get("draft"):
+        continue
+    for a in r.get("assets", []):
+        if fnmatch.fnmatch(a["name"], sys.argv[1]):
+            print(a["browser_download_url"])
+            sys.exit()
+' "$DSK_ASSET") || return 0
+    if [ -z "$url" ]; then DSK_SOURCE=flathub; return 0; fi
+    DSK_NAME=${url##*/}
+    curl -fsSL --max-time 300 -o "$DSK_TMP/$DSK_NAME" "$url" || return 0
+    DSK_SOURCE=release DSK_BUNDLE="$DSK_TMP/$DSK_NAME"
+  fi
+  DSK_SUM=$(sha256sum "$DSK_BUNDLE" | cut -d' ' -f1)
+}
+dsk_lookup
 
 # What is missing? Each piece is installed when it is missing; --install also updates what is there.
 NEED_APT=0 NEED_OBS=0 NEED_DISTROAV=0 NEED_DSK=0 NEED_PTZ=0 NEED_NDI=0
@@ -69,7 +112,17 @@ modinfo v4l2loopback >/dev/null 2>&1 || NEED_APT=1   # OBS Virtual Camera
 if command -v flatpak >/dev/null; then
   flatpak info --system "$OBS_ID" >/dev/null 2>&1 || NEED_OBS=1
   flatpak info --system "$OBS_ID.Plugin.DistroAV" >/dev/null 2>&1 || NEED_DISTROAV=1
-  flatpak info --system "$DSK_ID" >/dev/null 2>&1 || NEED_DSK=1
+  if ! flatpak info --system "$DSK_ID" >/dev/null 2>&1; then
+    NEED_DSK=1
+  else
+    case "$DSK_SOURCE" in
+      # Installed, but not from this Flatpak (from Flathub, or an older release)
+      file|release) [ "$(cat "$DSK_STAMP" 2>/dev/null || true)" = "$DSK_SUM" ] || NEED_DSK=1 ;;
+      # The fork has no Flatpak published: a copy installed from one is replaced by Flathub's
+      flathub) [ "$(flatpak info --system --show-origin "$DSK_ID" 2>/dev/null || true)" = flathub ] || NEED_DSK=1 ;;
+      # GitHub could not be reached: keep what is installed
+    esac
+  fi
   flatpak list --system --columns=application 2>/dev/null | grep -qi 'ptz' || NEED_PTZ=1
   flatpak info --system "org.freedesktop.Platform//$FFMPEG_RUNTIME_BRANCH" >/dev/null 2>&1 || NEED_NDI=1
   flatpak info --system "org.freedesktop.Platform.codecs-extra//$CODECS_BRANCH" >/dev/null 2>&1 || NEED_NDI=1
@@ -86,7 +139,16 @@ status() { if [ "$2" = 1 ]; then echo "  $1: MISSING"; else echo "  $1: installe
 status "system tools (flatpak, curl, pactl, ffmpeg, python3-pil, v4l2loopback)" "$NEED_APT"
 status "OBS Studio" "$NEED_OBS"
 status "DistroAV (NDI)" "$NEED_DISTROAV"
-status "Downstream Keyer" "$NEED_DSK"
+if [ "$DSK_SOURCE" = unknown ]; then
+  echo "  (could not reach GitHub to check for Downstream Keyer releases in $DSK_REPO)"
+fi
+if [ "$NEED_DSK" = 1 ] && flatpak info --system "$DSK_ID" >/dev/null 2>&1; then
+  if [ "$DSK_SOURCE" = flathub ]; then
+    echo "  Downstream Keyer: installed from a bundle, but $DSK_REPO has no Flatpak release (will replace it with Flathub's)"
+  else echo "  Downstream Keyer: installed, but not $DSK_NAME (will replace it)"; fi
+else
+  status "Downstream Keyer" "$NEED_DSK"
+fi
 status "obs-ptz (PTZ Controls)" "$NEED_PTZ"
 status "NDI HX decoder libraries" "$NEED_NDI"
 if [ "$INSTALL" = yes ]; then echo "  --install given: installing and updating everything"; fi
@@ -110,9 +172,38 @@ if want "$NEED_DISTROAV"; then
   flatpak install --system -y --or-update flathub "$OBS_ID.Plugin.DistroAV"
 fi
 if want "$NEED_DSK"; then
-  echo "==> [2/6] Installing Downstream Keyer"
   # Adds the Downstream Keyer dock (Docks menu in OBS): scenes added there stay on top of every scene.
-  flatpak install --system -y --or-update flathub "$DSK_ID"
+  # On a new computer curl was only just installed, so look again.
+  if [ "$DSK_SOURCE" = unknown ]; then dsk_lookup; fi
+  if [ "$DSK_SOURCE" = unknown ] && flatpak info --system "$DSK_ID" >/dev/null 2>&1; then
+    echo "==> [2/6] Could not reach GitHub; keeping the Downstream Keyer that is installed"
+  elif [ "$DSK_SOURCE" = file ] || [ "$DSK_SOURCE" = release ]; then
+    echo "==> [2/6] Installing Downstream Keyer from $DSK_NAME"
+    if flatpak info --system "$DSK_ID" >/dev/null 2>&1 &&
+       [ "$(cat "$DSK_STAMP" 2>/dev/null || true)" = "$DSK_SUM" ]; then
+      echo "Downstream Keyer is already installed from this Flatpak."
+    else
+      # Remove a copy from Flathub or from an older bundle first: --reinstall would keep its remote, and
+      # Flathub refuses the unsigned bundle ("GPG verification enabled, but no signatures found").
+      if flatpak info --system "$DSK_ID" >/dev/null 2>&1; then
+        flatpak uninstall --system -y "$DSK_ID"
+      fi
+      flatpak install --system -y --bundle "$DSK_BUNDLE"
+      echo "$DSK_SUM" > "$DSK_STAMP"
+    fi
+  else
+    if [ "$DSK_SOURCE" = unknown ]; then
+      echo "Could not download Downstream Keyer from $DSK_REPO; installing Flathub's for now (the next run replaces it)." >&2
+    fi
+    echo "==> [2/6] Installing Downstream Keyer from Flathub"
+    if flatpak info --system "$DSK_ID" >/dev/null 2>&1 &&
+       [ "$(flatpak info --system --show-origin "$DSK_ID")" != flathub ]; then
+      flatpak install --system -y --reinstall flathub "$DSK_ID"   # replaces a copy from a bundle
+      rm -f "$DSK_STAMP"
+    else
+      flatpak install --system -y --or-update flathub "$DSK_ID"
+    fi
+  fi
 fi
 
 if flatpak info --system "$OBS_ID" >/dev/null 2>&1; then

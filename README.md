@@ -43,7 +43,9 @@ previous scene file is saved as `*.bak` whenever it changes.
 Options: `--install` (also update what is already installed), `--config=single-camera|dual-camera` or `--no-config`
 (without either it asks in a terminal), `--pin-dock` or `--no-pin-dock` (add OBS to the dock). Environment:
 `TARGET_USER=name` (default: whoever ran sudo), `AUDIO_DEVICE=name` (force the OBS audio input),
-`PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build).
+`PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build), `DSK_REPO=owner/name` (download Downstream Keyer
+from a different GitHub repo's releases), `DSK_BUNDLE=/path/file.flatpak` (install Downstream Keyer from a local
+file instead).
 
 `--install` installs OBS Studio, DistroAV (NDI) and the obs-ptz PTZ Controls extension system-wide,
 lets OBS reach the local network, and installs the FFmpeg libraries that NDI needs to decode
@@ -52,6 +54,14 @@ HX2/HX3 cameras.
 - The obs-ptz Flatpak bundle is in `vendor/` (built from <https://github.com/smitchell7/obs-ptz>,
   a fork of <https://github.com/glikely/obs-ptz>, GPL-2.0; the source is in that repo). To use a
   different build, run `sudo PTZ_BUNDLE=/path/to/file.flatpak ./setup-obs-flatpak.sh`.
+- Downstream Keyer is downloaded on each run from the newest release (pre-releases included) of
+  <https://github.com/harmanmj/obs-downstream-keyer>, a fork of <https://github.com/exeldro/obs-downstream-keyer>
+  (GPL-2.0), whose releases each attach `obs-downstream-keyer-<version>-flatpak-x86_64.flatpak`. It adds Load On
+  Scene, which shows a keyer only on the program scenes you choose, and Go Live / Go to Preview controls that work
+  with Studio Mode. A computer that has Flathub's Downstream Keyer, or an older release, is switched to the newest
+  release on the next run; publishing a new release on the fork is all it takes to update. If the fork has no
+  Flatpak published, Flathub's is used. If GitHub can't be reached, the installed copy is kept (or, if there is
+  none, Flathub's is installed until the next run).
 - On a first setup it sets OBS's video to a 1920x1080 canvas and output at 30 fps, with recording quality "Same as
   stream", and skips its Auto-Configuration Wizard (`tools/set-obs-video.py` sets the video again).
 - It installs the OBS window layout in `configs/obs-layout.ini`, with the PTZ Controls dock in the bottom row.
@@ -135,7 +145,9 @@ repo to `C:\church-obs-setup` (or updates it there with `git pull`), and carries
 computer always runs the current version. Run it again at any time to update; close OBS first. It then:
 
 - installs OBS Studio 33+ and the NDI Runtime (`winget`), and the latest DistroAV, Downstream Keyer
-  (`exeldro/obs-downstream-keyer`) and obs-ptz releases from GitHub (obs-ptz is upstream `glikely/obs-ptz`, whose 1.0 betas use the same preset format as these configs;
+  and obs-ptz releases from GitHub (Downstream Keyer is the fork `harmanmj/obs-downstream-keyer`, which adds Load
+  On Scene, pre-releases included; `exeldro/obs-downstream-keyer` when the fork has none published, or always with
+  `-DskRepo exeldro/obs-downstream-keyer`) (obs-ptz is upstream `glikely/obs-ptz`, whose 1.0 betas use the same preset format as these configs;
   `-PtzInstaller C:\path\...-Installer.exe` uses another build);
 - installs ffmpeg (`winget`, for the playlist) and **VB-Audio Virtual Cable**, the virtual microphone for Zoom.
   VB-CABLE is donationware with its own licence (<https://vb-audio.com/Services/licensing.htm>); its setup

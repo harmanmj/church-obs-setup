@@ -8,7 +8,9 @@
      already there. The rest of the run uses that checkout, so the computer always runs the current version.
   2. OBS Studio 33+ (via winget)
   3. NDI Runtime 6.3+ (via winget); on Windows it already decodes HX2/HX3 cameras
-  4. DistroAV (NDI), Downstream Keyer and obs-ptz (PTZ Controls), latest releases from GitHub
+  4. DistroAV (NDI), Downstream Keyer and obs-ptz (PTZ Controls), latest releases from GitHub. Downstream Keyer
+     comes from the fork https://github.com/harmanmj/obs-downstream-keyer (adds Load On Scene), or from
+     exeldro/obs-downstream-keyer when the fork has no release published
   5. ffmpeg (via winget) and VB-Audio Virtual Cable, the virtual microphone Zoom listens to
   6. OBS configuration: the scene collection from configs\<name>\, set active, with the USB input picked, OBS's audio
      monitoring sent to the virtual cable, the window layout with PTZ Controls docked, and a firewall rule
@@ -25,6 +27,8 @@
                         Default: the Sound Blaster, else any USB input, else the first other input that is
                         not NDI Webcam Audio or the virtual cable.
 .PARAMETER PtzInstaller Use this obs-ptz installer .exe instead of the latest glikely/obs-ptz release.
+.PARAMETER DskRepo      The GitHub repo to install Downstream Keyer from. Default: harmanmj/obs-downstream-keyer;
+                        exeldro/obs-downstream-keyer goes back to the original.
 .PARAMETER RepoUrl      Where to clone this repo from.
 .PARAMETER Branch       Which branch of the repo to use. Default: the repo's default branch on GitHub.
 .PARAMETER RepoDir      Where the checkout lives.
@@ -34,6 +38,7 @@ param(
     [switch]$NoConfig,
     [string]$AudioDevice,
     [string]$PtzInstaller,
+    [string]$DskRepo = 'harmanmj/obs-downstream-keyer',
     [string]$RepoUrl = 'https://github.com/smitchell7/church-obs-setup.git',
     [string]$Branch,
     [string]$RepoDir = (Join-Path $env:SystemDrive 'church-obs-setup'),
@@ -118,7 +123,7 @@ if (-not $FromCheckout) {
 
     # Carry on with the checkout's copy of this script, so the run always matches the repo it configures from.
     $again = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', (Join-Path $RepoDir 'setup-obs-windows.ps1'), '-FromCheckout')
-    foreach ($p in 'Config', 'AudioDevice', 'PtzInstaller') {
+    foreach ($p in 'Config', 'AudioDevice', 'PtzInstaller', 'DskRepo') {
         $v = Get-Variable $p -ValueOnly
         if ($v) { $again += @("-$p", $v) }
     }
@@ -196,7 +201,8 @@ function Install-Exe($file) {
     if ($p.ExitCode -ne 0) { Fail "$file failed (exit $($p.ExitCode))." }
 }
 
-function Install-FromGitHub($repo, $pattern, $label, [switch]$IncludePrerelease) {
+# Returns $false instead of failing when -NoFail is given and the repo has no matching installer.
+function Install-FromGitHub($repo, $pattern, $label, [switch]$IncludePrerelease, [switch]$NoFail) {
     $headers = @{ 'User-Agent' = 'church-obs-setup' }
     if ($IncludePrerelease) {
         $releases = Invoke-RestMethod "https://api.github.com/repos/$repo/releases" -Headers $headers
@@ -211,22 +217,29 @@ function Install-FromGitHub($repo, $pattern, $label, [switch]$IncludePrerelease)
             $file = Join-Path $env:TEMP $asset.name
             Invoke-WebRequest $asset.browser_download_url -OutFile $file -UseBasicParsing
             Install-Exe $file
-            return
+            return $true
         }
     }
+    if ($NoFail) { return $false }
     Fail "No $label Windows installer found in $repo releases."
 }
 
 Step '[4/7] DistroAV (NDI), Downstream Keyer and obs-ptz (PTZ Controls)'
-Install-FromGitHub 'DistroAV/DistroAV' 'distroav-*-windows-x64-Installer.exe' 'DistroAV'
-Install-FromGitHub 'exeldro/obs-downstream-keyer' 'downstream-keyer-*-windows-installer.exe' 'Downstream Keyer'
+$null = Install-FromGitHub 'DistroAV/DistroAV' 'distroav-*-windows-x64-Installer.exe' 'DistroAV'
+# Downstream Keyer from $DskRepo, the fork that adds Load On Scene; its releases are betas so far. Matches both
+# exeldro's downstream-keyer-X-windows-installer.exe and the fork's downstream-keyer-X-windows-x64-Installer.exe.
+$dskPattern = 'downstream-keyer-*-windows*installer.exe'
+if (-not (Install-FromGitHub $DskRepo $dskPattern 'Downstream Keyer' -IncludePrerelease -NoFail)) {
+    Write-Warning "No Downstream Keyer installer is published in $DskRepo; installing exeldro's release instead."
+    $null = Install-FromGitHub 'exeldro/obs-downstream-keyer' $dskPattern 'Downstream Keyer'
+}
 if ($PtzInstaller) {
     if (-not (Test-Path $PtzInstaller)) { Fail "No such file: $PtzInstaller" }
     Install-Exe $PtzInstaller
 } else {
     # Upstream only publishes pre-releases (1.0 betas) so far; take the newest. It uses the same preset
     # format (camera:N, device_uuid) as the configs here.
-    Install-FromGitHub 'glikely/obs-ptz' 'obs-ptz-*-windows-x64-Installer.exe' 'obs-ptz' -IncludePrerelease
+    $null = Install-FromGitHub 'glikely/obs-ptz' 'obs-ptz-*-windows-x64-Installer.exe' 'obs-ptz' -IncludePrerelease
 }
 
 # ---- 5. Audio tools: ffmpeg and the virtual cable ------------------------------
