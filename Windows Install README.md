@@ -1,12 +1,12 @@
 # Windows Script Instructions
 
 # Scene Collection information
-  There are three total Scene collections you can install - single camera, dual camera and stake conference - depending on the number of cameras installed in your building and if you need the additional scenes used for stake conference broadcasts
-  use the code labeled below for the scene collection you want to install
-  The single camera Scene Collection is intended for use in the Alkire and Quail Building
-  The Dual Camera Scene Collection is intended for use in the Independence Building (Stake Center)
-  The Stake Conference Scene Collection is intended for use for meetings where an additional computer will be generating and sending overlay graphics to OBS using NDI. It is based on the Dual Camera Scene Collection. If it is being used in the Alkire or Quail buildings for a meeting ONLY the scenes labeled right will work correctly. Both Stake Conference collections also have a Blackmagic scene for a Blackmagic ATEM Mini connected by USB; after setup, pick the ATEM Mini as the Device on the "ATEM Mini" source in OBS (see configs/stake-conference/README.md)
-
+  The setup script installs both Scene collections, Alkire and Quail - NDI and Independence Building - Hardware, and asks which one OBS should open on by default:
+    1) alkire-and-quail
+    2) independence-building
+  Either one can be opened later from OBS's Scene Collection menu.
+  The Alkire and Quail - NDI Scene Collection is intended for use in the Alkire and Quail Buildings. Its camera video comes over NDI. It also has the FreeShow lower thirds (Lower Thirds - Lyrics and Lower Thirds - Speakers, over NDI, with the Lyrics and Speaker Names downstream keyers).
+  The Independence Building - Hardware Scene Collection is intended for use in the Independence Building (Stake Center). The camera video comes into the OBS computer through USB video capture devices: House Left from a Blackmagic ATEM Mini and House Right from a USB HDMI capture device ("USB3.0 Video"). PTZ presets still move the cameras over the network. It also has the stake conference scenes: the FreeShow lower thirds over NDI, the camera Video Overlay and a Blackmagic scene. After setup, plug in both devices, open OBS and pick the Device on the "House Left - ATEM Mini" and "House Right - USB3.0 Video" sources (see configs/independence-building/README.md)
 
 # Downstream Keyer
 The setup script installs Downstream Keyer from the newest release of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer), which adds the Load On Scene option: a keyer can be set to show only on the program scenes you choose. If the fork has no release published, it installs exeldro's release (https://github.com/exeldro/obs-downstream-keyer) instead. Each time the setup script runs, it installs the newest release over the one already there.
@@ -14,60 +14,18 @@ The setup script installs Downstream Keyer from the newest release of a fork on 
 
 # First Time Windows Install
   1. Open **PowerShell as administrator** (Start, type `powershell`, right-click > Run as administrator)
-  2. Run one of the following depending on required camera configuration for your building
-* **Single Camera Configuration**
+  2. Run the following, then type 1 or 2 when it asks which scene collection should be the default
     ```powershell
     cd $env:TEMP
     irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera
-    ```
-* **Dual Camera Configuration**
-    ```powershell
-    cd $env:TEMP
-    irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config dual-camera
-    ```
-* **Stake Conference Camera Configuration**
-    ```powershell
-    cd $env:TEMP
-    irm https://raw.githubusercontent.com/smitchell7/church-obs-setup/HEAD/setup-obs-windows.ps1 -OutFile setup-obs-windows.ps1
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config stake-conference
+    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1
     ```
 
 # Updating configuration on Existing Installations
-* **Single Camera Configuration**
+* **Update** (type 1 or 2 when it asks which scene collection should be the default)
     ```powershell
     cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera
-    ```
-* **Dual Camera Configuration**
-    ```powershell
-    cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config dual-camera
-    ```
-* **Stake Conference Camera Configuration**
-    ```powershell
-    cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config stake-conference
-    ```
-If you need to add one of the scene collections you do not currently have, run the update script for the scene collection you want to add to your computer
-
-# RTSP Scene Collections
-If the cameras' NDI video does not work, use the RTSP version of your scene collection. It is the same collection, named "... - RTSP" in OBS (the NDI version is "... - NDI"), but the camera video comes from `rtsp://<camera IP>:554/1` instead of NDI. It is installed alongside the NDI version, so you can switch between them in OBS's Scene Collection menu. Close OBS, then run the one for your building in **PowerShell as administrator**:
-* **Single Camera Configuration (RTSP)**
-    ```powershell
-    cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config single-camera-rtsp
-    ```
-* **Dual Camera Configuration (RTSP)**
-    ```powershell
-    cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config dual-camera-rtsp
-    ```
-* **Stake Conference Camera Configuration (RTSP)**
-    ```powershell
-    cd c:\church-obs-setup
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 -Config stake-conference-rtsp
+    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1
     ```
 
 # Resetting OBS Video Settings

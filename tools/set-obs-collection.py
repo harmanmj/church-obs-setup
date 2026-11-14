@@ -2,7 +2,7 @@
 """Make an installed scene collection the one OBS opens with.
 
 Usage: set-obs-collection.py OBS_CONFIG_DIR COLLECTION.json
-       (e.g. ~/.var/app/com.obsproject.Studio/config/obs-studio configs/single-camera/single-camera.json)
+       (e.g. ~/.var/app/com.obsproject.Studio/config/obs-studio configs/alkire-and-quail/alkire-and-quail.json)
 """
 import configparser
 import json

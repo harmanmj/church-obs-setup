@@ -12,17 +12,18 @@
      comes from the fork https://github.com/harmanmj/obs-downstream-keyer (adds Load On Scene), or from
      exeldro/obs-downstream-keyer when the fork has no release published
   5. ffmpeg (via winget) and VB-Audio Virtual Cable, the virtual microphone Zoom listens to
-  6. OBS configuration: the scene collection from configs\<name>\, set active, with the USB input picked, OBS's audio
+  6. OBS configuration: every scene collection in configs\, with the chosen one set as the default, with the USB input picked, OBS's audio
      monitoring sent to the virtual cable, the window layout with PTZ Controls docked, and a firewall rule
      for NDI
   7. The sacrament graphic and the sacrament music playlist in Documents\sacrament
 
   Run from an elevated PowerShell (right-click, Run as administrator), as the person who uses OBS:
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 [-Config single-camera|dual-camera | -NoConfig]
+    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 [-Config alkire-and-quail|independence-building | -NoConfig]
   The script can be run again at any time; it installs only what is missing and refreshes the configuration.
 
-.PARAMETER Config       Install the OBS scenes and camera setup in configs\<name> (asks if omitted).
-.PARAMETER NoConfig     Skip the OBS scene collection.
+.PARAMETER Config       Every scene collection in configs\ is installed; this is the one OBS opens on by
+                        default: alkire-and-quail or independence-building (asks if omitted).
+.PARAMETER NoConfig     Skip the OBS scene collections.
 .PARAMETER AudioDevice  The microphone input for OBS: part of its name as Windows shows it, or its endpoint id.
                         Default: the Sound Blaster, else any USB input, else the first other input that is
                         not NDI Webcam Audio or the virtual cable.
@@ -315,21 +316,28 @@ if (-not (Get-NetFirewallRule -DisplayName 'OBS Studio (church setup)' -ErrorAct
 }
 
 $configRoot = Join-Path $ScriptDir 'configs'
-$configs = @()
-if (Test-Path $configRoot) { $configs = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name) }
+$found = @()
+if (Test-Path $configRoot) { $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name) }
+# Menu order: alkire-and-quail first, then independence-building, then anything else.
+$configs = @(@('alkire-and-quail', 'independence-building') | Where-Object { $found -contains $_ }) +
+           @($found | Where-Object { @('alkire-and-quail', 'independence-building') -notcontains $_ })
+# Every scene collection in configs\ is installed; $Config is the one OBS opens on. $InstallCollections is
+# false only with -NoConfig (or nothing to install); $Config empty otherwise means "leave the default as it is".
+$InstallCollections = -not $NoConfig -and $configs.Count -gt 0
 if ($NoConfig) {
     $Config = $null
-} elseif (-not $Config) {
-    if ($configs.Count -eq 0 -or -not [Environment]::UserInteractive) {
-        Write-Host '    No -Config given and nothing to ask; skipping the OBS scene collection.'
+} elseif ($Config) {
+    if ($configs -notcontains $Config) { Fail "No such configuration: $Config (have: $($configs -join ', '))" }
+} elseif ($InstallCollections) {
+    if (-not [Environment]::UserInteractive) {
+        Write-Host '    No -Config given and nothing to ask; installing the scene collections without changing which one OBS opens on.'
     } else {
-        Write-Host 'Which camera setup should be installed?'
+        Write-Host 'All the scene collections are installed. Which one should OBS open on by default?'
         for ($i = 0; $i -lt $configs.Count; $i++) { Write-Host "  $($i + 1)) $($configs[$i])" }
-        Write-Host "  $($configs.Count + 1)) none (set OBS up by hand)"
         do {
             $n = Read-Host 'Number'
-        } until ($n -match '^\d+$' -and [int]$n -ge 1 -and [int]$n -le $configs.Count + 1)
-        if ([int]$n -le $configs.Count) { $Config = $configs[[int]$n - 1] }
+        } until ($n -match '^\d+$' -and [int]$n -ge 1 -and [int]$n -le $configs.Count)
+        $Config = $configs[[int]$n - 1]
     }
 }
 
@@ -339,10 +347,7 @@ $MusicDir = Join-Path $docs 'sacrament'
 New-Item -ItemType Directory -Force $MusicDir | Out-Null
 $utf8 = New-Object System.Text.UTF8Encoding $false
 
-if ($Config) {
-    $src = Join-Path $configRoot $Config
-    if (-not (Test-Path $src)) { Fail "No such configuration: $Config (have: $($configs -join ', '))" }
-
+if ($InstallCollections) {
     # The microphone: the "USB Audio" source is a PulseAudio input in the repo; on Windows it is a WASAPI input.
     $inputs = @(Get-AudioEndpoints 'Capture' | Where-Object { $_.Description -notlike 'CABLE Output*' })
     $pick = $null
@@ -368,7 +373,7 @@ if ($Config) {
     New-Item -ItemType Directory -Force $scenes | Out-Null
     # OBS accepts forward slashes in paths, and they need no JSON escaping
     $sacramentFwd = $MusicDir -replace '\\', '/'
-    foreach ($f in Get-ChildItem $src -Filter *.json) {
+    foreach ($f in $configs | ForEach-Object { Get-ChildItem (Join-Path $configRoot $_) -Filter *.json }) {
         $dest = Join-Path $scenes $f.Name
         if (Test-Path $dest) { Copy-Item $dest "$dest.$(Get-Date -Format yyyyMMdd-HHmmss).bak" }
         $text = [IO.File]::ReadAllText($f.FullName, [Text.Encoding]::UTF8)
@@ -382,7 +387,7 @@ if ($Config) {
         $text = $text.Replace('@AUDIO_DEVICE@', $deviceId)
         [IO.File]::WriteAllText($dest, $text, $utf8)
     }
-    Write-Host "    Installed the '$Config' scene collection."
+    Write-Host "    Installed the scene collections: $($configs -join ', ')."
 }
 
 # Zoom audio: OBS monitors "USB Audio" and "Sacrament Music" (Monitor and Output, set in the configs) into the
@@ -438,9 +443,9 @@ Set-IniValues (Join-Path $ObsDir 'user.ini') 'BasicWindow' @{ PreviewProgramMode
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-docks.ps1') -ObsDir $ObsDir
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see tools\set-obs-docks.ps1' }
 
-# Open OBS on the installed scene collection.
-if ($Config) {
-    $collection = Get-ChildItem $src -Filter *.json | Select-Object -First 1
+# Open OBS on the chosen default scene collection.
+if ($InstallCollections -and $Config) {
+    $collection = Get-ChildItem (Join-Path $configRoot $Config) -Filter *.json | Select-Object -First 1
     $name = ([IO.File]::ReadAllText($collection.FullName, [Text.Encoding]::UTF8) | ConvertFrom-Json).name
     Set-IniValues (Join-Path $ObsDir 'user.ini') 'Basic' @{ SceneCollection = $name; SceneCollectionFile = $collection.Name }
     Write-Host "    OBS will open with the '$name' scene collection."

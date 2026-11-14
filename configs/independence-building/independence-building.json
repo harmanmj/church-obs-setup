@@ -1,5 +1,5 @@
 {
-    "name": "Stake Conference - NDI",
+    "name": "Independence Building - Hardware",
     "sources": [
 {
             "prev_ver": 553648128,
@@ -269,8 +269,8 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "ATEM Mini",
-            "uuid": "3b8f1c2e-9d47-4a6b-8e15-c27a0f94d6b3",
+            "name": "House Left - ATEM Mini",
+            "uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
             "id": "v4l2_input",
             "versioned_id": "v4l2_input",
             "settings": {
@@ -305,52 +305,14 @@
         },
         {
             "prev_ver": 553648128,
-            "name": "PTZ Camera - House Left",
-            "uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
-            "id": "ndi_source",
-            "versioned_id": "ndi_source",
-            "settings": {
-                "ndi_fix_alpha_blending": false,
-                "ndi_source_name": "UHD CAMERA (NDI HX3, 192.168.111.246)",
-                "ndi_behavior": 0,
-                "web_control_url": "http://192.168.111.246/"
-            },
-            "mixers": 0,
-            "sync": 0,
-            "flags": 0,
-            "volume": 1.0,
-            "balance": 0.5,
-            "enabled": true,
-            "muted": false,
-            "push-to-mute": false,
-            "push-to-mute-delay": 0,
-            "push-to-talk": false,
-            "push-to-talk-delay": 0,
-            "hotkeys": {
-                "libobs.mute": [],
-                "libobs.unmute": [],
-                "libobs.monitor-on": [],
-                "libobs.monitor-off": [],
-                "libobs.push-to-mute": [],
-                "libobs.push-to-talk": []
-            },
-            "deinterlace_mode": 0,
-            "deinterlace_field_order": 0,
-            "monitoring_type": 0,
-            "monitoring_enabled": false,
-            "private_settings": {}
-        },
-        {
-            "prev_ver": 553648128,
-            "name": "PTZ Camera - House Right",
+            "name": "House Right - USB3.0 Video",
             "uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
-            "id": "ndi_source",
-            "versioned_id": "ndi_source",
+            "id": "v4l2_input",
+            "versioned_id": "v4l2_input",
             "settings": {
-                "ndi_fix_alpha_blending": false,
-                "ndi_source_name": "UHD CAMERA (NDI HX3, 192.168.111.245)",
-                "ndi_behavior": 0,
-                "web_control_url": "http://192.168.111.245/"
+                "device_id": "",
+                "video_device_id": "",
+                "res_type": 0
             },
             "mixers": 0,
             "sync": 0,
@@ -358,7 +320,7 @@
             "volume": 1.0,
             "balance": 0.5,
             "enabled": true,
-            "muted": false,
+            "muted": true,
             "push-to-mute": false,
             "push-to-mute-delay": 0,
             "push-to-talk": false,
@@ -467,8 +429,8 @@
                         "visca_zoom_speed_max": 7,
                         "visca_focus_speed_max": 7,
                         "protocol_trace": false,
-                        "power_on_at_startup": true,
-                        "power_off_at_shutdown": true,
+                        "power_on_at_startup": false,
+                        "power_off_at_shutdown": false,
                         "preset_order": [
                             {
                                 "id": "camera:0"
@@ -614,8 +576,8 @@
                         "visca_zoom_speed_max": 7,
                         "visca_focus_speed_max": 7,
                         "protocol_trace": false,
-                        "power_on_at_startup": true,
-                        "power_off_at_shutdown": true,
+                        "power_on_at_startup": false,
+                        "power_off_at_shutdown": false,
                         "preset_order": [
                             {
                                 "id": "camera:0"
@@ -1204,7 +1166,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1463,7 +1425,7 @@
                 "id_counter": 5,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1724,7 +1686,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -1983,7 +1945,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2242,7 +2204,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2501,7 +2463,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -2760,7 +2722,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -3019,7 +2981,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -3278,7 +3240,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -3537,7 +3499,7 @@
                 "id_counter": 5,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -3798,7 +3760,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4057,7 +4019,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4316,7 +4278,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4575,7 +4537,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -4834,7 +4796,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -5093,7 +5055,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -5607,7 +5569,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -5866,7 +5828,7 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -6125,7 +6087,7 @@
                 "id_counter": 3,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Left",
+                        "name": "House Left - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -6329,7 +6291,7 @@
                 "id_counter": 3,
                 "items": [
                     {
-                        "name": "PTZ Camera - House Right",
+                        "name": "House Right - USB3.0 Video",
                         "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
@@ -6532,8 +6494,8 @@
                 "id_counter": 2,
                 "items": [
                     {
-                        "name": "ATEM Mini",
-                        "source_uuid": "3b8f1c2e-9d47-4a6b-8e15-c27a0f94d6b3",
+                        "name": "House Left - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -6913,61 +6875,6 @@
                             "duration": 300
                         },
                         "private_settings": {}
-                    },
-                    {
-                        "name": "Joystick Left",
-                        "source_uuid": "4747f42d-edc4-4f51-b669-4529bb133a0f",
-                        "visible": false,
-                        "locked": false,
-                        "rot": 0.0,
-                        "scale_ref": {
-                            "x": 1920.0,
-                            "y": 1080.0
-                        },
-                        "align": 5,
-                        "bounds_type": 0,
-                        "bounds_align": 0,
-                        "bounds_crop": false,
-                        "crop_left": 0,
-                        "crop_top": 0,
-                        "crop_right": 0,
-                        "crop_bottom": 0,
-                        "id": 4,
-                        "group_item_backup": false,
-                        "pos": {
-                            "x": 1440.0,
-                            "y": 810.0
-                        },
-                        "pos_rel": {
-                            "x": 0.8888888955116272,
-                            "y": 0.5
-                        },
-                        "scale": {
-                            "x": 0.25,
-                            "y": 0.25
-                        },
-                        "scale_rel": {
-                            "x": 0.25,
-                            "y": 0.25
-                        },
-                        "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
-                        },
-                        "scale_filter": "disable",
-                        "blend_method": "default",
-                        "blend_type": "normal",
-                        "show_transition": {
-                            "duration": 300
-                        },
-                        "hide_transition": {
-                            "duration": 300
-                        },
-                        "private_settings": {}
                     }
                 ]
             },
@@ -6986,8 +6893,6 @@
                 "OBSBasic.SelectScene": [],
                 "libobs.show_scene_item.3": [],
                 "libobs.hide_scene_item.3": [],
-                "libobs.show_scene_item.4": [],
-                "libobs.hide_scene_item.4": [],
                 "Show on Video Overlay": [],
                 "Hide on Video Overlay": []
             },
@@ -7065,6 +6970,9 @@
             "name": "Sacrament"
         },
         {
+            "name": "Blackmagic"
+        },
+        {
             "name": "Lower Thirds - Lyrics"
         },
         {
@@ -7072,9 +6980,6 @@
         },
         {
             "name": "Lower Thirds - Camera"
-        },
-        {
-            "name": "Blackmagic"
         }
     ],
     "current_scene": "Left Full Room - P3",

@@ -13,8 +13,9 @@
 # the OBS configuration (scenes, audio, Zoom microphone).
 #   --install                   also update everything that is already installed (OBS, DistroAV,
 #                               Downstream Keyer, obs-ptz, NDI decoder libraries)
-#   --config=NAME / --no-config  install the OBS scenes and camera setup in configs/NAME
-#                               (without either, it asks when run in a terminal)
+#   --config=NAME / --no-config  every scene collection in configs/ is installed; NAME is the one OBS
+#                               opens on (without either, it asks when run in a terminal);
+#                               --no-config skips the OBS scenes and camera setup
 #   --pin-dock / --no-pin-dock  answer the "add OBS to the dock?" question up front
 #                               (without either, it asks when run in a terminal)
 # The user to configure is whoever ran sudo; override with TARGET_USER=name.
@@ -282,29 +283,39 @@ if mokutil --sb-state 2>/dev/null | grep -qi 'enabled'; then
   echo "NOTE: Secure Boot is on. If the virtual camera does not appear, the v4l2loopback module may need its signing key enrolled (see 'mokutil --import')." >&2
 fi
 
-# OBS scene collection and camera setup (configs/<name>/: single-camera or dual-camera).
-echo "==> Choosing the OBS configuration"
-mapfile -t CONFIGS < <(cd "$SCRIPT_DIR/configs" 2>/dev/null && ls -d */ 2>/dev/null | tr -d / || true)
+# OBS scene collections and camera setup (configs/<name>/: alkire-and-quail and independence-building).
+# Every collection is installed; CONFIG_CHOICE is the one OBS opens on ("keep" leaves that as it is).
+echo "==> Choosing the default OBS scene collection"
+mapfile -t FOUND < <(cd "$SCRIPT_DIR/configs" 2>/dev/null && ls -d */ 2>/dev/null | tr -d / || true)
+# Menu order: alkire-and-quail first, then independence-building, then anything else.
+CONFIGS=()
+for c in alkire-and-quail independence-building; do
+  [[ " ${FOUND[*]} " == *" $c "* ]] && CONFIGS+=("$c")
+done
+for c in "${FOUND[@]}"; do
+  [[ " ${CONFIGS[*]} " == *" $c "* ]] || CONFIGS+=("$c")
+done
 if [ "$CONFIG_CHOICE" = ask ]; then
   if [ "${#CONFIGS[@]}" -eq 0 ]; then
     CONFIG_CHOICE=none
   elif [ -t 0 ]; then
-    echo "Which camera setup should be installed?"
-    select choice in "${CONFIGS[@]}" "none (set OBS up by hand)"; do
+    echo "All the scene collections are installed. Which one should OBS open on by default?"
+    PS3="Number: "
+    select choice in "${CONFIGS[@]}"; do
       case "$choice" in
         "") echo "Pick a number from the list." ;;
-        none*) CONFIG_CHOICE=none; break ;;
         *) CONFIG_CHOICE=$choice; break ;;
       esac
     done
   else
-    echo "No --config given and not running in a terminal; skipping the OBS configuration."
-    CONFIG_CHOICE=none
+    echo "No --config given and not running in a terminal; installing the scene collections without changing which one OBS opens on."
+    CONFIG_CHOICE=keep
   fi
 fi
 if [ "$CONFIG_CHOICE" != none ]; then
-  CONFIG_SRC="$SCRIPT_DIR/configs/$CONFIG_CHOICE"
-  [ -d "$CONFIG_SRC" ] || { echo "No such configuration: $CONFIG_CHOICE (have: ${CONFIGS[*]:-none})" >&2; exit 1; }
+  if [ "$CONFIG_CHOICE" != keep ] && [ ! -d "$SCRIPT_DIR/configs/$CONFIG_CHOICE" ]; then
+    echo "No such configuration: $CONFIG_CHOICE (have: ${CONFIGS[*]:-none})" >&2; exit 1
+  fi
   SCENES_DIR="$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio/basic/scenes"
   as_user mkdir -p "$SCENES_DIR"
   # Audio comes from a USB input (the Sound Blaster where there is one). Use AUDIO_DEVICE=name to force a
@@ -322,7 +333,7 @@ if [ "$CONFIG_CHOICE" != none ]; then
   if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
     echo "WARNING: OBS is running; it will overwrite these changes when it exits. Close OBS and run this again." >&2
   fi
-  for f in "$CONFIG_SRC"/*.json; do
+  for f in "$SCRIPT_DIR"/configs/*/*.json; do
     dest="$SCENES_DIR/$(basename "$f")"
     rendered=$(mktemp)
     sed -e "s|@HOME@|$TARGET_HOME|g" -e "s|@AUDIO_DEVICE@|$AUDIO_DEVICE|g" "$f" > "$rendered"
@@ -334,7 +345,7 @@ if [ "$CONFIG_CHOICE" != none ]; then
     fi
     rm -f "$rendered"
   done
-  echo "Installed the '$CONFIG_CHOICE' scene collection."
+  echo "Installed the scene collections: ${CONFIGS[*]}."
 
   # Zoom audio: a virtual "OBS Mic (for Zoom)" microphone fed by OBS's audio monitoring (PipeWire's
   # PulseAudio layer is already on Ubuntu; only the pactl tool is added).
@@ -352,8 +363,10 @@ if [ "$CONFIG_CHOICE" != none ]; then
   as_user env OBS_WEBSOCKET_PASSWORD="${OBS_WEBSOCKET_PASSWORD:-2ne2-14}" python3 -I "$SCRIPT_DIR/tools/set-obs-websocket.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # The window layout, with the PTZ Controls dock in place.
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-docks.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
-  # Open OBS on the installed scene collection.
-  as_user python3 -I "$SCRIPT_DIR/tools/set-obs-collection.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" "$CONFIG_SRC"/*.json
+  # Open OBS on the chosen default scene collection.
+  if [ "$CONFIG_CHOICE" != keep ]; then
+    as_user python3 -I "$SCRIPT_DIR/tools/set-obs-collection.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" "$SCRIPT_DIR/configs/$CONFIG_CHOICE"/*.json
+  fi
   # PipeWire reads its drop-ins at start. If the user is logged in and the files changed or Zoom cannot see
   # the microphone yet (source obs_mic), restart PipeWire so it takes effect now instead of after the next
   # login (audio drops briefly; close Zoom calls first).
