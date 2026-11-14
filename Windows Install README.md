@@ -1,11 +1,11 @@
 # Windows Script Instructions
 
 # Scene Collection information
-  The setup script installs both Scene collections, Alkire and Quail Building - NDI and Independence Building - Hardware, and asks which one OBS should open on by default:
-    1) alkire-quail-building
+  The setup script installs both Scene collections, Alkire and Quail - NDI and Independence Building - Hardware, and asks which one OBS should open on by default:
+    1) alkire-and-quail
     2) independence-building
   Either one can be opened later from OBS's Scene Collection menu.
-  The Alkire and Quail Building - NDI Scene Collection is intended for use in the Alkire and Quail Buildings. Its camera video comes over NDI. It also has the FreeShow lower thirds (Lower Thirds - Lyrics and Lower Thirds - Speakers, over NDI, with the Lyrics and Speaker Names downstream keyers).
+  The Alkire and Quail - NDI Scene Collection is intended for use in the Alkire and Quail Buildings. Its camera video comes over NDI. It also has the FreeShow lower thirds (Lower Thirds - Lyrics and Lower Thirds - Speakers, over NDI, with the Lyrics and Speaker Names downstream keyers).
   The Independence Building - Hardware Scene Collection is intended for use in the Independence Building (Stake Center). The camera video comes into the OBS computer through USB video capture devices: House Left from a Blackmagic ATEM Mini and House Right from a USB HDMI capture device ("USB3.0 Video"). PTZ presets still move the cameras over the network. It also has the stake conference scenes: the FreeShow lower thirds over NDI, the camera Video Overlay and a Blackmagic scene. After setup, plug in both devices, open OBS and pick the Device on the "House Left - ATEM Mini" and "House Right - USB3.0 Video" sources (see configs/independence-building/README.md)
 
 # Downstream Keyer

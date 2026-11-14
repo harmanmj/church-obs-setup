@@ -18,11 +18,11 @@
   7. The sacrament graphic and the sacrament music playlist in Documents\sacrament
 
   Run from an elevated PowerShell (right-click, Run as administrator), as the person who uses OBS:
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 [-Config alkire-quail-building|independence-building | -NoConfig]
+    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 [-Config alkire-and-quail|independence-building | -NoConfig]
   The script can be run again at any time; it installs only what is missing and refreshes the configuration.
 
 .PARAMETER Config       Every scene collection in configs\ is installed; this is the one OBS opens on by
-                        default: alkire-quail-building or independence-building (asks if omitted).
+                        default: alkire-and-quail or independence-building (asks if omitted).
 .PARAMETER NoConfig     Skip the OBS scene collections.
 .PARAMETER AudioDevice  The microphone input for OBS: part of its name as Windows shows it, or its endpoint id.
                         Default: the Sound Blaster, else any USB input, else the first other input that is
@@ -318,9 +318,9 @@ if (-not (Get-NetFirewallRule -DisplayName 'OBS Studio (church setup)' -ErrorAct
 $configRoot = Join-Path $ScriptDir 'configs'
 $found = @()
 if (Test-Path $configRoot) { $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name) }
-# Menu order: alkire-quail-building first, then independence-building, then anything else.
-$configs = @(@('alkire-quail-building', 'independence-building') | Where-Object { $found -contains $_ }) +
-           @($found | Where-Object { @('alkire-quail-building', 'independence-building') -notcontains $_ })
+# Menu order: alkire-and-quail first, then independence-building, then anything else.
+$configs = @(@('alkire-and-quail', 'independence-building') | Where-Object { $found -contains $_ }) +
+           @($found | Where-Object { @('alkire-and-quail', 'independence-building') -notcontains $_ })
 # Every scene collection in configs\ is installed; $Config is the one OBS opens on. $InstallCollections is
 # false only with -NoConfig (or nothing to install); $Config empty otherwise means "leave the default as it is".
 $InstallCollections = -not $NoConfig -and $configs.Count -gt 0

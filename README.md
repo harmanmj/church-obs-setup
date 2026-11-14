@@ -40,7 +40,7 @@ libraries and the system tools are installed and installs only what is missing (
 installs nothing), then refreshes the configuration (scenes, audio, Zoom microphone); close OBS first. Your
 previous scene file is saved as `*.bak` whenever it changes.
 
-Options: `--install` (also update what is already installed), `--config=alkire-quail-building|independence-building`
+Options: `--install` (also update what is already installed), `--config=alkire-and-quail|independence-building`
 (the scene collection OBS opens on; without it, it asks in a terminal) or `--no-config` (skip the scene collections), `--pin-dock` or `--no-pin-dock` (add OBS to the dock). Environment:
 `TARGET_USER=name` (default: whoever ran sudo), `AUDIO_DEVICE=name` (force the OBS audio input),
 `PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build), `DSK_REPO=owner/name` (download Downstream Keyer
@@ -68,12 +68,12 @@ HX2/HX3 cameras.
   A layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
-- It installs every scene collection in `configs/` (alkire-quail-building and independence-building), then asks which
-  one OBS opens on by default (1 alkire-quail-building, 2 independence-building), or take `--config=alkire-quail-building` or
+- It installs every scene collection in `configs/` (alkire-and-quail and independence-building), then asks which
+  one OBS opens on by default (1 alkire-and-quail, 2 independence-building), or take `--config=alkire-and-quail` or
   `--config=independence-building` up front; `--no-config` skips them. Each is an OBS scene collection with the
   cameras, PTZ presets and the sacrament scene. An existing file is saved as `*.bak` first. Run without a
   terminal and without `--config`, it installs them and leaves OBS's default collection as it is.
-  - `alkire-quail-building`: one NDI camera at 192.168.111.245. Scenes, in preset order, are named with their slot:
+  - `alkire-and-quail`: one NDI camera at 192.168.111.245. Scenes, in preset order, are named with their slot:
     Joystick, Pulpit - P0, Chorister - P1, Rostrum - P2, Full Room - P3, Piano - P4, Speaker Close-up - P5,
     Piano and Pulpit - P6, Organ - P7, Choir - P8, Sacrament. **Joystick** shows the camera without recalling a
     preset, so it stays where it is and you can steer it with the PTZ Controls dock. Below Sacrament are
@@ -141,7 +141,7 @@ One run installs everything and configures it. From an elevated PowerShell (righ
 administrator), signed in as the person who will use OBS:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1   # asks: 1 alkire-quail-building, 2 independence-building
+powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1   # asks: 1 alkire-and-quail, 2 independence-building
 ```
 
 The script can be downloaded on its own and run from anywhere: it installs Git (via `winget`), clones this
@@ -158,7 +158,7 @@ computer always runs the current version. Run it again at any time to update; cl
   window opens: click "Install Driver" and accept. It needs a Windows restart: restart, then run the script
   again to finish;
 - installs every scene collection in `configs\` (an existing file is saved as `*.bak`) and makes the chosen
-  one the one OBS opens on (`-Config alkire-quail-building|independence-building`, else it asks 1 or 2; `-NoConfig`
+  one the one OBS opens on (`-Config alkire-and-quail|independence-building`, else it asks 1 or 2; `-NoConfig`
   skips the collections). The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
   else (with a warning) another real input, never "NDI Webcam Audio", whose sound is poor; plug the USB
   input in before running it. `-AudioDevice "part of its name"` picks another;

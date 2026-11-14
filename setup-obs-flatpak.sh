@@ -283,13 +283,13 @@ if mokutil --sb-state 2>/dev/null | grep -qi 'enabled'; then
   echo "NOTE: Secure Boot is on. If the virtual camera does not appear, the v4l2loopback module may need its signing key enrolled (see 'mokutil --import')." >&2
 fi
 
-# OBS scene collections and camera setup (configs/<name>/: alkire-quail-building and independence-building).
+# OBS scene collections and camera setup (configs/<name>/: alkire-and-quail and independence-building).
 # Every collection is installed; CONFIG_CHOICE is the one OBS opens on ("keep" leaves that as it is).
 echo "==> Choosing the default OBS scene collection"
 mapfile -t FOUND < <(cd "$SCRIPT_DIR/configs" 2>/dev/null && ls -d */ 2>/dev/null | tr -d / || true)
-# Menu order: alkire-quail-building first, then independence-building, then anything else.
+# Menu order: alkire-and-quail first, then independence-building, then anything else.
 CONFIGS=()
-for c in alkire-quail-building independence-building; do
+for c in alkire-and-quail independence-building; do
   [[ " ${FOUND[*]} " == *" $c "* ]] && CONFIGS+=("$c")
 done
 for c in "${FOUND[@]}"; do
