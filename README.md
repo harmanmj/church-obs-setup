@@ -209,8 +209,8 @@ Never commit `secrets.env` or `user-data`.
 ## Hum and tone filters (notches on the microphone)
 
 OBS has no notch filter, so the setup script builds small VST 2.x plugins (`tools/hum-notch-vst/`, built into `~/.vst` by
-`build.sh`; needs `gcc`) and the Independence Building - Hardware collection has them as filters on its "USB Audio"
-source. Each filter has an eye icon in OBS to turn it on and off without a blip. They are fixed notches, not adaptive,
+`build.sh`; needs `gcc`, which the setup script installs) and both scene collections have them as filters on their
+"USB Audio" source. Linux only: on Windows OBS skips these filters, because the plugins are built for Linux. Each filter has an eye icon in OBS to turn it on and off without a blip. They are fixed notches, not adaptive,
 so they leave music alone apart from a thin slice at each frequency:
 
 | Filter | Removes |
@@ -220,7 +220,8 @@ so they leave music alone apart from a thin slice at each frequency:
 | Notch6381, Notch13623 | two steady tones at 6381 and 13623 Hz (Q 12), built from `tone_notch_vst.c` |
 
 The tones were measured on the Independence Building microphone (Sound Blaster); check yours with a quiet-room recording
-before keeping a notch. Alkire and Quail only has HumNotch.
+before keeping a notch. Both collections (Alkire and Quail - NDI and Independence Building - Hardware) have all four
+filters on "USB Audio", and both start "USB Audio" at -8 dB.
 
 - **Don't pick the plug-in from OBS's Filters dialog.** In the OBS Flatpak its plug-in list is empty and OBS saves a blank
   plug-in path. The collections store the path directly, and the setup script sets `VST_PATH` for the Flatpak so the path

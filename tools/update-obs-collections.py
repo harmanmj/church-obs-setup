@@ -11,12 +11,15 @@ Usage (as the person who uses OBS, not with sudo; close OBS first):
 - Each file it replaces is saved next to it as *.bak.
 - Keeps what was already picked in OBS, by source name: the "USB Audio" microphone, capture devices and
   NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
+- Builds the notch filter plugins (tools/hum-notch-vst/build.sh) into ~/.vst if any are missing, and sets
+  VST_PATH for the OBS Flatpak so it finds them.
 - Asks which collection OBS opens on, like the setup script (1 alkire-and-quail, 2 independence-building);
   --default answers up front. Run without a terminal to ask in, it leaves OBS's current one.
 """
 import argparse
 import json
 import pathlib
+import re
 import shutil
 import subprocess
 import sys
@@ -104,6 +107,29 @@ for config in configs:
         print(f"Updated {src.name} ({collection['name']})")
         if kept:
             print(f"    kept from OBS: {', '.join(kept)}")
+
+# The notch filters on "USB Audio" load VST plugins from ~/.vst. Build any that are missing and point the OBS
+# Flatpak at that folder (VST_PATH), as the setup script does; without either, OBS skips those filters.
+VST_DIR = pathlib.Path.home() / ".vst"
+plugins = {pathlib.PurePosixPath(path).name for c in configs for f in c.glob("*.json")
+           for path in re.findall(r'"plugin_path":\s*"([^"]+)"', f.read_text(encoding="utf-8"))}
+missing = sorted(name for name in plugins if not (VST_DIR / name).exists())
+if missing:
+    if shutil.which("gcc"):
+        print(f"Building the notch filter plugins into {VST_DIR} (missing: {', '.join(missing)})")
+        subprocess.run(["bash", str(REPO / "tools" / "hum-notch-vst" / "build.sh")], check=False)
+    else:
+        print(f"WARNING: {', '.join(missing)} not in {VST_DIR} and gcc is missing, so the notch filters on "
+              "'USB Audio' will not load. Run: sudo apt-get install -y gcc && bash tools/hum-notch-vst/build.sh")
+if plugins and shutil.which("flatpak"):
+    override = subprocess.run(["flatpak", "override", "--user", "--show", "com.obsproject.Studio"],
+                              capture_output=True, text=True).stdout
+    if f"VST_PATH={VST_DIR}" not in override:
+        result = subprocess.run(["flatpak", "override", "--user", f"--env=VST_PATH={VST_DIR}", "com.obsproject.Studio"])
+        if result.returncode == 0:
+            print(f"Set VST_PATH={VST_DIR} for OBS, so it loads the notch filter plugins")
+        else:
+            print("WARNING: could not set VST_PATH for OBS; the notch filters on 'USB Audio' will not load.")
 
 if args.default:
     collection = next((REPO / "configs" / args.default).glob("*.json"))

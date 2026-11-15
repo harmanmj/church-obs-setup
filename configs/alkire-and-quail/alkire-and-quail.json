@@ -245,7 +245,7 @@
             "mixers": 255,
             "sync": 0,
             "flags": 0,
-            "volume": 0.251188643150958,
+            "volume": 0.3981071705534972,
             "balance": 0.5,
             "enabled": true,
             "muted": false,
@@ -275,6 +275,87 @@
                     "versioned_id": "vst_filter",
                     "settings": {
                         "plugin_path": "@HOME@/.vst/HumNotch.so"
+                    },
+                    "mixers": 255,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                },
+                {
+                    "prev_ver": 553648129,
+                    "name": "SquealNotch",
+                    "uuid": "0027dfd7-81c3-48e4-871a-a04da902b0ae",
+                    "id": "vst_filter",
+                    "versioned_id": "vst_filter",
+                    "settings": {
+                        "plugin_path": "@HOME@/.vst/SquealNotch.so"
+                    },
+                    "mixers": 255,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                },
+                {
+                    "prev_ver": 553648129,
+                    "name": "Notch6381",
+                    "uuid": "1dff7b06-3e97-49d9-9af8-e75b56c60ed0",
+                    "id": "vst_filter",
+                    "versioned_id": "vst_filter",
+                    "settings": {
+                        "plugin_path": "@HOME@/.vst/Notch6381.so"
+                    },
+                    "mixers": 255,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                },
+                {
+                    "prev_ver": 553648129,
+                    "name": "Notch13623",
+                    "uuid": "07b76ae7-ed9b-4f1a-b432-6709c9fbc9f0",
+                    "id": "vst_filter",
+                    "versioned_id": "vst_filter",
+                    "settings": {
+                        "plugin_path": "@HOME@/.vst/Notch13623.so"
                     },
                     "mixers": 255,
                     "sync": 0,
@@ -762,7 +843,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -788,12 +869,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -998,7 +1079,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -1021,7 +1104,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -1047,12 +1130,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -1259,7 +1342,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -1282,7 +1367,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -1308,12 +1393,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -1518,7 +1603,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -1541,7 +1628,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -1567,12 +1654,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -1777,7 +1864,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -1800,7 +1889,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -1826,12 +1915,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -2036,7 +2125,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -2059,7 +2150,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -2085,12 +2176,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -2295,7 +2386,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -2318,7 +2411,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -2344,12 +2437,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -2554,7 +2647,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -2577,7 +2672,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -2603,12 +2698,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -2813,7 +2908,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -3091,7 +3188,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -3117,12 +3214,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -3295,7 +3392,7 @@
                             "y": 1080.0
                         },
                         "align": 5,
-                        "bounds_type": 0,
+                        "bounds_type": 2,
                         "bounds_align": 0,
                         "bounds_crop": false,
                         "crop_left": 0,
@@ -3321,12 +3418,12 @@
                             "y": 1.0
                         },
                         "bounds": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 1920.0,
+                            "y": 1080.0
                         },
                         "bounds_rel": {
-                            "x": 0.0,
-                            "y": 0.0
+                            "x": 3.555555582046509,
+                            "y": 2.0
                         },
                         "scale_filter": "disable",
                         "blend_method": "default",
@@ -3531,7 +3628,9 @@
             "monitoring_type": 0,
             "monitoring_enabled": false,
             "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
-            "private_settings": {}
+            "private_settings": {
+                "show_in_multiview": false
+            }
         },
         {
             "prev_ver": 553648128,
@@ -3821,7 +3920,8 @@
                 "tie": false,
                 "scenes": [
                     {
-                        "name": "Lower Thirds - Lyrics"
+                        "name": "Lower Thirds - Lyrics",
+                        "checked": true
                     }
                 ],
                 "scene": "",
@@ -3838,11 +3938,12 @@
                 "show_transition_duration": 300,
                 "hide_transition": "Fade",
                 "hide_transition_duration": 300,
-                "hide_after": 10000,
+                "hide_after": 20000,
                 "tie": false,
                 "scenes": [
                     {
-                        "name": "Lower Thirds - Speakers"
+                        "name": "Lower Thirds - Speakers",
+                        "checked": true
                     }
                 ],
                 "scene": "",

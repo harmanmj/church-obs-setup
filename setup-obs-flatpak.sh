@@ -107,7 +107,7 @@ dsk_lookup
 
 # What is missing? Each piece is installed when it is missing; --install also updates what is there.
 NEED_APT=0 NEED_OBS=0 NEED_DISTROAV=0 NEED_DSK=0 NEED_PTZ=0 NEED_NDI=0
-for cmd in flatpak curl pactl ffmpeg; do command -v "$cmd" >/dev/null || NEED_APT=1; done
+for cmd in flatpak curl pactl ffmpeg gcc; do command -v "$cmd" >/dev/null || NEED_APT=1; done
 python3 -c 'import PIL' 2>/dev/null || NEED_APT=1
 modinfo v4l2loopback >/dev/null 2>&1 || NEED_APT=1   # OBS Virtual Camera
 if command -v flatpak >/dev/null; then
@@ -137,7 +137,7 @@ want() { [ "$INSTALL" = yes ] || [ "$1" = 1 ]; }
 
 echo "==> Checking the installed software"
 status() { if [ "$2" = 1 ]; then echo "  $1: MISSING"; else echo "  $1: installed"; fi; }
-status "system tools (flatpak, curl, pactl, ffmpeg, python3-pil, v4l2loopback)" "$NEED_APT"
+status "system tools (flatpak, curl, pactl, ffmpeg, gcc, python3-pil, v4l2loopback)" "$NEED_APT"
 status "OBS Studio" "$NEED_OBS"
 status "DistroAV (NDI)" "$NEED_DISTROAV"
 if [ "$DSK_SOURCE" = unknown ]; then
@@ -157,7 +157,7 @@ if [ "$INSTALL" = yes ]; then echo "  --install given: installing and updating e
 if want "$NEED_APT"; then
   echo "==> [1/6] Installing system tools"
   apt-get update -y
-  apt-get install -y flatpak python3-pil curl pulseaudio-utils ffmpeg v4l2loopback-dkms
+  apt-get install -y flatpak python3-pil curl pulseaudio-utils ffmpeg gcc v4l2loopback-dkms
 fi
 if [ "$INSTALL" = yes ] || [ "$NEED_OBS$NEED_DISTROAV$NEED_DSK$NEED_PTZ$NEED_NDI" != 00000 ]; then
   flatpak remote-add --system --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -211,6 +211,10 @@ if flatpak info --system "$OBS_ID" >/dev/null 2>&1; then
   echo "==> [3/6] Letting OBS reach the local network and Avahi (mDNS camera discovery)"
   flatpak override --system --share=network "$OBS_ID"
   flatpak override --system --system-talk-name=org.freedesktop.Avahi "$OBS_ID"
+  # The notch filters on "USB Audio" are VST plug-ins in ~/.vst (built below). OBS's VST filter does not list
+  # plug-ins from there inside the Flatpak unless VST_PATH says so, and then saves a blank plug-in path.
+  # Set on every run (not only when the NDI libraries are installed), so existing computers get it too.
+  as_user env flatpak override --user --env=VST_PATH="$TARGET_HOME/.vst" "$OBS_ID"
 fi
 
 if want "$NEED_PTZ"; then
@@ -255,9 +259,6 @@ if want "$NEED_NDI"; then
   done
   # Through env: Flatpak refuses --user and "run" when sudo starts it directly.
   as_user env flatpak override --user --env=LD_LIBRARY_PATH="$NDI_LIBS" "$OBS_ID"
-  # The notch filters on "USB Audio" are VST plug-ins in ~/.vst (built below). OBS's VST filter does not list
-  # plug-ins from there inside the Flatpak unless VST_PATH says so, and then saves a blank plug-in path.
-  as_user env flatpak override --user --env=VST_PATH="$TARGET_HOME/.vst" "$OBS_ID"
 
   # Every library we copied must resolve inside the sandbox, otherwise NDI fails silently.
   MISSING=$(as_user env flatpak run --command=sh "$OBS_ID" -c \
@@ -355,7 +356,8 @@ if [ "$CONFIG_CHOICE" != none ]; then
   done
   echo "Installed the scene collections: ${CONFIGS[*]}."
 
-  # Hum notch for the "USB Audio" source's HumNotch filter: a small VST 2.x plugin built into ~/.vst/.
+  # The notch filters on both collections' "USB Audio" source (HumNotch, SquealNotch, Notch6381, Notch13623):
+  # small VST 2.x plugins built into ~/.vst/.
   if command -v gcc >/dev/null 2>&1; then
     as_user bash "$SCRIPT_DIR/tools/hum-notch-vst/build.sh" || echo "WARNING: could not build the HumNotch VST; the filter on 'USB Audio' will not load." >&2
   else
