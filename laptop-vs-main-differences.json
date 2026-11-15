@@ -1,0 +1,2894 @@
+{
+    "compared":  "laptop (broadcast@192.168.108.4, placeholders restored) vs upstream/main",
+    "count":  172,
+    "differences":  [
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=USB Audio].filters",
+                            "change":  "removed on laptop",
+                            "main":  [
+                                         {
+                                             "prev_ver":  553648129,
+                                             "name":  "HumNotch",
+                                             "uuid":  "12930d4b-0383-490c-83c9-68a5de2c79a6",
+                                             "id":  "vst_filter",
+                                             "versioned_id":  "vst_filter",
+                                             "settings":  {
+                                                              "plugin_path":  "@HOME@/.vst/HumNotch.so"
+                                                          },
+                                             "mixers":  255,
+                                             "sync":  0,
+                                             "flags":  0,
+                                             "volume":  1.0,
+                                             "balance":  0.5,
+                                             "enabled":  true,
+                                             "muted":  false,
+                                             "push-to-mute":  false,
+                                             "push-to-mute-delay":  0,
+                                             "push-to-talk":  false,
+                                             "push-to-talk-delay":  0,
+                                             "hotkeys":  {
+
+                                                         },
+                                             "deinterlace_mode":  0,
+                                             "deinterlace_field_order":  0,
+                                             "monitoring_type":  0,
+                                             "monitoring_enabled":  false,
+                                             "private_settings":  {
+
+                                                                  }
+                                         }
+                                     ],
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "prev_ver":  553648128,
+                                         "name":  "PTZ Camera - NDI",
+                                         "uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "id":  "ndi_source",
+                                         "versioned_id":  "ndi_source",
+                                         "settings":  {
+                                                          "ndi_fix_alpha_blending":  false,
+                                                          "ndi_source_name":  "UHD CAMERA (NDI HX3, 192.168.111.245)",
+                                                          "ndi_behavior":  0,
+                                                          "web_control_url":  "http://192.168.111.245/"
+                                                      },
+                                         "mixers":  0,
+                                         "sync":  0,
+                                         "flags":  0,
+                                         "volume":  1.0,
+                                         "balance":  0.5,
+                                         "enabled":  true,
+                                         "muted":  false,
+                                         "push-to-mute":  false,
+                                         "push-to-mute-delay":  0,
+                                         "push-to-talk":  false,
+                                         "push-to-talk-delay":  0,
+                                         "hotkeys":  {
+                                                         "libobs.mute":  [
+
+                                                                         ],
+                                                         "libobs.unmute":  [
+
+                                                                           ],
+                                                         "libobs.monitor-on":  [
+
+                                                                               ],
+                                                         "libobs.monitor-off":  [
+
+                                                                                ],
+                                                         "libobs.push-to-mute":  [
+
+                                                                                 ],
+                                                         "libobs.push-to-talk":  [
+
+                                                                                 ]
+                                                     },
+                                         "deinterlace_mode":  0,
+                                         "deinterlace_field_order":  0,
+                                         "monitoring_type":  0,
+                                         "monitoring_enabled":  false,
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  "color_source",
+                            "laptop":  "ndi_source"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].versioned_id",
+                            "change":  "changed",
+                            "main":  "color_source_v3",
+                            "laptop":  "ndi_source"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].settings.color",
+                            "change":  "removed on laptop",
+                            "main":  4280295456,
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].settings.width",
+                            "change":  "removed on laptop",
+                            "main":  1920,
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].settings.height",
+                            "change":  "removed on laptop",
+                            "main":  1080,
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].settings.ndi_fix_alpha_blending",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].settings.ndi_source_name",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "UHD CAMERA (NDI HX3, 192.168.111.245)"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].settings.ndi_behavior",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  0
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].settings.web_control_url",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "http://192.168.111.245/"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].hotkeys.libobs.mute",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].hotkeys.libobs.unmute",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].hotkeys.libobs.monitor-on",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].hotkeys.libobs.monitor-off",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].hotkeys.libobs.push-to-mute",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].hotkeys.libobs.push-to-talk",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Camera].filters",
+                            "change":  "removed on laptop",
+                            "main":  [
+                                         {
+                                             "prev_ver":  553648128,
+                                             "name":  "VISCA PTZ Control",
+                                             "uuid":  "1200bad1-6c44-4381-b504-19b41a1b50c6",
+                                             "id":  "ca.secretlab.obs-ptz.visca",
+                                             "versioned_id":  "ca.secretlab.obs-ptz.visca",
+                                             "settings":  {
+                                                              "presets":  [
+                                                                              {
+                                                                                  "id":  "camera:0",
+                                                                                  "name":  "Pulpit - P0"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:1",
+                                                                                  "name":  "Chorister - P1"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:2",
+                                                                                  "name":  "Rostrum - P2"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:3",
+                                                                                  "name":  "Full Room - P3"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:4",
+                                                                                  "name":  "Piano - P4"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:5",
+                                                                                  "name":  "Speaker Close-up - P5"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:6",
+                                                                                  "name":  "Piano and Pulpit - P6"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:7",
+                                                                                  "name":  "Organ - P7"
+                                                                              },
+                                                                              {
+                                                                                  "id":  "camera:8",
+                                                                                  "name":  "Choir - P8"
+                                                                              }
+                                                                          ],
+                                                              "host":  "192.168.111.245",
+                                                              "port":  5678,
+                                                              "type":  "visca-over-tcp",
+                                                              "pantilt_speed_max":  1.0,
+                                                              "zoom_speed_max":  1.0,
+                                                              "focus_speed_max":  1.0,
+                                                              "pan_invert":  false,
+                                                              "tilt_invert":  false,
+                                                              "zoom_invert":  false,
+                                                              "focus_invert":  false,
+                                                              "preset_max":  16,
+                                                              "visca_pan_speed_max":  10,
+                                                              "visca_tilt_speed_max":  10,
+                                                              "visca_zoom_speed_max":  7,
+                                                              "visca_focus_speed_max":  7,
+                                                              "protocol_trace":  false,
+                                                              "power_on_at_startup":  true,
+                                                              "power_off_at_shutdown":  true,
+                                                              "preset_order":  [
+                                                                                   {
+                                                                                       "id":  "camera:0"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:1"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:2"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:3"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:4"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:5"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:6"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:7"
+                                                                                   },
+                                                                                   {
+                                                                                       "id":  "camera:8"
+                                                                                   }
+                                                                               ],
+                                                              "visca_pan_range":  5120,
+                                                              "visca_tilt_range":  1280,
+                                                              "visca_zoom_range":  31424,
+                                                              "visca_focus_far":  4096,
+                                                              "visca_focus_near":  61440
+                                                          },
+                                             "mixers":  0,
+                                             "sync":  0,
+                                             "flags":  0,
+                                             "volume":  1.0,
+                                             "balance":  0.5,
+                                             "enabled":  true,
+                                             "muted":  false,
+                                             "push-to-mute":  false,
+                                             "push-to-mute-delay":  0,
+                                             "push-to-talk":  false,
+                                             "push-to-talk-delay":  0,
+                                             "hotkeys":  {
+
+                                                         },
+                                             "deinterlace_mode":  0,
+                                             "deinterlace_field_order":  0,
+                                             "monitoring_type":  0,
+                                             "monitoring_enabled":  false,
+                                             "private_settings":  {
+
+                                                                  }
+                                         }
+                                     ],
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Pulpit - P0].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Pulpit - P0].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Pulpit - P0].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Pulpit - P0].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Pulpit - P0].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Pulpit - P0].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Pulpit",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Pulpit",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Chorister - P1].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Chorister - P1].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Chorister - P1].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Chorister - P1].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  5,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Chorister - P1].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  5,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Chorister - P1].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Chorister",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Chorister",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Rostrum - P2].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Rostrum - P2].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Rostrum - P2].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Rostrum - P2].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Rostrum - P2].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Rostrum - P2].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Rostrum",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Rostrum",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Full Room - P3].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Full Room - P3].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Full Room - P3].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Full Room - P3].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Full Room - P3].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Full Room - P3].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Full Room",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Full Room",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano - P4].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano - P4].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano - P4].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano - P4].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano - P4].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano - P4].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Piano",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Piano",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Speaker Close-up - P5].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Speaker Close-up - P5].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Speaker Close-up - P5].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Speaker Close-up - P5].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Speaker Close-up - P5].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Speaker Close-up - P5].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Speaker Close-up",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Speaker Close-up",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Organ - P7].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Organ - P7].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Organ - P7].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Organ - P7].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Organ - P7].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Organ - P7].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Organ",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Organ",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Choir - P8].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Choir - P8].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Choir - P8].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Choir - P8].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Choir - P8].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Choir - P8].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Choir",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Choir",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Joystick].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Joystick].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Joystick].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Joystick].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  3,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Joystick].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  3,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Joystick].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano and Pulpit - P6].settings.items[name=PTZ Camera - NDI]",
+                            "change":  "removed on laptop",
+                            "main":  {
+                                         "name":  "PTZ Camera - NDI",
+                                         "source_uuid":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                                         "visible":  true,
+                                         "locked":  false,
+                                         "rot":  0.0,
+                                         "scale_ref":  {
+                                                           "x":  1920.0,
+                                                           "y":  1080.0
+                                                       },
+                                         "align":  5,
+                                         "bounds_type":  0,
+                                         "bounds_align":  0,
+                                         "bounds_crop":  false,
+                                         "crop_left":  0,
+                                         "crop_top":  0,
+                                         "crop_right":  0,
+                                         "crop_bottom":  0,
+                                         "id":  1,
+                                         "group_item_backup":  false,
+                                         "pos":  {
+                                                     "x":  0.0,
+                                                     "y":  0.0
+                                                 },
+                                         "pos_rel":  {
+                                                         "x":  -1.7777777910232544,
+                                                         "y":  -1.0
+                                                     },
+                                         "scale":  {
+                                                       "x":  1.0,
+                                                       "y":  1.0
+                                                   },
+                                         "scale_rel":  {
+                                                           "x":  1.0,
+                                                           "y":  1.0
+                                                       },
+                                         "bounds":  {
+                                                        "x":  0.0,
+                                                        "y":  0.0
+                                                    },
+                                         "bounds_rel":  {
+                                                            "x":  0.0,
+                                                            "y":  0.0
+                                                        },
+                                         "scale_filter":  "disable",
+                                         "blend_method":  "default",
+                                         "blend_type":  "normal",
+                                         "show_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "hide_transition":  {
+                                                                 "duration":  300
+                                                             },
+                                         "private_settings":  {
+
+                                                              }
+                                     },
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano and Pulpit - P6].settings.items[name=PTZ Camera].source_uuid",
+                            "change":  "changed",
+                            "main":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                            "laptop":  "8d29ab20-b88f-4336-8b5d-6918b9cc64e4"
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano and Pulpit - P6].settings.items[name=PTZ Camera].visible",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano and Pulpit - P6].settings.items[name=PTZ Camera].id",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano and Pulpit - P6].settings.items[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "name":  "PTZ Device",
+                                           "source_uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "visible":  false,
+                                           "locked":  false,
+                                           "rot":  0.0,
+                                           "scale_ref":  {
+                                                             "x":  1920.0,
+                                                             "y":  1080.0
+                                                         },
+                                           "align":  5,
+                                           "bounds_type":  0,
+                                           "bounds_align":  0,
+                                           "bounds_crop":  false,
+                                           "crop_left":  0,
+                                           "crop_top":  0,
+                                           "crop_right":  0,
+                                           "crop_bottom":  0,
+                                           "id":  4,
+                                           "group_item_backup":  false,
+                                           "pos":  {
+                                                       "x":  0.0,
+                                                       "y":  0.0
+                                                   },
+                                           "pos_rel":  {
+                                                           "x":  -1.7777777910232544,
+                                                           "y":  -1.0
+                                                       },
+                                           "scale":  {
+                                                         "x":  1.0,
+                                                         "y":  1.0
+                                                     },
+                                           "scale_rel":  {
+                                                             "x":  1.0,
+                                                             "y":  1.0
+                                                         },
+                                           "bounds":  {
+                                                          "x":  0.0,
+                                                          "y":  0.0
+                                                      },
+                                           "bounds_rel":  {
+                                                              "x":  0.0,
+                                                              "y":  0.0
+                                                          },
+                                           "scale_filter":  "disable",
+                                           "blend_method":  "default",
+                                           "blend_type":  "normal",
+                                           "show_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "hide_transition":  {
+                                                                   "duration":  300
+                                                               },
+                                           "private_settings":  {
+
+                                                                }
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=Piano and Pulpit - P6].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=PTZ Camera - NDI",
+                                         "name=Preset - Piano and Pulpit",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera"
+                                     ],
+                            "laptop":  [
+                                           "name=PTZ Camera",
+                                           "name=Preset - Piano and Pulpit",
+                                           "name=USB Audio",
+                                           "name=PTZ Device"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources[name=PTZ Device]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "prev_ver":  553648128,
+                                           "name":  "PTZ Device",
+                                           "uuid":  "98d297e9-75b1-423d-89ee-f784394b5090",
+                                           "id":  "color_source",
+                                           "versioned_id":  "color_source_v3",
+                                           "settings":  {
+                                                            "color":  4280295456,
+                                                            "width":  1920,
+                                                            "height":  1080
+                                                        },
+                                           "mixers":  0,
+                                           "sync":  0,
+                                           "flags":  0,
+                                           "volume":  1.0,
+                                           "balance":  0.5,
+                                           "enabled":  true,
+                                           "muted":  false,
+                                           "push-to-mute":  false,
+                                           "push-to-mute-delay":  0,
+                                           "push-to-talk":  false,
+                                           "push-to-talk-delay":  0,
+                                           "hotkeys":  {
+
+                                                       },
+                                           "deinterlace_mode":  0,
+                                           "deinterlace_field_order":  0,
+                                           "monitoring_type":  0,
+                                           "monitoring_enabled":  false,
+                                           "private_settings":  {
+
+                                                                },
+                                           "filters":  [
+                                                           {
+                                                               "prev_ver":  553648128,
+                                                               "name":  "VISCA PTZ Control",
+                                                               "uuid":  "1200bad1-6c44-4381-b504-19b41a1b50c6",
+                                                               "id":  "ca.secretlab.obs-ptz.visca",
+                                                               "versioned_id":  "ca.secretlab.obs-ptz.visca",
+                                                               "settings":  {
+                                                                                "presets":  [
+                                                                                                {
+                                                                                                    "id":  "camera:0",
+                                                                                                    "name":  "Pulpit - P0"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:1",
+                                                                                                    "name":  "Chorister - P1"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:2",
+                                                                                                    "name":  "Rostrum - P2"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:3",
+                                                                                                    "name":  "Full Room - P3"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:4",
+                                                                                                    "name":  "Piano - P4"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:5",
+                                                                                                    "name":  "Speaker Close-up - P5"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:6",
+                                                                                                    "name":  "Piano and Pulpit - P6"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:7",
+                                                                                                    "name":  "Organ - P7"
+                                                                                                },
+                                                                                                {
+                                                                                                    "id":  "camera:8",
+                                                                                                    "name":  "Choir - P8"
+                                                                                                }
+                                                                                            ],
+                                                                                "host":  "192.168.111.245",
+                                                                                "port":  5678,
+                                                                                "type":  "visca-over-tcp",
+                                                                                "pantilt_speed_max":  1.0,
+                                                                                "zoom_speed_max":  1.0,
+                                                                                "focus_speed_max":  1.0,
+                                                                                "pan_invert":  false,
+                                                                                "tilt_invert":  false,
+                                                                                "zoom_invert":  false,
+                                                                                "focus_invert":  false,
+                                                                                "preset_max":  16,
+                                                                                "visca_pan_speed_max":  10,
+                                                                                "visca_tilt_speed_max":  10,
+                                                                                "visca_zoom_speed_max":  7,
+                                                                                "visca_focus_speed_max":  7,
+                                                                                "protocol_trace":  false,
+                                                                                "power_on_at_startup":  true,
+                                                                                "power_off_at_shutdown":  true,
+                                                                                "preset_order":  [
+                                                                                                     {
+                                                                                                         "id":  "camera:0"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:1"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:2"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:3"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:4"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:5"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:6"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:7"
+                                                                                                     },
+                                                                                                     {
+                                                                                                         "id":  "camera:8"
+                                                                                                     }
+                                                                                                 ],
+                                                                                "visca_pan_range":  5120,
+                                                                                "visca_tilt_range":  1280,
+                                                                                "visca_zoom_range":  31424,
+                                                                                "visca_focus_far":  4096,
+                                                                                "visca_focus_near":  61440
+                                                                            },
+                                                               "mixers":  0,
+                                                               "sync":  0,
+                                                               "flags":  0,
+                                                               "volume":  1.0,
+                                                               "balance":  0.5,
+                                                               "enabled":  true,
+                                                               "muted":  false,
+                                                               "push-to-mute":  false,
+                                                               "push-to-mute-delay":  0,
+                                                               "push-to-talk":  false,
+                                                               "push-to-talk-delay":  0,
+                                                               "hotkeys":  {
+
+                                                                           },
+                                                               "deinterlace_mode":  0,
+                                                               "deinterlace_field_order":  0,
+                                                               "monitoring_type":  0,
+                                                               "monitoring_enabled":  false,
+                                                               "private_settings":  {
+
+                                                                                    }
+                                                           }
+                                                       ]
+                                       }
+                        },
+                        {
+                            "file":  "configs/alkire-and-quail/alkire-and-quail.json",
+                            "path":  ".sources (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=Freeshow Lower Thirds - Lyrics",
+                                         "name=Freeshow Lower Thirds - Speakers",
+                                         "name=Image 2",
+                                         "name=Sacrament Music",
+                                         "name=Sacrament Title",
+                                         "name=Sacrament Subtitle",
+                                         "name=USB Audio",
+                                         "name=PTZ Camera - NDI",
+                                         "name=PTZ Camera",
+                                         "name=Preset - Pulpit",
+                                         "name=Preset - Chorister",
+                                         "name=Preset - Rostrum",
+                                         "name=Preset - Full Room",
+                                         "name=Preset - Piano",
+                                         "name=Preset - Speaker Close-up",
+                                         "name=Preset - Organ",
+                                         "name=Preset - Choir",
+                                         "name=Preset - Piano and Pulpit",
+                                         "name=Pulpit - P0",
+                                         "name=Chorister - P1",
+                                         "name=Rostrum - P2",
+                                         "name=Full Room - P3",
+                                         "name=Piano - P4",
+                                         "name=Speaker Close-up - P5",
+                                         "name=Organ - P7",
+                                         "name=Choir - P8",
+                                         "name=Sacrament",
+                                         "name=Joystick",
+                                         "name=Piano and Pulpit - P6",
+                                         "name=Lower Thirds - Lyrics",
+                                         "name=Lower Thirds - Speakers"
+                                     ],
+                            "laptop":  [
+                                           "name=Freeshow Lower Thirds - Lyrics",
+                                           "name=Freeshow Lower Thirds - Speakers",
+                                           "name=Image 2",
+                                           "name=Sacrament Music",
+                                           "name=Sacrament Title",
+                                           "name=Sacrament Subtitle",
+                                           "name=USB Audio",
+                                           "name=PTZ Camera",
+                                           "name=PTZ Device",
+                                           "name=Preset - Pulpit",
+                                           "name=Preset - Chorister",
+                                           "name=Preset - Rostrum",
+                                           "name=Preset - Full Room",
+                                           "name=Preset - Piano",
+                                           "name=Preset - Speaker Close-up",
+                                           "name=Preset - Organ",
+                                           "name=Preset - Choir",
+                                           "name=Preset - Piano and Pulpit",
+                                           "name=Pulpit - P0",
+                                           "name=Chorister - P1",
+                                           "name=Rostrum - P2",
+                                           "name=Full Room - P3",
+                                           "name=Piano - P4",
+                                           "name=Speaker Close-up - P5",
+                                           "name=Organ - P7",
+                                           "name=Choir - P8",
+                                           "name=Sacrament",
+                                           "name=Joystick",
+                                           "name=Piano and Pulpit - P6",
+                                           "name=Lower Thirds - Lyrics",
+                                           "name=Lower Thirds - Speakers"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Freeshow Lower Thirds - Lyrics].settings.ndi_source_name",
+                            "change":  "changed",
+                            "main":  "",
+                            "laptop":  "ROWLF (FreeShow NDI - Lower Thirds - Lyrics)"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Freeshow Lower Thirds - Speakers].settings.ndi_source_name",
+                            "change":  "changed",
+                            "main":  "",
+                            "laptop":  "ROWLF (FreeShow NDI - Lower Thirds - Speakers)"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].volume",
+                            "change":  "changed",
+                            "main":  0.03162277660168379,
+                            "laptop":  0.39810717105865479
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=HumNotch].uuid",
+                            "change":  "changed",
+                            "main":  "ec4f3709-6822-4bd3-ac63-0e10c51250e6",
+                            "laptop":  "8aa972ed-30a5-4e80-8c76-dacc15546897"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=HumNotch].settings.chunk_data",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "AACAPw=="
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=HumNotch].settings.chunk_hash",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "5a01ad1454b77a2e948842d5ba203fc9"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=SquealNotch].uuid",
+                            "change":  "changed",
+                            "main":  "5b481555-69eb-4b8b-8a6d-be570db1261e",
+                            "laptop":  "13c2b94c-80d5-47ac-bd9b-2cbf22bec602"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=SquealNotch].settings.chunk_data",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "AACAPw=="
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=SquealNotch].settings.chunk_hash",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "c0e4340eeb70c3e7b8e3259245a0ca56"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=Notch6381].uuid",
+                            "change":  "changed",
+                            "main":  "183eb18d-a3d7-491e-abff-787def1f4e77",
+                            "laptop":  "89f24a46-8818-4e67-9688-aeee929bb366"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=Notch6381].settings.chunk_data",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "AACAPw=="
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=Notch6381].settings.chunk_hash",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "d23b2b1273a797cc3c7bc50bc9be2e30"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=Notch13623].uuid",
+                            "change":  "changed",
+                            "main":  "ee5c2943-ff5f-4b6f-9f1b-c20d1ee4cf1f",
+                            "laptop":  "cc2e7a21-6d27-473f-8e10-07264a605e70"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=Notch13623].settings.chunk_data",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "AACAPw=="
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=USB Audio].filters[name=Notch13623].settings.chunk_hash",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  "4ec1d7390501dd05a703ae557682add6"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=House Left - USB3.0 Video].settings.res_type",
+                            "change":  "changed",
+                            "main":  0,
+                            "laptop":  1
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=House Left - USB3.0 Video].settings.resolution",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  8246337209400
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Pulpit - P0].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  24
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Pulpit - P0].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Pulpit - P0].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Chorister - P1].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Chorister - P1].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Rostrum - P2].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Rostrum - P2].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Full Room - P3].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  6
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Full Room - P3].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Full Room - P3].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano - P4].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  7
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano - P4].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano - P4].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Speaker Close-up - P5].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  20
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Speaker Close-up - P5].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Speaker Close-up - P5].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Organ - P7].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Organ - P7].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Choir - P8].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Choir - P8].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Pulpit - P0].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  22
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Pulpit - P0].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Pulpit - P0].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Chorister - P1].settings.id_counter",
+                            "change":  "changed",
+                            "main":  5,
+                            "laptop":  6
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Chorister - P1].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Chorister - P1].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Rostrum - P2].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Rostrum - P2].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Full Room - P3].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  7
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Full Room - P3].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Full Room - P3].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Piano - P4].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Piano - P4].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Speaker Close-up - P5].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  5
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Speaker Close-up - P5].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Speaker Close-up - P5].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Organ - P7].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Organ - P7].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Choir - P8].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  7
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Choir - P8].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Choir - P8].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Sacrament].settings.items[name=Sacrament Title].pos_rel.y",
+                            "change":  "changed",
+                            "main":  0.7314814925193787,
+                            "laptop":  0.73148149251937866
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.id_counter",
+                            "change":  "changed",
+                            "main":  4,
+                            "laptop":  7
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.items[name=House Left - USB3.0 Video].bounds_type",
+                            "change":  "changed",
+                            "main":  2,
+                            "laptop":  0
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.items[name=House Left - USB3.0 Video].id",
+                            "change":  "changed",
+                            "main":  1,
+                            "laptop":  5
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.items[name=House Left - USB3.0 Video].bounds.x",
+                            "change":  "changed",
+                            "main":  1920.0,
+                            "laptop":  0.0
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.items[name=House Left - USB3.0 Video].bounds.y",
+                            "change":  "changed",
+                            "main":  1080.0,
+                            "laptop":  0.0
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  0.0
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.items[name=House Left - USB3.0 Video].bounds_rel.y",
+                            "change":  "changed",
+                            "main":  2.0,
+                            "laptop":  0.0
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].settings.items (order)",
+                            "change":  "reordered",
+                            "main":  [
+                                         "name=House Left - USB3.0 Video",
+                                         "name=Preset - Left Piano and Pulpit",
+                                         "name=USB Audio",
+                                         "name=PTZ House Left"
+                                     ],
+                            "laptop":  [
+                                           "name=Preset - Left Piano and Pulpit",
+                                           "name=USB Audio",
+                                           "name=PTZ House Left",
+                                           "name=House Left - USB3.0 Video"
+                                       ]
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].hotkeys.libobs.show_scene_item.1",
+                            "change":  "removed on laptop",
+                            "main":  [
+
+                                     ],
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].hotkeys.libobs.hide_scene_item.1",
+                            "change":  "removed on laptop",
+                            "main":  [
+
+                                     ],
+                            "laptop":  null
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].hotkeys.libobs.show_scene_item.5",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].hotkeys.libobs.hide_scene_item.5",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  [
+
+                                       ]
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Left Piano and Pulpit - P6].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Piano and Pulpit - P6].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Right Piano and Pulpit - P6].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Joystick Left].settings.id_counter",
+                            "change":  "changed",
+                            "main":  3,
+                            "laptop":  9
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Joystick Left].settings.items[name=House Left - USB3.0 Video].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Joystick Right].settings.id_counter",
+                            "change":  "changed",
+                            "main":  3,
+                            "laptop":  23
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Joystick Right].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Blackmagic].settings.items[name=House Right - ATEM Mini].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Blackmagic].settings.items[name=USB Audio].bounds_rel.x",
+                            "change":  "changed",
+                            "main":  3.555555582046509,
+                            "laptop":  3.5555555820465088
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Blackmagic].private_settings.show_in_multiview",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  false
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".sources[name=Lower Thirds - Speakers].settings.id_counter",
+                            "change":  "changed",
+                            "main":  1,
+                            "laptop":  2
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".current_scene",
+                            "change":  "changed",
+                            "main":  "Right Speaker Close-up - P5",
+                            "laptop":  "Left Pulpit - P0"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".current_program_scene",
+                            "change":  "changed",
+                            "main":  "Right Speaker Close-up - P5",
+                            "laptop":  "Right Full Room - P3"
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".saved_projectors[0]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "monitor":  1,
+                                           "type":  4,
+                                           "geometry":  "AdnQywADAAAAAAAAAAAAAAAAB38AAAQ3AAAAAAAAAAAAAAd/AAAENwAAAAEABAAAB4AAAAAAAAAAAAAAB38AAAQ3",
+                                           "alwaysOnTopOverridden":  false
+                                       }
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".saved_projectors[1]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "monitor":  2,
+                                           "type":  3,
+                                           "geometry":  "AdnQywADAAAAAA8AAAAAAAAAFn8AAAQ3AAAPAAAAAAAAABZ/AAAENwAAAAIABAAAB4AAAA8AAAAAAAAAFn8AAAQ3",
+                                           "alwaysOnTopOverridden":  false
+                                       }
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".saved_projectors[2]",
+                            "change":  "added on laptop",
+                            "main":  null,
+                            "laptop":  {
+                                           "monitor":  2,
+                                           "type":  3,
+                                           "geometry":  "AdnQywADAAAAAA8AAAAAAAAAFn8AAAQ3AAAPAAAAAAAAABZ/AAAENwAAAAIABAAAB4AAAA8AAAAAAAAAFn8AAAQ3",
+                                           "alwaysOnTopOverridden":  false
+                                       }
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".scaling_level",
+                            "change":  "changed",
+                            "main":  -6,
+                            "laptop":  -5
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".modules.downstream_keyers[name=Lyrics].scenes[name=Lower Thirds - Lyrics].checked",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".modules.downstream_keyers[name=Speaker Names].hide_after",
+                            "change":  "changed",
+                            "main":  10000,
+                            "laptop":  20000
+                        },
+                        {
+                            "file":  "configs/independence-building/independence-building.json",
+                            "path":  ".modules.downstream_keyers[name=Speaker Names].scenes[name=Lower Thirds - Speakers].checked",
+                            "change":  "changed",
+                            "main":  false,
+                            "laptop":  true
+                        }
+                    ]
+}
