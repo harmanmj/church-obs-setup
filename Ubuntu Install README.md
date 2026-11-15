@@ -40,7 +40,7 @@
     ```
 
 # Updating Only the Scene Collections
-Use this when only the scene collections have changed. It installs the newest Alkire and Quail - NDI and Independence Building - Hardware collections without running the rest of the setup (nothing else is installed or changed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. Close OBS, then run the following in a normal terminal, without sudo:
+Use this when only the scene collections have changed. It installs the newest Alkire and Quail - NDI and Independence Building - Hardware collections without running the rest of the setup (nothing else is installed or changed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also builds the notch filter plugins used on USB Audio if they are missing, and makes sure OBS can find them. Close OBS, then run the following in a normal terminal, without sudo:
 * **Update the Scene Collections** (type 1 or 2 when it asks which scene collection should be the default)
     ```terminal
     cd ~/church-obs-setup
