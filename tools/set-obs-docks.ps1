@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-  Install the OBS window layout in configs\obs-layout.ini, which has the PTZ Controls dock in place.
+  Install the OBS window layout in obs-scene-collections\obs-layout.ini, which has the PTZ Controls dock in place.
   (Windows twin of set-obs-docks.py.)
 
 .DESCRIPTION
@@ -40,7 +40,7 @@ if ($current) {
     }
 }
 
-$layout = [string[]]@(Get-Content (Join-Path $PSScriptRoot '..\configs\obs-layout.ini') |
+$layout = [string[]]@(Get-Content (Join-Path $PSScriptRoot '..\obs-scene-collections\obs-layout.ini') |
     Where-Object { $_ -match '^(geometry|DockState)=' })
 $out = New-Object System.Collections.Generic.List[string]
 $inSection = $false; $seen = $false

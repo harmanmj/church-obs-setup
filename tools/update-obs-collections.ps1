@@ -5,7 +5,7 @@
 
     powershell -ExecutionPolicy Bypass -File .\tools\update-obs-collections.ps1 [-Default alkire-and-quail|independence-building]
 
-  - Installs every collection in configs\ (from the branch that is checked out).
+  - Installs every collection in obs-scene-collections\ (from the branch that is checked out).
   - Each file it replaces is saved next to it as *.bak.
   - Keeps what was already picked in OBS, by source name: the "USB Audio" microphone, capture devices and
     NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
@@ -16,8 +16,8 @@
 param([string]$Default, [string]$Repo = (Split-Path -Parent $PSScriptRoot))
 $ErrorActionPreference = 'Stop'
 if (Get-Process obs64 -ErrorAction SilentlyContinue) { Write-Host 'Close OBS first, then run this again.' -ForegroundColor Red; exit 1 }
-$configRoot = Join-Path $Repo 'configs'
-if (-not (Test-Path $configRoot)) { Write-Host "No configs folder in $Repo" -ForegroundColor Red; exit 1 }
+$configRoot = Join-Path $Repo 'obs-scene-collections'
+if (-not (Test-Path $configRoot)) { Write-Host "No obs-scene-collections folder in $Repo" -ForegroundColor Red; exit 1 }
 Write-Host "Scene collections from $configRoot"
 
 # Which collection OBS opens on: the same menu, in the same order, as setup-obs-windows.ps1.

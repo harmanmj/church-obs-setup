@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Update just the OBS scene collections on this computer from this repo.
 
-Installs every collection in configs/ the same way setup-obs-flatpak.sh does, without running the rest of
+Installs every collection in obs-scene-collections/ the same way setup-obs-flatpak.sh does, without running the rest of
 the setup (no software installs, no audio or other OBS settings). The Windows twin is
 tools/update-obs-collections.ps1.
 
@@ -30,16 +30,16 @@ OBS_DIR = pathlib.Path.home() / ".var/app/com.obsproject.Studio/config/obs-studi
 SCENES = OBS_DIR / "basic" / "scenes"
 
 parser = argparse.ArgumentParser(description="Update just the OBS scene collections from this repo.")
-parser.add_argument("--default", help="the collection OBS opens on (a folder name in configs/)")
+parser.add_argument("--default", help="the collection OBS opens on (a folder name in obs-scene-collections/)")
 args = parser.parse_args()
 
 if subprocess.run(["pgrep", "-f", "com.obsproject.Studio"], capture_output=True).returncode == 0:
     sys.exit("Close OBS first, then run this again.")
 # Which collection OBS opens on: the same menu, in the same order, as setup-obs-flatpak.sh.
-found = sorted(p.name for p in (REPO / "configs").iterdir() if p.is_dir())
+found = sorted(p.name for p in (REPO / "obs-scene-collections").iterdir() if p.is_dir())
 names = [n for n in ("alkire-and-quail", "independence-building") if n in found]
 names += [n for n in found if n not in names]
-configs = [REPO / "configs" / n for n in names]
+configs = [REPO / "obs-scene-collections" / n for n in names]
 if args.default:
     if args.default not in names:
         sys.exit(f"No collection named {args.default} (have: {', '.join(names)})")
@@ -73,7 +73,7 @@ def pick_microphone():
 
 microphone = None
 SCENES.mkdir(parents=True, exist_ok=True)
-print(f"Scene collections from {REPO / 'configs'}")
+print(f"Scene collections from {REPO / 'obs-scene-collections'}")
 for config in configs:
     for src in sorted(config.glob("*.json")):
         dest = SCENES / src.name
@@ -132,6 +132,6 @@ if plugins and shutil.which("flatpak"):
             print("WARNING: could not set VST_PATH for OBS; the notch filters on 'USB Audio' will not load.")
 
 if args.default:
-    collection = next((REPO / "configs" / args.default).glob("*.json"))
+    collection = next((REPO / "obs-scene-collections" / args.default).glob("*.json"))
     subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-collection.py"), str(OBS_DIR), str(collection)],
                    check=True)

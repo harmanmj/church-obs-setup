@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Install the OBS window layout in configs/obs-layout.ini, which has the PTZ Controls dock in place.
+"""Install the OBS window layout in obs-scene-collections/obs-layout.ini, which has the PTZ Controls dock in place.
 
 Usage: set-obs-docks.py OBS_CONFIG_DIR   (e.g. ~/.var/app/com.obsproject.Studio/config/obs-studio)
 Keeps the layout already there if PTZ Controls is docked in it, so changes made in OBS survive a re-run.
@@ -10,7 +10,7 @@ import configparser
 import pathlib
 import sys
 
-LAYOUT = pathlib.Path(__file__).resolve().parent.parent / "configs" / "obs-layout.ini"
+LAYOUT = pathlib.Path(__file__).resolve().parent.parent / "obs-scene-collections" / "obs-layout.ini"
 PTZ_DOCK = "ptz-dock".encode("utf-16-be")  # names in Qt's saved window state are UTF-16
 DOCKED = 1  # the flags byte after the name: 1 visible, 2 floating
 

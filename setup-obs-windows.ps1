@@ -12,7 +12,7 @@
      comes from the fork https://github.com/harmanmj/obs-downstream-keyer (adds Load On Scene), or from
      exeldro/obs-downstream-keyer when the fork has no release published
   5. ffmpeg (via winget) and VB-Audio Virtual Cable, the virtual microphone Zoom listens to
-  6. OBS configuration: every scene collection in configs\, with the chosen one set as the default, with the USB input picked, OBS's audio
+  6. OBS configuration: every scene collection in obs-scene-collections\, with the chosen one set as the default, with the USB input picked, OBS's audio
      monitoring sent to the virtual cable, the window layout with PTZ Controls docked, and a firewall rule
      for NDI
   7. The sacrament graphic and the sacrament music playlist in Documents\sacrament
@@ -21,7 +21,7 @@
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 [-Config alkire-and-quail|independence-building | -NoConfig]
   The script can be run again at any time; it installs only what is missing and refreshes the configuration.
 
-.PARAMETER Config       Every scene collection in configs\ is installed; this is the one OBS opens on by
+.PARAMETER Config       Every scene collection in obs-scene-collections\ is installed; this is the one OBS opens on by
                         default: alkire-and-quail or independence-building (asks if omitted).
 .PARAMETER NoConfig     Skip the OBS scene collections.
 .PARAMETER AudioDevice  The microphone input for OBS: part of its name as Windows shows it, or its endpoint id.
@@ -315,13 +315,13 @@ if (-not (Get-NetFirewallRule -DisplayName 'OBS Studio (church setup)' -ErrorAct
         -Program $ObsExe -Profile Any | Out-Null
 }
 
-$configRoot = Join-Path $ScriptDir 'configs'
+$configRoot = Join-Path $ScriptDir 'obs-scene-collections'
 $found = @()
 if (Test-Path $configRoot) { $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name) }
 # Menu order: alkire-and-quail first, then independence-building, then anything else.
 $configs = @(@('alkire-and-quail', 'independence-building') | Where-Object { $found -contains $_ }) +
            @($found | Where-Object { @('alkire-and-quail', 'independence-building') -notcontains $_ })
-# Every scene collection in configs\ is installed; $Config is the one OBS opens on. $InstallCollections is
+# Every scene collection in obs-scene-collections\ is installed; $Config is the one OBS opens on. $InstallCollections is
 # false only with -NoConfig (or nothing to install); $Config empty otherwise means "leave the default as it is".
 $InstallCollections = -not $NoConfig -and $configs.Count -gt 0
 if ($NoConfig) {

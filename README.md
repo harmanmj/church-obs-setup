@@ -64,11 +64,11 @@ HX2/HX3 cameras.
   none, Flathub's is installed until the next run).
 - On a first setup it sets OBS's video to a 1920x1080 canvas and output at 30 fps, with recording quality "Same as
   stream", and skips its Auto-Configuration Wizard (`tools/set-obs-video.py` sets the video again).
-- It installs the OBS window layout in `configs/obs-layout.ini`, with the PTZ Controls dock in the bottom row.
+- It installs the OBS window layout in `obs-scene-collections/obs-layout.ini`, with the PTZ Controls dock in the bottom row.
   A layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
-- It installs every scene collection in `configs/` (alkire-and-quail and independence-building), then asks which
+- It installs every scene collection in `obs-scene-collections/` (alkire-and-quail and independence-building), then asks which
   one OBS opens on by default (1 alkire-and-quail, 2 independence-building), or take `--config=alkire-and-quail` or
   `--config=independence-building` up front; `--no-config` skips them. Each is an OBS scene collection with the
   cameras, PTZ presets and the sacrament scene. An existing file is saved as `*.bak` first. Run without a
@@ -85,7 +85,7 @@ HX2/HX3 cameras.
     above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...), with **Joystick Left**
     and **Joystick Right** in place of Joystick. The camera video comes from USB video capture devices instead
     of NDI: House Left from a USB HDMI capture device, House Right from a Blackmagic ATEM Mini. Pick each
-    source's Device in OBS after setup (see `configs/independence-building/README.md`). It also has the stake
+    source's Device in OBS after setup (see `obs-scene-collections/independence-building/README.md`). It also has the stake
     conference scenes: FreeShow lower thirds over NDI, a camera Video Overlay and a Blackmagic scene.
   - Video comes from the cameras (their own audio is not used). Audio comes from the "USB Audio" source, a
     USB input (the Sound Blaster where there is one), in every scene except Sacrament. The installer picks the
@@ -157,7 +157,7 @@ computer always runs the current version. Run it again at any time to update; cl
   VB-CABLE is donationware with its own licence (<https://vb-audio.com/Services/licensing.htm>); its setup
   window opens: click "Install Driver" and accept. It needs a Windows restart: restart, then run the script
   again to finish;
-- installs every scene collection in `configs\` (an existing file is saved as `*.bak`) and makes the chosen
+- installs every scene collection in `obs-scene-collections\` (an existing file is saved as `*.bak`) and makes the chosen
   one the one OBS opens on (`-Config alkire-and-quail|independence-building`, else it asks 1 or 2; `-NoConfig`
   skips the collections). The "USB Audio" source becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input,
   else (with a warning) another real input, never "NDI Webcam Audio", whose sound is poor; plug the USB
@@ -168,7 +168,7 @@ computer always runs the current version. Run it again at any time to update; cl
   as stream", and skips its Auto-Configuration Wizard (`tools\set-obs-video.ps1` sets the video again);
 - opens OBS in studio mode (OBS remembers the mode on exit, so if someone turns it off it stays off until the
   script runs again);
-- installs the OBS window layout in `configs\obs-layout.ini`, with the PTZ Controls dock in the bottom row. A
+- installs the OBS window layout in `obs-scene-collections\obs-layout.ini`, with the PTZ Controls dock in the bottom row. A
   layout that already has PTZ Controls docked is left alone, so changes made in OBS survive a re-run;
 - adds a firewall rule for NDI, makes the sacrament graphic, and builds the sacrament playlist from
   `audio\sacrament-playlist.txt` (`tools\make-sacrament-playlist.ps1`) in `Documents\sacrament`.
