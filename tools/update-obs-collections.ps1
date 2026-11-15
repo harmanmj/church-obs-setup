@@ -9,6 +9,8 @@
   - Each file it replaces is saved next to it as *.bak.
   - Keeps what was already picked in OBS, by source name: the "USB Audio" microphone, capture devices and
     NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
+  - Installs the notch filter plugins to C:\Program Files\VSTPlugins when they are missing or out of date
+    (that needs administrator; otherwise it prints the command to do it).
   - Asks which collection OBS opens on, like the setup script (1 alkire-and-quail, 2 independence-building);
     -Default answers up front. Run without a console to ask in, it leaves OBS's current one.
   Run it as the person who uses OBS (no administrator needed). Close OBS first.
@@ -54,12 +56,34 @@ New-Item -ItemType Directory -Force $scenes | Out-Null
 $sacramentFwd = (Join-Path ([Environment]::GetFolderPath('MyDocuments')) 'sacrament') -replace '\\', '/'
 $utf8 = New-Object System.Text.UTF8Encoding $false
 
+# The notch filter plugins (the filters on "USB Audio"), as setup-obs-windows.ps1 installs them: from
+# tools\hum-notch-vst\windows to C:\Program Files\VSTPlugins. Writing there needs administrator, so when this
+# runs without it and a plugin is missing or out of date, it says how to copy them instead.
+$VstDir = Join-Path $env:ProgramFiles 'VSTPlugins'
+$vstFwd = $VstDir -replace '\\', '/'
+$vstStale = @(Get-ChildItem (Join-Path $Repo 'tools\hum-notch-vst\windows') -Filter *.dll -ErrorAction SilentlyContinue | Where-Object {
+    $installed = Join-Path $VstDir $_.Name
+    -not (Test-Path $installed) -or (Get-FileHash $installed).Hash -ne (Get-FileHash $_.FullName).Hash
+})
+if ($vstStale.Count -gt 0) {
+    try {
+        New-Item -ItemType Directory -Force $VstDir -ErrorAction Stop | Out-Null
+        $vstStale | Copy-Item -Destination $VstDir -Force -ErrorAction Stop
+        Write-Host "Notch filter plugins installed in ${VstDir}: $(($vstStale | ForEach-Object BaseName) -join ', ')"
+    } catch {
+        $src = Join-Path $Repo 'tools\hum-notch-vst\windows\*.dll'
+        Write-Host "The notch filter plugins need installing ($(($vstStale | ForEach-Object BaseName) -join ', ')), which needs administrator." -ForegroundColor Yellow
+        Write-Host "  In PowerShell as administrator: New-Item -ItemType Directory -Force '$VstDir'; Copy-Item '$src' '$VstDir' -Force" -ForegroundColor Yellow
+    }
+}
+
 foreach ($f in $configs | ForEach-Object { Get-ChildItem (Join-Path $configRoot $_) -Filter *.json }) {
     $dest = Join-Path $scenes $f.Name
     $text = [IO.File]::ReadAllText($f.FullName, [Text.Encoding]::UTF8)
     $text = $text.Replace('@HOME@/Documents/sacrament', $sacramentFwd).Replace('DejaVu Serif', 'Georgia')
     $text = $text.Replace('"id": "pulse_input_capture"', '"id": "wasapi_input_capture"').Replace('"versioned_id": "pulse_input_capture"', '"versioned_id": "wasapi_input_capture"')
     $text = $text.Replace('"id": "v4l2_input"', '"id": "dshow_input"').Replace('"versioned_id": "v4l2_input"', '"versioned_id": "dshow_input"')
+    $text = [regex]::Replace($text, '@HOME@/\.vst/([^"/]+)\.so', ($vstFwd + '/$1.dll'))
 
     # Keep what was picked in OBS: the microphone, capture devices and NDI senders, by source name.
     $mic = $deviceId; $kept = @()

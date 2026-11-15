@@ -369,10 +369,28 @@ if ($InstallCollections) {
     $deviceName = if ($pick) { $pick.Name } else { 'the Windows default input' }
     Write-Host "    Audio input for OBS: $deviceName (change it on the 'USB Audio' source in OBS if this is wrong)"
 
+    # The notch filters on "USB Audio" (HumNotch, SquealNotch, Notch6381, Notch13623) are VST 2.x plugins. The
+    # Windows builds are in the repo (tools\hum-notch-vst\windows, built by build-windows.ps1); they go to
+    # C:\Program Files\VSTPlugins, a folder OBS's VST filter lists, and the filters point there.
+    $VstDir = Join-Path $env:ProgramFiles 'VSTPlugins'
+    $vstBuilt = @(Get-ChildItem (Join-Path $ScriptDir 'tools\hum-notch-vst\windows') -Filter *.dll -ErrorAction SilentlyContinue)
+    if ($vstBuilt.Count -gt 0) {
+        New-Item -ItemType Directory -Force $VstDir | Out-Null
+        try {
+            $vstBuilt | Copy-Item -Destination $VstDir -Force
+            Write-Host "    Notch filter plugins in ${VstDir}: $(($vstBuilt | ForEach-Object BaseName) -join ', ')"
+        } catch {
+            Write-Warning "Could not copy the notch filter plugins to $VstDir (is OBS open?): $($_.Exception.Message)"
+        }
+    } else {
+        Write-Warning 'No notch filter plugins in tools\hum-notch-vst\windows; the filters on "USB Audio" will not load.'
+    }
+
     $scenes = Join-Path $ObsDir 'basic\scenes'
     New-Item -ItemType Directory -Force $scenes | Out-Null
     # OBS accepts forward slashes in paths, and they need no JSON escaping
     $sacramentFwd = $MusicDir -replace '\\', '/'
+    $vstFwd = $VstDir -replace '\\', '/'
     foreach ($f in $configs | ForEach-Object { Get-ChildItem (Join-Path $configRoot $_) -Filter *.json }) {
         $dest = Join-Path $scenes $f.Name
         if (Test-Path $dest) { Copy-Item $dest "$dest.$(Get-Date -Format yyyyMMdd-HHmmss).bak" }
@@ -384,6 +402,8 @@ if ($InstallCollections) {
         # Video capture devices (the ATEM Mini) are V4L2 inputs in the repo; on Windows they are DirectShow inputs.
         $text = $text.Replace('"id": "v4l2_input"', '"id": "dshow_input"')
         $text = $text.Replace('"versioned_id": "v4l2_input"', '"versioned_id": "dshow_input"')
+        # The notch filters load ~/.vst/<name>.so on Linux; on Windows, <name>.dll from C:\Program Files\VSTPlugins.
+        $text = [regex]::Replace($text, '@HOME@/\.vst/([^"/]+)\.so', ($vstFwd + '/$1.dll'))
         $text = $text.Replace('@AUDIO_DEVICE@', $deviceId)
         [IO.File]::WriteAllText($dest, $text, $utf8)
     }

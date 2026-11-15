@@ -32,7 +32,7 @@ The setup script installs Downstream Keyer from the newest release of a fork on 
     ```
 
 # Updating Only the Scene Collections
-Use this when only the scene collections have changed. It installs the newest Alkire and Quail - NDI and Independence Building - Hardware collections without running the rest of the setup (nothing else is installed or changed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. Close OBS, then run the following in a normal PowerShell (not as administrator):
+Use this when only the scene collections have changed. It installs the newest Alkire and Quail - NDI and Independence Building - Hardware collections without running the rest of the setup (nothing else is installed or changed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. If the notch filter plugins used on USB Audio are missing or out of date, it prints a command to install them from an administrator PowerShell (the full setup above installs them itself). Close OBS, then run the following in a normal PowerShell (not as administrator):
 * **Update the Scene Collections** (type 1 or 2 when it asks which scene collection should be the default)
     ```powershell
     cd c:\church-obs-setup

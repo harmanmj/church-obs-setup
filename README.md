@@ -210,7 +210,9 @@ Never commit `secrets.env` or `user-data`.
 
 OBS has no notch filter, so the setup script builds small VST 2.x plugins (`tools/hum-notch-vst/`, built into `~/.vst` by
 `build.sh`; needs `gcc`, which the setup script installs) and both scene collections have them as filters on their
-"USB Audio" source. Linux only: on Windows OBS skips these filters, because the plugins are built for Linux. Each filter has an eye icon in OBS to turn it on and off without a blip. They are fixed notches, not adaptive,
+"USB Audio" source. On Windows the same plugins are prebuilt as DLLs in `tools/hum-notch-vst/windows/` (by
+`build-windows.ps1`, with clang; rebuild and commit them after changing the C files), and `setup-obs-windows.ps1` copies
+them to `C:\Program Files\VSTPlugins` and points the filters there. Each filter has an eye icon in OBS to turn it on and off without a blip. They are fixed notches, not adaptive,
 so they leave music alone apart from a thin slice at each frequency:
 
 | Filter | Removes |
