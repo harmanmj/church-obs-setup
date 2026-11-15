@@ -11,12 +11,14 @@ Usage (as the person who uses OBS, not with sudo; close OBS first):
 - Each file it replaces is saved next to it as *.bak.
 - Keeps what was already picked in OBS, by source name: the "USB Audio" microphone, capture devices and
   NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
+- Builds the notch filter plugins (tools/hum-notch-vst/build.sh) into ~/.vst if any are missing.
 - Asks which collection OBS opens on, like the setup script (1 alkire-and-quail, 2 independence-building);
   --default answers up front. Run without a terminal to ask in, it leaves OBS's current one.
 """
 import argparse
 import json
 import pathlib
+import re
 import shutil
 import subprocess
 import sys
@@ -104,6 +106,20 @@ for config in configs:
         print(f"Updated {src.name} ({collection['name']})")
         if kept:
             print(f"    kept from OBS: {', '.join(kept)}")
+
+# The notch filters on "USB Audio" load VST plugins from ~/.vst. Build any that are missing, as the setup script
+# does; without them OBS skips those filters. OBS also needs VST_PATH, which only the setup script sets.
+VST_DIR = pathlib.Path.home() / ".vst"
+plugins = {pathlib.PurePosixPath(path).name for c in configs for f in c.glob("*.json")
+           for path in re.findall(r'"plugin_path":\s*"([^"]+)"', f.read_text(encoding="utf-8"))}
+missing = sorted(name for name in plugins if not (VST_DIR / name).exists())
+if missing:
+    if shutil.which("gcc"):
+        print(f"Building the notch filter plugins into {VST_DIR} (missing: {', '.join(missing)})")
+        subprocess.run(["bash", str(REPO / "tools" / "hum-notch-vst" / "build.sh")], check=False)
+    else:
+        print(f"WARNING: {', '.join(missing)} not in {VST_DIR} and gcc is missing, so the notch filters on "
+              "'USB Audio' will not load. Run: sudo apt-get install -y gcc && bash tools/hum-notch-vst/build.sh")
 
 if args.default:
     collection = next((REPO / "configs" / args.default).glob("*.json"))
