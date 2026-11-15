@@ -3920,7 +3920,8 @@
                 "tie": false,
                 "scenes": [
                     {
-                        "name": "Lower Thirds - Lyrics"
+                        "name": "Lower Thirds - Lyrics",
+                        "checked": true
                     }
                 ],
                 "scene": "",
@@ -3941,7 +3942,8 @@
                 "tie": false,
                 "scenes": [
                     {
-                        "name": "Lower Thirds - Speakers"
+                        "name": "Lower Thirds - Speakers",
+                        "checked": true
                     }
                 ],
                 "scene": "",

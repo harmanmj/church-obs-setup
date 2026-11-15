@@ -7249,7 +7249,7 @@
                 "scenes": [
                     {
                         "name": "Lower Thirds - Lyrics",
-                        "checked": false
+                        "checked": true
                     }
                 ],
                 "scene": "",
@@ -7273,7 +7273,7 @@
                 "scenes": [
                     {
                         "name": "Lower Thirds - Speakers",
-                        "checked": false
+                        "checked": true
                     }
                 ],
                 "scene": "",
@@ -7297,7 +7297,7 @@
                 "scenes": [
                     {
                         "name": "Lower Thirds - Camera",
-                        "checked": false
+                        "checked": true
                     }
                 ],
                 "scene": "",
