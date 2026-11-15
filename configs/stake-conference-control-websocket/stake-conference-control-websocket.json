@@ -1,0 +1,896 @@
+{
+    "name": "Stake Conference - Control (WebSocket)",
+    "sources": [
+        {
+            "prev_ver": 553648129,
+            "name": "USB Audio",
+            "uuid": "78adae18-09c5-4bdb-b46f-7180be524275",
+            "id": "pulse_input_capture",
+            "versioned_id": "pulse_input_capture",
+            "settings": {
+                "device_id": "alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic2__source"
+            },
+            "mixers": 255,
+            "sync": 0,
+            "flags": 0,
+            "volume": 0.25118863582611084,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "libobs.mute": [],
+                "libobs.unmute": [],
+                "libobs.monitor-on": [],
+                "libobs.monitor-off": [],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "Camera Monitor",
+            "uuid": "3ffbd456-e6dd-4307-80af-a56d2aae2ced",
+            "id": "browser_source",
+            "versioned_id": "browser_source",
+            "settings": {
+                "url": "data:text/html;base64,PCFkb2N0eXBlIGh0bWw+CjxodG1sPjxoZWFkPjxtZXRhIGNoYXJzZXQ9InV0Zi04Ij48dGl0bGU+Q2FtZXJhIE1vbml0b3I8L3RpdGxlPgo8c3R5bGU+CiAgaHRtbCxib2R5e21hcmdpbjowO3dpZHRoOjE5MjBweDtoZWlnaHQ6MTA4MHB4O2JhY2tncm91bmQ6IzBiMGIwZDtvdmVyZmxvdzpoaWRkZW47Zm9udC1mYW1pbHk6c3lzdGVtLXVpLEFyaWFsLHNhbnMtc2VyaWY7Y29sb3I6I2ZmZn0KICAucGFuZWx7cG9zaXRpb246YWJzb2x1dGU7dG9wOjI0MHB4O3dpZHRoOjk2MHB4O2hlaWdodDo1NDBweDtiYWNrZ3JvdW5kOiMwMDB9CiAgI3Bse2xlZnQ6MH0jcHJ7bGVmdDo5NjBweH0KICAucGFuZWwgaW1ne3dpZHRoOjEwMCU7aGVpZ2h0OjEwMCU7ZGlzcGxheTpibG9jaztvYmplY3QtZml0OmZpbGx9CiAgLnBhbmVsOjphZnRlcntjb250ZW50OiIiO3Bvc2l0aW9uOmFic29sdXRlO2luc2V0OjA7cG9pbnRlci1ldmVudHM6bm9uZTtib3JkZXI6MCBzb2xpZCB0cmFuc3BhcmVudH0KICAucGFuZWwucHJldmlldzo6YWZ0ZXJ7Ym9yZGVyOjEycHggc29saWQgIzFmYjg1NX0KICAucGFuZWwubGl2ZTo6YWZ0ZXJ7Ym9yZGVyOjEycHggc29saWQgI2U1MjIyYn0KICAubmFtZXtwb3NpdGlvbjphYnNvbHV0ZTtsZWZ0OjIycHg7Ym90dG9tOjE4cHg7Zm9udC1zaXplOjQ0cHg7Zm9udC13ZWlnaHQ6ODAwO2xldHRlci1zcGFjaW5nOi4wNmVtO3RleHQtc2hhZG93OjAgMnB4IDhweCAjMDAwfQogIC5iYWRnZXN7cG9zaXRpb246YWJzb2x1dGU7cmlnaHQ6MjJweDt0b3A6MjBweDtkaXNwbGF5OmZsZXg7Z2FwOjEycHh9CiAgLmJhZGdle2Rpc3BsYXk6bm9uZTtmb250LXNpemU6NDBweDtmb250LXdlaWdodDo5MDA7bGV0dGVyLXNwYWNpbmc6LjA4ZW07cGFkZGluZzo0cHggMjBweDtib3JkZXItcmFkaXVzOjhweH0KICAucGFuZWwubGl2ZSAuYi1saXZle2Rpc3BsYXk6YmxvY2s7YmFja2dyb3VuZDojZTUyMjJifQogIC5wYW5lbC5wcmV2aWV3IC5iLXByZXZ7ZGlzcGxheTpibG9jaztiYWNrZ3JvdW5kOiMxZmI4NTV9CiAgLm5vc2lne3Bvc2l0aW9uOmFic29sdXRlO2luc2V0OjA7ZGlzcGxheTpub25lO2FsaWduLWl0ZW1zOmNlbnRlcjtqdXN0aWZ5LWNvbnRlbnQ6Y2VudGVyO2JhY2tncm91bmQ6IzAwMGM7Zm9udC1zaXplOjU2cHg7Zm9udC13ZWlnaHQ6ODAwfQogIC5wYW5lbC5zdGFsZSAubm9zaWd7ZGlzcGxheTpmbGV4fQogICNiYXJ7cG9zaXRpb246YWJzb2x1dGU7bGVmdDowO3JpZ2h0OjA7dG9wOjgwMHB4O3RleHQtYWxpZ246Y2VudGVyO2ZvbnQtc2l6ZTo0MHB4O2ZvbnQtd2VpZ2h0OjcwMH0KICAjYmFyIC5se2NvbG9yOiNmZjZiNzJ9I2JhciAucHtjb2xvcjojNGZlMDhhO21hcmdpbi1sZWZ0OjYwcHh9CiAgI3N0YXR1c3twb3NpdGlvbjphYnNvbHV0ZTtsZWZ0OjA7cmlnaHQ6MDt0b3A6ODgwcHg7dGV4dC1hbGlnbjpjZW50ZXI7Zm9udC1zaXplOjMwcHg7Y29sb3I6I2JiYn0KPC9zdHlsZT48L2hlYWQ+Cjxib2R5Pgo8ZGl2IGNsYXNzPSJwYW5lbCIgaWQ9InBsIj48aW1nIGlkPSJpbCIgYWx0PSIiPjxkaXYgY2xhc3M9Im5hbWUiPkxFRlQ8L2Rpdj48ZGl2IGNsYXNzPSJiYWRnZXMiPjxkaXYgY2xhc3M9ImJhZGdlIGItcHJldiI+UFJFVklFVzwvZGl2PjxkaXYgY2xhc3M9ImJhZGdlIGItbGl2ZSI+TElWRTwvZGl2PjwvZGl2PjxkaXYgY2xhc3M9Im5vc2lnIj5OTyBTSUdOQUw8L2Rpdj48L2Rpdj4KPGRpdiBjbGFzcz0icGFuZWwiIGlkPSJwciI+PGltZyBpZD0iaXIiIGFsdD0iIj48ZGl2IGNsYXNzPSJuYW1lIj5SSUdIVDwvZGl2PjxkaXYgY2xhc3M9ImJhZGdlcyI+PGRpdiBjbGFzcz0iYmFkZ2UgYi1wcmV2Ij5QUkVWSUVXPC9kaXY+PGRpdiBjbGFzcz0iYmFkZ2UgYi1saXZlIj5MSVZFPC9kaXY+PC9kaXY+PGRpdiBjbGFzcz0ibm9zaWciPk5PIFNJR05BTDwvZGl2PjwvZGl2Pgo8ZGl2IGlkPSJiYXIiPjxzcGFuIGNsYXNzPSJsIj5MSVZFOiA8c3BhbiBpZD0idGwiPi08L3NwYW4+PC9zcGFuPjxzcGFuIGNsYXNzPSJwIj5QUkVWSUVXOiA8c3BhbiBpZD0idHAiPi08L3NwYW4+PC9zcGFuPjwvZGl2Pgo8ZGl2IGlkPSJzdGF0dXMiPkNvbm5lY3RpbmcuLi48L2Rpdj4KPHNjcmlwdD4KLy8gLS0tLSBTZXR0aW5nczogZWRpdCB0aGVzZSB0byBtYXRjaCB0aGUgbWFpbiBPQlMgLS0tLQp2YXIgSE9TVD0iMTkyLjE2OC4xMDguNCIsIFBPUlQ9NDQ1NSwgUEFTU1dPUkQ9IjJuZTItMTQiOwp2YXIgTEVGVF9TQ0VORT0iSm95c3RpY2sgTGVmdCIsIFJJR0hUX1NDRU5FPSJKb3lzdGljayBSaWdodCI7IC8vIHNjZW5lcyBvbiB0aGUgbWFpbiBPQlMgdGhhdCBzaG93IGVhY2ggY2FtZXJhIGZ1bGwtc2NyZWVuCnZhciBGUFM9MTAsIFdJRFRIPTk2MCwgSEVJR0hUPTU0MCwgUVVBTElUWT02MDsgICAgICAgICAgICAgICAgLy8gc2NyZWVuc2hvdHMgcGVyIHNlY29uZCBwZXIgY2FtZXJhLCBzaXplLCBKUEVHIHF1YWxpdHkKLy8gLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKLy8gU0hBLTI1NiBpbiBwbGFpbiBKUyAoYSBicm93c2VyIHNvdXJjZSBvbiBhIGRhdGE6IHBhZ2UgaGFzIG5vIGNyeXB0by5zdWJ0bGUpLiBUYWtlcyBhbmQgcmV0dXJucyBhcnJheXMgb2YgYnl0ZXMuCnZhciBTSEFfSz1bXSxTSEFfSD1bXTsKKGZ1bmN0aW9uKCl7CiAgdmFyIG49MixjPTA7CiAgd2hpbGUoYzw2NCl7dmFyIHA9dHJ1ZTtmb3IodmFyIGQ9MjtkKmQ8PW47ZCsrKWlmKG4lZD09PTApe3A9ZmFsc2U7YnJlYWt9CiAgICBpZihwKXtpZihjPDgpU0hBX0gucHVzaChNYXRoLmZsb29yKChNYXRoLnNxcnQobiklMSkqNDI5NDk2NzI5Nik+Pj4wKTtTSEFfSy5wdXNoKE1hdGguZmxvb3IoKE1hdGguY2JydChuKSUxKSo0Mjk0OTY3Mjk2KT4+PjApO2MrK31uKyt9Cn0pKCk7CmZ1bmN0aW9uIHNoYTI1Nihtc2cpewogIHZhciBiPW1zZy5zbGljZSgpLGw9Yi5sZW5ndGg7Yi5wdXNoKDEyOCk7d2hpbGUoYi5sZW5ndGglNjQhPT01NiliLnB1c2goMCk7CiAgdmFyIGhpPU1hdGguZmxvb3IobCo4LzQyOTQ5NjcyOTYpLGxvPShsKjgpPj4+MDsKICBiLnB1c2goaGk+Pj4yNCYyNTUsaGk+Pj4xNiYyNTUsaGk+Pj44JjI1NSxoaSYyNTUsbG8+Pj4yNCYyNTUsbG8+Pj4xNiYyNTUsbG8+Pj44JjI1NSxsbyYyNTUpOwogIHZhciBoPVNIQV9ILnNsaWNlKCksdz1uZXcgQXJyYXkoNjQpOwogIGZ1bmN0aW9uIHIoeCxuKXtyZXR1cm4oeD4+Pm4pfCh4PDwoMzItbikpfQogIGZvcih2YXIgbz0wO288Yi5sZW5ndGg7bys9NjQpewogICAgdmFyIGk7CiAgICBmb3IoaT0wO2k8MTY7aSsrKXdbaV09KGJbbys0KmldPDwyNCl8KGJbbys0KmkrMV08PDE2KXwoYltvKzQqaSsyXTw8OCl8YltvKzQqaSszXTsKICAgIGZvcihpPTE2O2k8NjQ7aSsrKXt2YXIgczA9cih3W2ktMTVdLDcpXnIod1tpLTE1XSwxOCleKHdbaS0xNV0+Pj4zKSxzMT1yKHdbaS0yXSwxNylecih3W2ktMl0sMTkpXih3W2ktMl0+Pj4xMCk7d1tpXT0od1tpLTE2XStzMCt3W2ktN10rczEpfDB9CiAgICB2YXIgYT1oWzBdLGJiPWhbMV0sYz1oWzJdLGQ9aFszXSxlPWhbNF0sZj1oWzVdLGc9aFs2XSxoaD1oWzddOwogICAgZm9yKGk9MDtpPDY0O2krKyl7CiAgICAgIHZhciBTMT1yKGUsNilecihlLDExKV5yKGUsMjUpLGNoPShlJmYpXih+ZSZnKSx0MT0oaGgrUzErY2grU0hBX0tbaV0rd1tpXSl8MDsKICAgICAgdmFyIFMwPXIoYSwyKV5yKGEsMTMpXnIoYSwyMiksbWo9KGEmYmIpXihhJmMpXihiYiZjKSx0Mj0oUzArbWopfDA7CiAgICAgIGhoPWc7Zz1mO2Y9ZTtlPShkK3QxKXwwO2Q9YztjPWJiO2JiPWE7YT0odDErdDIpfDB9CiAgICBoWzBdPShoWzBdK2EpfDA7aFsxXT0oaFsxXStiYil8MDtoWzJdPShoWzJdK2MpfDA7aFszXT0oaFszXStkKXwwO2hbNF09KGhbNF0rZSl8MDtoWzVdPShoWzVdK2YpfDA7aFs2XT0oaFs2XStnKXwwO2hbN109KGhbN10raGgpfDB9CiAgdmFyIG91dD1bXTtoLmZvckVhY2goZnVuY3Rpb24oeCl7b3V0LnB1c2goeD4+PjI0JjI1NSx4Pj4+MTYmMjU1LHg+Pj44JjI1NSx4JjI1NSl9KTtyZXR1cm4gb3V0fQpmdW5jdGlvbiB1dGY4KHMpe3JldHVybiBBcnJheS5wcm90b3R5cGUuc2xpY2UuY2FsbChuZXcgVGV4dEVuY29kZXIoKS5lbmNvZGUocykpfQpmdW5jdGlvbiBiNjQoYSl7cmV0dXJuIGJ0b2EoU3RyaW5nLmZyb21DaGFyQ29kZS5hcHBseShudWxsLGEpKX0KZnVuY3Rpb24gYXV0aChwdyxzYWx0LGNoYWwpe3ZhciBzZWM9YjY0KHNoYTI1Nih1dGY4KHB3K3NhbHQpKSk7cmV0dXJuIGI2NChzaGEyNTYodXRmOChzZWMrY2hhbCkpKX0KCnZhciB3cyxpbmZsaWdodD0wLGxhc3Q9e0w6MCxSOjB9LHByb2c9IiIscHJldj0iIixzdHVkaW89dHJ1ZTsKdmFyICQ9ZnVuY3Rpb24oaSl7cmV0dXJuIGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKGkpfTsKZnVuY3Rpb24gc2lkZShuYW1lKXtpZighbmFtZSlyZXR1cm4gbnVsbDtpZigvXGJsZWZ0XGIvaS50ZXN0KG5hbWUpKXJldHVybiJMIjtpZigvXGJyaWdodFxiL2kudGVzdChuYW1lKSlyZXR1cm4iUiI7cmV0dXJuIG51bGx9CmZ1bmN0aW9uIHJlbmRlcigpewogIFtbJCgicGwiKSwiTCJdLFskKCJwciIpLCJSIl1dLmZvckVhY2goZnVuY3Rpb24oeCl7CiAgICB4WzBdLmNsYXNzTGlzdC50b2dnbGUoImxpdmUiLHNpZGUocHJvZyk9PT14WzFdKTsKICAgIHhbMF0uY2xhc3NMaXN0LnRvZ2dsZSgicHJldmlldyIsc3R1ZGlvJiZzaWRlKHByZXYpPT09eFsxXSk7CiAgfSk7CiAgJCgidGwiKS50ZXh0Q29udGVudD1wcm9nfHwiLSI7JCgidHAiKS50ZXh0Q29udGVudD1zdHVkaW8/KHByZXZ8fCItIik6IihzdHVkaW8gbW9kZSBvZmYpIjsKfQpmdW5jdGlvbiBzZW5kKHQsZCxpZCl7d3Muc2VuZChKU09OLnN0cmluZ2lmeSh7b3A6NixkOntyZXF1ZXN0VHlwZTp0LHJlcXVlc3RJZDppZHx8dCxyZXF1ZXN0RGF0YTpkfHx7fX19KSl9CmZ1bmN0aW9uIHNob3Qoc2MsaWQpe3NlbmQoIkdldFNvdXJjZVNjcmVlbnNob3QiLHtzb3VyY2VOYW1lOnNjLGltYWdlRm9ybWF0OiJqcGciLGltYWdlV2lkdGg6V0lEVEgsaW1hZ2VIZWlnaHQ6SEVJR0hULGltYWdlQ29tcHJlc3Npb25RdWFsaXR5OlFVQUxJVFl9LGlkKX0KZnVuY3Rpb24gdGljaygpewogIHZhciBuPURhdGUubm93KCk7CiAgJCgicGwiKS5jbGFzc0xpc3QudG9nZ2xlKCJzdGFsZSIsbi1sYXN0Lkw+MjAwMCk7JCgicHIiKS5jbGFzc0xpc3QudG9nZ2xlKCJzdGFsZSIsbi1sYXN0LlI+MjAwMCk7CiAgaWYoIXdzfHx3cy5yZWFkeVN0YXRlIT09MXx8aW5mbGlnaHQ+MClyZXR1cm47CiAgaW5mbGlnaHQ9MjtzaG90KExFRlRfU0NFTkUsInNob3RMIik7c2hvdChSSUdIVF9TQ0VORSwic2hvdFIiKTsKfQpmdW5jdGlvbiBjb25uZWN0KCl7CiAgJCgic3RhdHVzIikudGV4dENvbnRlbnQ9IkNvbm5lY3RpbmcgdG8gIitIT1NUKyI6IitQT1JUKyIuLi4iOwogIHdzPW5ldyBXZWJTb2NrZXQoIndzOi8vIitIT1NUKyI6IitQT1JULCJvYnN3ZWJzb2NrZXQuanNvbiIpOwogIHdzLm9ubWVzc2FnZT1mdW5jdGlvbihlKXsKICAgIHZhciBtPUpTT04ucGFyc2UoZS5kYXRhKSxkPW0uZDsKICAgIGlmKG0ub3A9PT0wKXsKICAgICAgdmFyIGlkPXtycGNWZXJzaW9uOjEsZXZlbnRTdWJzY3JpcHRpb25zOjR9OwogICAgICBpZihkLmF1dGhlbnRpY2F0aW9uKWlkLmF1dGhlbnRpY2F0aW9uPWF1dGgoUEFTU1dPUkQsZC5hdXRoZW50aWNhdGlvbi5zYWx0LGQuYXV0aGVudGljYXRpb24uY2hhbGxlbmdlKTsKICAgICAgd3Muc2VuZChKU09OLnN0cmluZ2lmeSh7b3A6MSxkOmlkfSkpOwogICAgfWVsc2UgaWYobS5vcD09PTIpewogICAgICAkKCJzdGF0dXMiKS50ZXh0Q29udGVudD0iQ29ubmVjdGVkIHRvICIrSE9TVCsiIC0gIitGUFMrIiBmcHMgcGVyIGNhbWVyYSI7CiAgICAgIHNlbmQoIkdldFN0dWRpb01vZGVFbmFibGVkIixudWxsLCJzdHVkaW8iKTtzZW5kKCJHZXRTY2VuZUxpc3QiLG51bGwsInNjZW5lcyIpOwogICAgfWVsc2UgaWYobS5vcD09PTUpewogICAgICBpZihkLmV2ZW50VHlwZT09PSJDdXJyZW50UHJvZ3JhbVNjZW5lQ2hhbmdlZCIpe3Byb2c9ZC5ldmVudERhdGEuc2NlbmVOYW1lO3JlbmRlcigpfQogICAgICBpZihkLmV2ZW50VHlwZT09PSJDdXJyZW50UHJldmlld1NjZW5lQ2hhbmdlZCIpe3ByZXY9ZC5ldmVudERhdGEuc2NlbmVOYW1lO3JlbmRlcigpfQogICAgfWVsc2UgaWYobS5vcD09PTcpewogICAgICB2YXIgcj1kLnJlc3BvbnNlRGF0YTsKICAgICAgaWYoZC5yZXF1ZXN0SWQ9PT0ic3R1ZGlvIiYmcil7c3R1ZGlvPXIuc3R1ZGlvTW9kZUVuYWJsZWQ7cmVuZGVyKCl9CiAgICAgIGVsc2UgaWYoZC5yZXF1ZXN0SWQ9PT0ic2NlbmVzIiYmcil7cHJvZz1yLmN1cnJlbnRQcm9ncmFtU2NlbmVOYW1lfHwiIjtwcmV2PXIuY3VycmVudFByZXZpZXdTY2VuZU5hbWV8fCIiO3JlbmRlcigpfQogICAgICBlbHNlIGlmKGQucmVxdWVzdElkPT09InNob3RMInx8ZC5yZXF1ZXN0SWQ9PT0ic2hvdFIiKXsKICAgICAgICBpbmZsaWdodD1NYXRoLm1heCgwLGluZmxpZ2h0LTEpOwogICAgICAgIGlmKGQucmVxdWVzdFN0YXR1cy5yZXN1bHQmJnIpe3ZhciBrPWQucmVxdWVzdElkPT09InNob3RMIj8iTCI6IlIiOyQoaz09PSJMIj8iaWwiOiJpciIpLnNyYz1yLmltYWdlRGF0YTtsYXN0W2tdPURhdGUubm93KCl9ZWxzZSBpZighZC5yZXF1ZXN0U3RhdHVzLnJlc3VsdCl7Y29uc29sZS5sb2coInNjcmVlbnNob3QgZmFpbGVkIixKU09OLnN0cmluZ2lmeShkLnJlcXVlc3RTdGF0dXMpKX0KICAgICAgfQogICAgfQogIH07CiAgd3Mub25jbG9zZT1mdW5jdGlvbigpe2luZmxpZ2h0PTA7JCgic3RhdHVzIikudGV4dENvbnRlbnQ9IkRpc2Nvbm5lY3RlZCBmcm9tICIrSE9TVCsiIC0gcmV0cnlpbmcuLi4iOyQoInBsIikuY2xhc3NMaXN0LmFkZCgic3RhbGUiKTskKCJwciIpLmNsYXNzTGlzdC5hZGQoInN0YWxlIik7c2V0VGltZW91dChjb25uZWN0LDIwMDApfTsKICB3cy5vbmVycm9yPWZ1bmN0aW9uKCl7dHJ5e3dzLmNsb3NlKCl9Y2F0Y2goZSl7fX07Cn0Kc2V0SW50ZXJ2YWwodGljaywxMDAwL0ZQUyk7CnNldEludGVydmFsKGZ1bmN0aW9uKCl7aWYod3MmJndzLnJlYWR5U3RhdGU9PT0xKXtzZW5kKCJHZXRTdHVkaW9Nb2RlRW5hYmxlZCIsbnVsbCwic3R1ZGlvIik7c2VuZCgiR2V0U2NlbmVMaXN0IixudWxsLCJzY2VuZXMiKX19LDMwMDApOwpjb25uZWN0KCk7Cjwvc2NyaXB0PjwvYm9keT48L2h0bWw+Cg==",
+                "width": 1920,
+                "height": 1080,
+                "fps_custom": false,
+                "fps": 30,
+                "shutdown": false,
+                "restart_when_active": false,
+                "reroute_audio": false,
+                "css": ""
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "PTZ Right",
+            "uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
+            "id": "color_source",
+            "versioned_id": "color_source_v3",
+            "settings": {
+                "color": 4280295456,
+                "width": 1920,
+                "height": 1080
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {},
+            "filters": [
+                {
+                    "prev_ver": 553648129,
+                    "name": "VISCA PTZ Control",
+                    "uuid": "1200bad1-6c44-4381-b504-19b41a1b50c6",
+                    "id": "ca.secretlab.obs-ptz.visca",
+                    "versioned_id": "ca.secretlab.obs-ptz.visca",
+                    "settings": {
+                        "presets": [
+                            {
+                                "id": "camera:0",
+                                "name": "Pulpit - P0",
+                                "thumbnail": "81791551-b38f-4be3-b400-0a5837f7b5b5.jpg"
+                            },
+                            {
+                                "id": "camera:1",
+                                "name": "Chorister - P1",
+                                "thumbnail": "e94deb66-b241-4550-8d09-3384bc0a6773.jpg"
+                            },
+                            {
+                                "id": "camera:2",
+                                "name": "Rostrum - P2",
+                                "thumbnail": "f1d47f7e-144c-4053-8f58-db94ae425e86.jpg"
+                            },
+                            {
+                                "id": "camera:3",
+                                "name": "Full Room - P3",
+                                "thumbnail": "c930511d-a264-43a5-abf6-9a78210f364c.jpg"
+                            },
+                            {
+                                "id": "camera:4",
+                                "name": "Piano - P4",
+                                "thumbnail": "952ee63e-46fd-4e4f-8062-79c0b81e4ab6.jpg"
+                            },
+                            {
+                                "id": "camera:5",
+                                "name": "Speaker Close-up - P5",
+                                "thumbnail": "1f4265fb-ea15-4b5b-b8df-7c76de95860b.jpg"
+                            },
+                            {
+                                "id": "camera:6",
+                                "name": "Piano and Pulpit - P6",
+                                "thumbnail": "a34fd636-c36d-4ea6-9991-227b2566af06.jpg"
+                            },
+                            {
+                                "id": "camera:7",
+                                "name": "Organ - P7",
+                                "thumbnail": "ec6f5543-e628-44a2-904e-960e3360d59b.jpg"
+                            },
+                            {
+                                "id": "camera:8",
+                                "name": "Choir - P8",
+                                "thumbnail": "98ae4e8a-2844-418f-98dc-23ac8fa2dc9d.jpg"
+                            }
+                        ],
+                        "host": "192.168.111.245",
+                        "port": 5678,
+                        "preset_order": [
+                            {
+                                "id": "camera:0"
+                            },
+                            {
+                                "id": "camera:1"
+                            },
+                            {
+                                "id": "camera:2"
+                            },
+                            {
+                                "id": "camera:3"
+                            },
+                            {
+                                "id": "camera:4"
+                            },
+                            {
+                                "id": "camera:5"
+                            },
+                            {
+                                "id": "camera:6"
+                            },
+                            {
+                                "id": "camera:7"
+                            },
+                            {
+                                "id": "camera:8"
+                            }
+                        ],
+                        "type": "visca-over-tcp",
+                        "pantilt_speed_max": 1.0,
+                        "zoom_speed_max": 1.0,
+                        "focus_speed_max": 1.0,
+                        "pan_invert": false,
+                        "tilt_invert": false,
+                        "zoom_invert": false,
+                        "focus_invert": false,
+                        "preset_max": 16,
+                        "visca_pan_speed_max": 10,
+                        "visca_tilt_speed_max": 10,
+                        "visca_zoom_speed_max": 7,
+                        "visca_focus_speed_max": 7,
+                        "visca_pan_range": 5120,
+                        "visca_tilt_range": 1280,
+                        "visca_zoom_range": 31424,
+                        "visca_focus_far": 4096,
+                        "visca_focus_near": 61440,
+                        "protocol_trace": false,
+                        "power_on_at_startup": false,
+                        "power_off_at_shutdown": false
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                }
+            ]
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "PTZ Left",
+            "uuid": "73ad8f48-c184-4e9f-9b76-77016ea937e3",
+            "id": "color_source",
+            "versioned_id": "color_source_v3",
+            "settings": {
+                "color": 4280295456,
+                "width": 1920,
+                "height": 1080
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {},
+            "filters": [
+                {
+                    "prev_ver": 553648129,
+                    "name": "VISCA PTZ Control",
+                    "uuid": "41be3484-8fe5-4f7c-a390-e54e53bd5b3c",
+                    "id": "ca.secretlab.obs-ptz.visca",
+                    "versioned_id": "ca.secretlab.obs-ptz.visca",
+                    "settings": {
+                        "presets": [
+                            {
+                                "id": "camera:0",
+                                "name": "Pulpit - P0"
+                            },
+                            {
+                                "id": "camera:1",
+                                "name": "Chorister - P1"
+                            },
+                            {
+                                "id": "camera:2",
+                                "name": "Rostrum - P2"
+                            },
+                            {
+                                "id": "camera:3",
+                                "name": "Full Room - P3"
+                            },
+                            {
+                                "id": "camera:4",
+                                "name": "Piano - P4"
+                            },
+                            {
+                                "id": "camera:5",
+                                "name": "Speaker Close-up - P5"
+                            },
+                            {
+                                "id": "camera:6",
+                                "name": "Piano and Pulpit - P6"
+                            },
+                            {
+                                "id": "camera:7",
+                                "name": "Organ - P7"
+                            },
+                            {
+                                "id": "camera:8",
+                                "name": "Choir - P8"
+                            }
+                        ],
+                        "host": "192.168.111.246",
+                        "port": 5678,
+                        "preset_order": [
+                            {
+                                "id": "camera:0"
+                            },
+                            {
+                                "id": "camera:1"
+                            },
+                            {
+                                "id": "camera:2"
+                            },
+                            {
+                                "id": "camera:3"
+                            },
+                            {
+                                "id": "camera:4"
+                            },
+                            {
+                                "id": "camera:5"
+                            },
+                            {
+                                "id": "camera:6"
+                            },
+                            {
+                                "id": "camera:7"
+                            },
+                            {
+                                "id": "camera:8"
+                            }
+                        ],
+                        "type": "visca-over-tcp",
+                        "pantilt_speed_max": 1.0,
+                        "zoom_speed_max": 1.0,
+                        "focus_speed_max": 1.0,
+                        "pan_invert": false,
+                        "tilt_invert": false,
+                        "zoom_invert": false,
+                        "focus_invert": false,
+                        "preset_max": 16,
+                        "visca_pan_speed_max": 10,
+                        "visca_tilt_speed_max": 10,
+                        "visca_zoom_speed_max": 7,
+                        "visca_focus_speed_max": 7,
+                        "visca_pan_range": 5120,
+                        "visca_tilt_range": 1280,
+                        "visca_zoom_range": 31424,
+                        "visca_focus_far": 4096,
+                        "visca_focus_near": 61440,
+                        "protocol_trace": false,
+                        "power_on_at_startup": false,
+                        "power_off_at_shutdown": false
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                }
+            ]
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "Joystick Right",
+            "uuid": "d9df3da6-8980-43b7-945b-56f567a49f2e",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "custom_size": false,
+                "id_counter": 3,
+                "items": [
+                    {
+                        "name": "Camera Monitor",
+                        "source_uuid": "3ffbd456-e6dd-4307-80af-a56d2aae2ced",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "USB Audio",
+                        "source_uuid": "78adae18-09c5-4bdb-b46f-7180be524275",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 2,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "PTZ Right",
+                        "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
+                        "visible": false,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 3,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": [],
+                "libobs.show_scene_item.2": [],
+                "libobs.hide_scene_item.2": [],
+                "libobs.show_scene_item.3": [],
+                "libobs.hide_scene_item.3": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "Joystick Left",
+            "uuid": "bbc77f54-19d9-4c4d-a4f6-e7e1d73a32bf",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "custom_size": false,
+                "id_counter": 3,
+                "items": [
+                    {
+                        "name": "Camera Monitor",
+                        "source_uuid": "3ffbd456-e6dd-4307-80af-a56d2aae2ced",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "USB Audio",
+                        "source_uuid": "78adae18-09c5-4bdb-b46f-7180be524275",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 2,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "PTZ Left",
+                        "source_uuid": "73ad8f48-c184-4e9f-9b76-77016ea937e3",
+                        "visible": false,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 3,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": [],
+                "libobs.show_scene_item.2": [],
+                "libobs.hide_scene_item.2": [],
+                "libobs.show_scene_item.3": [],
+                "libobs.hide_scene_item.3": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
+        }
+    ],
+    "groups": [],
+    "scene_order": [
+        {
+            "name": "Joystick Left"
+        },
+        {
+            "name": "Joystick Right"
+        }
+    ],
+    "current_scene": "Joystick Left",
+    "current_program_scene": "Joystick Left",
+    "canvases": [],
+    "current_transition": "Fade",
+    "transition_duration": 300,
+    "transitions": [],
+    "quick_transitions": [
+        {
+            "name": "Cut",
+            "duration": 300,
+            "hotkeys": [],
+            "id": 1,
+            "fade_to_black": false
+        },
+        {
+            "name": "Fade",
+            "duration": 300,
+            "hotkeys": [],
+            "id": 2,
+            "fade_to_black": false
+        },
+        {
+            "name": "Fade",
+            "duration": 300,
+            "hotkeys": [],
+            "id": 3,
+            "fade_to_black": true
+        }
+    ],
+    "saved_projectors": [],
+    "preview_locked": false,
+    "scaling_enabled": false,
+    "scaling_level": -3,
+    "scaling_off_x": 0.0,
+    "scaling_off_y": 0.0,
+    "virtual-camera": {
+        "type2": 3
+    },
+    "modules": {
+        "auto-scene-switcher": {
+            "active": false,
+            "interval": 300,
+            "non_matching_scene": "",
+            "switch_if_not_matching": false,
+            "switches": []
+        },
+        "captions": {
+            "enabled": false,
+            "lang_id": 1033,
+            "provider": "mssapi",
+            "source": ""
+        },
+        "output-timer": {
+            "streamTimerHours": 0,
+            "streamTimerMinutes": 0,
+            "streamTimerSeconds": 30,
+            "recordTimerHours": 0,
+            "recordTimerMinutes": 0,
+            "recordTimerSeconds": 30,
+            "autoStartStreamTimer": false,
+            "autoStartRecordTimer": false,
+            "pauseRecordTimer": true
+        },
+        "scripts-tool": [],
+        "ptz_camera_order": [
+            {
+                "uuid": "1200bad1-6c44-4381-b504-19b41a1b50c6"
+            },
+            {
+                "uuid": "41be3484-8fe5-4f7c-a390-e54e53bd5b3c"
+            }
+        ],
+        "downstream_keyers_channel": 7,
+        "downstream_keyers": [
+            {
+                "name": "DSK 1",
+                "transition": "",
+                "transition_duration": 300,
+                "show_transition": "",
+                "show_transition_duration": 300,
+                "hide_transition": "",
+                "hide_transition_duration": 300,
+                "hide_after": 0,
+                "include_audio": false,
+                "scenes": [],
+                "scene": "",
+                "live_scenes": [],
+                "null_hotkey": [],
+                "go_live_hotkey": [],
+                "preview_hotkey": [],
+                "exclude_scenes": [],
+                "load_scenes": []
+            }
+        ],
+        "downstream_keyers_hold": false,
+        "downstream_keyers_off_at_scene_change": false
+    },
+    "resolution": {
+        "x": 1920,
+        "y": 1080
+    },
+    "version": 2
+}
