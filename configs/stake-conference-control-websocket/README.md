@@ -1,4 +1,4 @@
-This Scene Collection is the control laptop for a Stake Conference, like `stake-conference-control`, but the camera pictures come from the main OBS over its WebSocket instead of from the cameras over RTSP. It is named "Stake Conference - Control (WebSocket)" in OBS. Use it with a 1920x1080 canvas and Studio Mode.
+This Scene Collection is the control laptop for a Stake Conference. The camera pictures come from the main OBS over its WebSocket, not directly from the cameras. It is named "Stake Conference - Control (WebSocket)" in OBS. Use it with a 1920x1080 canvas and Studio Mode.
 
 ## How it works
 
