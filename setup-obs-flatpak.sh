@@ -255,6 +255,9 @@ if want "$NEED_NDI"; then
   done
   # Through env: Flatpak refuses --user and "run" when sudo starts it directly.
   as_user env flatpak override --user --env=LD_LIBRARY_PATH="$NDI_LIBS" "$OBS_ID"
+  # The notch filters on "USB Audio" are VST plug-ins in ~/.vst (built below). OBS's VST filter does not list
+  # plug-ins from there inside the Flatpak unless VST_PATH says so, and then saves a blank plug-in path.
+  as_user env flatpak override --user --env=VST_PATH="$TARGET_HOME/.vst" "$OBS_ID"
 
   # Every library we copied must resolve inside the sandbox, otherwise NDI fails silently.
   MISSING=$(as_user env flatpak run --command=sh "$OBS_ID" -c \

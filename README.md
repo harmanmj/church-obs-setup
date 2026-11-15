@@ -206,21 +206,32 @@ when `user-data` is rendered.
 
 Never commit `secrets.env` or `user-data`.
 
-## Hum filter (60/120/180 Hz notch)
+## Hum and tone filters (notches on the microphone)
 
-OBS has no notch filter, so `audio/hum-notch.conf` is a PipeWire filter-chain: four narrow notches (Q 30) at
-60, 120, 180 and 240 Hz on the USB microphone. The setup script installs it and points OBS's "USB Audio" source at
-the virtual microphone `hum_notch` ("USB Audio (hum filtered)"). Run with `NOTCH=0` to turn it off.
-A notch only hides the hum; a ground loop is still best fixed at the source (try a USB isolator, or a
-ground-lift/isolation transformer on the audio line, and unplug the ethernet briefly to test).
+OBS has no notch filter, so the setup script builds small VST 2.x plugins (`tools/hum-notch-vst/`, built into `~/.vst` by
+`build.sh`; needs `gcc`) and the Independence Building - Hardware collection has them as filters on its "USB Audio"
+source. Each filter has an eye icon in OBS to turn it on and off without a blip. They are fixed notches, not adaptive,
+so they leave music alone apart from a thin slice at each frequency:
 
-No restart needed (safe during a stream): run `tools/install-hum-notch.sh [mic-name]` as the normal user. It installs the
-drop-in for future logins and loads the filter now; then set OBS's "USB Audio" device to "USB Audio (hum filtered)".
+| Filter | Removes |
+|---|---|
+| HumNotch | 60, 120, 180 and 240 Hz mains hum (Q 30) |
+| SquealNotch | a steady, drifting whine near 10 kHz (Q 4, about 2.5 kHz wide) |
+| Notch6381, Notch13623 | two steady tones at 6381 and 13623 Hz (Q 12), built from `tone_notch_vst.c` |
 
-### Hum filter as an OBS filter (easy on/off)
+The tones were measured on the Independence Building microphone (Sound Blaster); check yours with a quiet-room recording
+before keeping a notch. Alkire and Quail only has HumNotch.
 
-`tools/hum-notch-vst/` is a tiny VST 2.x plugin with the same four notches. Build and install it with
-`tools/hum-notch-vst/build.sh` (normal user; needs `gcc`), then in OBS: right-click the microphone source >
-Filters > + > VST 2.x Plug-in > HumNotch. The eye icon next to the filter turns it on and off (no audio blip).
-"Open Plug-in Interface" has no window; its one setting, Amount (default 100%), is kept with the filter.
-Use it on the plain hardware microphone, not on "USB Audio (hum filtered)" (that would filter twice).
+- **Don't pick the plug-in from OBS's Filters dialog.** In the OBS Flatpak its plug-in list is empty and OBS saves a blank
+  plug-in path. The collections store the path directly, and the setup script sets `VST_PATH` for the Flatpak so the path
+  survives. To add another notch, copy an existing filter's entry (`plugin_path` is the `.so` in `~/.vst`).
+- **Don't use these together with the PipeWire filter below.**
+- A notch only hides the hum; a ground loop is still best fixed at the source (try a USB isolator, or a
+  ground-lift/isolation transformer on the audio line, and unplug the ethernet briefly to test).
+
+### PipeWire hum filter (optional, off by default)
+
+`audio/hum-notch.conf` is a PipeWire filter-chain with the same four hum notches on the USB microphone. Run the setup script with
+`NOTCH=1` to install it and point OBS's "USB Audio" source at the virtual microphone `hum_notch` ("USB Audio (hum filtered)"),
+and remove the HumNotch filter from "USB Audio" (that would filter twice). No restart needed (safe during a stream): run
+`tools/install-hum-notch.sh [mic-name]` as the normal user to load it now.
