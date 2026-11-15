@@ -251,7 +251,7 @@
             "mixers": 255,
             "sync": 0,
             "flags": 0,
-            "volume": 0.25118863582611084,
+            "volume": 0.031622776601683794,
             "balance": 0.5,
             "enabled": true,
             "muted": false,
@@ -304,7 +304,7 @@
         },
         {
             "prev_ver": 553648129,
-            "name": "House Left - ATEM Mini",
+            "name": "House Right - ATEM Mini",
             "uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
             "id": "v4l2_input",
             "versioned_id": "v4l2_input",
@@ -342,7 +342,7 @@
         },
         {
             "prev_ver": 553648129,
-            "name": "House Right - USB3.0 Video",
+            "name": "House Left - USB3.0 Video",
             "uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
             "id": "v4l2_input",
             "versioned_id": "v4l2_input",
@@ -1206,8 +1206,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -1467,8 +1467,8 @@
                 "id_counter": 5,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -1728,8 +1728,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -1989,8 +1989,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -2250,8 +2250,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -2511,8 +2511,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -2772,8 +2772,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -3033,8 +3033,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -3294,8 +3294,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -3555,8 +3555,8 @@
                 "id_counter": 5,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -3816,8 +3816,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -4077,8 +4077,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -4338,8 +4338,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -4599,8 +4599,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -4860,8 +4860,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -5121,8 +5121,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -5643,8 +5643,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -5904,8 +5904,8 @@
                 "id_counter": 4,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -6165,8 +6165,8 @@
                 "id_counter": 3,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
-                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "name": "House Left - USB3.0 Video",
+                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -6369,8 +6369,8 @@
                 "id_counter": 3,
                 "items": [
                     {
-                        "name": "House Right - USB3.0 Video",
-                        "source_uuid": "24105413-d5d7-4f3b-8c3f-a779956330bc",
+                        "name": "House Right - ATEM Mini",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,
@@ -6573,7 +6573,7 @@
                 "id_counter": 2,
                 "items": [
                     {
-                        "name": "House Left - ATEM Mini",
+                        "name": "House Right - ATEM Mini",
                         "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
                         "visible": true,
                         "locked": false,
@@ -6904,8 +6904,8 @@
                 "custom_size": false,
                 "items": [
                     {
-                        "name": "Joystick Right",
-                        "source_uuid": "e5369387-c0aa-4c8e-b3e6-f7e4217856f6",
+                        "name": "Joystick Left",
+                        "source_uuid": "4747f42d-edc4-4f51-b669-4529bb133a0f",
                         "visible": true,
                         "locked": false,
                         "rot": 0.0,

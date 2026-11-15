@@ -84,7 +84,7 @@ HX2/HX3 cameras.
     (PTZ at 192.168.111.246) and House Right (PTZ at 192.168.111.245), each with its own PTZ device. Every scene
     above except Sacrament comes as a Left and a Right version ("Left Pulpit - P0", ...), with **Joystick Left**
     and **Joystick Right** in place of Joystick. The camera video comes from USB video capture devices instead
-    of NDI: House Left from a Blackmagic ATEM Mini, House Right from a USB HDMI capture device. Pick each
+    of NDI: House Left from a USB HDMI capture device, House Right from a Blackmagic ATEM Mini. Pick each
     source's Device in OBS after setup (see `configs/independence-building/README.md`). It also has the stake
     conference scenes: FreeShow lower thirds over NDI, a camera Video Overlay and a Blackmagic scene.
   - Video comes from the cameras (their own audio is not used). Audio comes from the "USB Audio" source, a

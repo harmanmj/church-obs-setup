@@ -5,8 +5,11 @@
     1) alkire-and-quail
     2) independence-building
   Either one can be opened later from OBS's Scene Collection menu.
-  The Alkire and Quail - NDI Scene Collection is intended for use in the Alkire and Quail Buildings. Its camera video comes over NDI. It also has the FreeShow lower thirds (Lower Thirds - Lyrics and Lower Thirds - Speakers, over NDI, with the Lyrics and Speaker Names downstream keyers).
-  The Independence Building - Hardware Scene Collection is intended for use in the Independence Building (Stake Center). The camera video comes into the OBS computer through USB video capture devices: House Left from a Blackmagic ATEM Mini and House Right from a USB HDMI capture device ("USB3.0 Video"). PTZ presets still move the cameras over the network. It also has the stake conference scenes: the FreeShow lower thirds over NDI, the camera Video Overlay and a Blackmagic scene. After setup, plug in both devices, open OBS and pick the Device on the "House Left - ATEM Mini" and "House Right - USB3.0 Video" sources (see configs/independence-building/README.md)
+  The Alkire and Quail - NDI Scene Collection is intended for use in the Alkire and Quail Buildings. Its camera video comes over NDI. It also has the FreeShow lower thirds (Lower Thirds - Lyrics and Lower Thirds - Speakers, over NDI, with the Lyrics and Speaker Names downstream keyers). 
+  These two scenes are not intended to be used on a weekly basis but are there in case they are needed for a meeting they are there and ready to go. NDI from Freeshow only works on a Windows or Mac computer which would need to be on the same network (or same windows computer) to work correctly. Freeshow is not installed as part of the setup script. Using these scenes requires docking the Downstream keyer Plugin.
+  
+  The Independence Building - Hardware Scene Collection is intended for use in the Independence Building (Stake Center). The camera video comes into the OBS computer through USB video capture devices: The House Left camera from a USB HDMI capture device ("USB3.0 Video") and The House Right Camera from a Blackmagic ATEM Mini. PTZ presets still move the cameras over the network. The blackmagic also captures the Rostrum HDMI out and can be used to insert video from the work room if needed.
+  This scene collection also contains two additional scenes that are primarily used for stake broadcasts. Lower Thirds - Camera for overlaying camera video onto another source (using the Joystick - Left Scene) and a Blackmagic scene used when needing to capture other digital content into the stream instead of the camera. After setup, plug in both devices, open OBS and pick the Device on the "House Left - USB3.0 Video" and "House Right - ATEM Mini" sources (see configs/independence-building/README.md)
 
 # Downstream Keyer
   `setup-obs-flatpak.sh` installs Downstream Keyer from the Flatpak attached to the newest release of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer) instead of from Flathub. The fork adds the Load On Scene option (a keyer can be set to show only on the program scenes you choose) and Go Live / Go to Preview controls that work with Studio Mode.
@@ -34,6 +37,16 @@
     git checkout main
     git pull
     sudo ./setup-obs-flatpak.sh
+    ```
+
+# Updating Only the Scene Collections
+Use this when only the scene collections have changed. It installs the newest Alkire and Quail - NDI and Independence Building - Hardware collections without running the rest of the setup (nothing else is installed or changed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. Close OBS, then run the following in a normal terminal, without sudo:
+* **Update the Scene Collections** (type 1 or 2 when it asks which scene collection should be the default)
+    ```terminal
+    cd ~/church-obs-setup
+    git checkout main
+    git pull
+    python3 tools/update-obs-collections.py
     ```
 
 # Resetting OBS Video Settings
