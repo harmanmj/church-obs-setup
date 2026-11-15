@@ -1,0 +1,111 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>Camera Monitor</title>
+<style>
+  html,body{margin:0;width:1920px;height:1080px;background:#0b0b0d;overflow:hidden;font-family:system-ui,Arial,sans-serif;color:#fff}
+  .panel{position:absolute;top:240px;width:960px;height:540px;background:#000}
+  #pl{left:0}#pr{left:960px}
+  .panel img{width:100%;height:100%;display:block;object-fit:fill}
+  .panel::after{content:"";position:absolute;inset:0;pointer-events:none;border:0 solid transparent}
+  .panel.preview::after{border:12px solid #1fb855}
+  .panel.live::after{border:12px solid #e5222b}
+  .name{position:absolute;left:22px;bottom:18px;font-size:44px;font-weight:800;letter-spacing:.06em;text-shadow:0 2px 8px #000}
+  .badges{position:absolute;right:22px;top:20px;display:flex;gap:12px}
+  .badge{display:none;font-size:40px;font-weight:900;letter-spacing:.08em;padding:4px 20px;border-radius:8px}
+  .panel.live .b-live{display:block;background:#e5222b}
+  .panel.preview .b-prev{display:block;background:#1fb855}
+  .nosig{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:#000c;font-size:56px;font-weight:800}
+  .panel.stale .nosig{display:flex}
+  #bar{position:absolute;left:0;right:0;top:800px;text-align:center;font-size:40px;font-weight:700}
+  #bar .l{color:#ff6b72}#bar .p{color:#4fe08a;margin-left:60px}
+  #status{position:absolute;left:0;right:0;top:880px;text-align:center;font-size:30px;color:#bbb}
+</style></head>
+<body>
+<div class="panel" id="pl"><img id="il" alt=""><div class="name">LEFT</div><div class="badges"><div class="badge b-prev">PREVIEW</div><div class="badge b-live">LIVE</div></div><div class="nosig">NO SIGNAL</div></div>
+<div class="panel" id="pr"><img id="ir" alt=""><div class="name">RIGHT</div><div class="badges"><div class="badge b-prev">PREVIEW</div><div class="badge b-live">LIVE</div></div><div class="nosig">NO SIGNAL</div></div>
+<div id="bar"><span class="l">LIVE: <span id="tl">-</span></span><span class="p">PREVIEW: <span id="tp">-</span></span></div>
+<div id="status">Connecting...</div>
+<script>
+// ---- Settings: edit these to match the main OBS ----
+var HOST="192.168.108.4", PORT=4455, PASSWORD="2ne2-14";
+var LEFT_SCENE="Joystick Left", RIGHT_SCENE="Joystick Right"; // scenes on the main OBS that show each camera full-screen
+var FPS=10, WIDTH=960, HEIGHT=540, QUALITY=60;                // screenshots per second per camera, size, JPEG quality
+// ----------------------------------------------------
+
+// SHA-256 in plain JS (a browser source on a data: page has no crypto.subtle). Takes and returns arrays of bytes.
+var SHA_K=[],SHA_H=[];
+(function(){
+  var n=2,c=0;
+  while(c<64){var p=true;for(var d=2;d*d<=n;d++)if(n%d===0){p=false;break}
+    if(p){if(c<8)SHA_H.push(Math.floor((Math.sqrt(n)%1)*4294967296)>>>0);SHA_K.push(Math.floor((Math.cbrt(n)%1)*4294967296)>>>0);c++}n++}
+})();
+function sha256(msg){
+  var b=msg.slice(),l=b.length;b.push(128);while(b.length%64!==56)b.push(0);
+  var hi=Math.floor(l*8/4294967296),lo=(l*8)>>>0;
+  b.push(hi>>>24&255,hi>>>16&255,hi>>>8&255,hi&255,lo>>>24&255,lo>>>16&255,lo>>>8&255,lo&255);
+  var h=SHA_H.slice(),w=new Array(64);
+  function r(x,n){return(x>>>n)|(x<<(32-n))}
+  for(var o=0;o<b.length;o+=64){
+    var i;
+    for(i=0;i<16;i++)w[i]=(b[o+4*i]<<24)|(b[o+4*i+1]<<16)|(b[o+4*i+2]<<8)|b[o+4*i+3];
+    for(i=16;i<64;i++){var s0=r(w[i-15],7)^r(w[i-15],18)^(w[i-15]>>>3),s1=r(w[i-2],17)^r(w[i-2],19)^(w[i-2]>>>10);w[i]=(w[i-16]+s0+w[i-7]+s1)|0}
+    var a=h[0],bb=h[1],c=h[2],d=h[3],e=h[4],f=h[5],g=h[6],hh=h[7];
+    for(i=0;i<64;i++){
+      var S1=r(e,6)^r(e,11)^r(e,25),ch=(e&f)^(~e&g),t1=(hh+S1+ch+SHA_K[i]+w[i])|0;
+      var S0=r(a,2)^r(a,13)^r(a,22),mj=(a&bb)^(a&c)^(bb&c),t2=(S0+mj)|0;
+      hh=g;g=f;f=e;e=(d+t1)|0;d=c;c=bb;bb=a;a=(t1+t2)|0}
+    h[0]=(h[0]+a)|0;h[1]=(h[1]+bb)|0;h[2]=(h[2]+c)|0;h[3]=(h[3]+d)|0;h[4]=(h[4]+e)|0;h[5]=(h[5]+f)|0;h[6]=(h[6]+g)|0;h[7]=(h[7]+hh)|0}
+  var out=[];h.forEach(function(x){out.push(x>>>24&255,x>>>16&255,x>>>8&255,x&255)});return out}
+function utf8(s){return Array.prototype.slice.call(new TextEncoder().encode(s))}
+function b64(a){return btoa(String.fromCharCode.apply(null,a))}
+function auth(pw,salt,chal){var sec=b64(sha256(utf8(pw+salt)));return b64(sha256(utf8(sec+chal)))}
+
+var ws,inflight=0,last={L:0,R:0},prog="",prev="",studio=true;
+var $=function(i){return document.getElementById(i)};
+function side(name){if(!name)return null;if(/\bleft\b/i.test(name))return"L";if(/\bright\b/i.test(name))return"R";return null}
+function render(){
+  [[$("pl"),"L"],[$("pr"),"R"]].forEach(function(x){
+    x[0].classList.toggle("live",side(prog)===x[1]);
+    x[0].classList.toggle("preview",studio&&side(prev)===x[1]);
+  });
+  $("tl").textContent=prog||"-";$("tp").textContent=studio?(prev||"-"):"(studio mode off)";
+}
+function send(t,d,id){ws.send(JSON.stringify({op:6,d:{requestType:t,requestId:id||t,requestData:d||{}}}))}
+function shot(sc,id){send("GetSourceScreenshot",{sourceName:sc,imageFormat:"jpg",imageWidth:WIDTH,imageHeight:HEIGHT,imageCompressionQuality:QUALITY},id)}
+function tick(){
+  var n=Date.now();
+  $("pl").classList.toggle("stale",n-last.L>2000);$("pr").classList.toggle("stale",n-last.R>2000);
+  if(!ws||ws.readyState!==1||inflight>0)return;
+  inflight=2;shot(LEFT_SCENE,"shotL");shot(RIGHT_SCENE,"shotR");
+}
+function connect(){
+  $("status").textContent="Connecting to "+HOST+":"+PORT+"...";
+  ws=new WebSocket("ws://"+HOST+":"+PORT,"obswebsocket.json");
+  ws.onmessage=function(e){
+    var m=JSON.parse(e.data),d=m.d;
+    if(m.op===0){
+      var id={rpcVersion:1,eventSubscriptions:4};
+      if(d.authentication)id.authentication=auth(PASSWORD,d.authentication.salt,d.authentication.challenge);
+      ws.send(JSON.stringify({op:1,d:id}));
+    }else if(m.op===2){
+      $("status").textContent="Connected to "+HOST+" - "+FPS+" fps per camera";
+      send("GetStudioModeEnabled",null,"studio");send("GetSceneList",null,"scenes");
+    }else if(m.op===5){
+      if(d.eventType==="CurrentProgramSceneChanged"){prog=d.eventData.sceneName;render()}
+      if(d.eventType==="CurrentPreviewSceneChanged"){prev=d.eventData.sceneName;render()}
+    }else if(m.op===7){
+      var r=d.responseData;
+      if(d.requestId==="studio"&&r){studio=r.studioModeEnabled;render()}
+      else if(d.requestId==="scenes"&&r){prog=r.currentProgramSceneName||"";prev=r.currentPreviewSceneName||"";render()}
+      else if(d.requestId==="shotL"||d.requestId==="shotR"){
+        inflight=Math.max(0,inflight-1);
+        if(d.requestStatus.result&&r){var k=d.requestId==="shotL"?"L":"R";$(k==="L"?"il":"ir").src=r.imageData;last[k]=Date.now()}else if(!d.requestStatus.result){console.log("screenshot failed",JSON.stringify(d.requestStatus))}
+      }
+    }
+  };
+  ws.onclose=function(){inflight=0;$("status").textContent="Disconnected from "+HOST+" - retrying...";$("pl").classList.add("stale");$("pr").classList.add("stale");setTimeout(connect,2000)};
+  ws.onerror=function(){try{ws.close()}catch(e){}};
+}
+setInterval(tick,1000/FPS);
+setInterval(function(){if(ws&&ws.readyState===1){send("GetStudioModeEnabled",null,"studio");send("GetSceneList",null,"scenes")}},3000);
+connect();
+</script></body></html>
