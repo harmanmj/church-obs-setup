@@ -1,0 +1,955 @@
+{
+    "name": "Stake Conference - Control",
+    "sources": [
+        {
+            "prev_ver": 553648129,
+            "name": "USB Audio",
+            "uuid": "78adae18-09c5-4bdb-b46f-7180be524275",
+            "id": "pulse_input_capture",
+            "versioned_id": "pulse_input_capture",
+            "settings": {
+                "device_id": "alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic2__source"
+            },
+            "mixers": 255,
+            "sync": 0,
+            "flags": 0,
+            "volume": 0.25118863582611084,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "libobs.mute": [],
+                "libobs.unmute": [],
+                "libobs.monitor-on": [],
+                "libobs.monitor-off": [],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "PTZ Camera Right",
+            "uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+            "id": "ffmpeg_source",
+            "versioned_id": "ffmpeg_source",
+            "settings": {
+                "input": "rtsp://192.168.111.245:554/1",
+                "input_format": "",
+                "ffmpeg_options": "rtsp_transport=tcp",
+                "hw_decode": true,
+                "close_when_inactive": false,
+                "is_local_file": false,
+                "clear_on_media_end": false,
+                "restart_on_activate": false,
+                "reconnect_delay_sec": 2,
+                "buffering_mb": 8
+            },
+            "mixers": 255,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "libobs.mute": [],
+                "libobs.unmute": [],
+                "libobs.monitor-on": [],
+                "libobs.monitor-off": [],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": [],
+                "MediaSource.Restart": [],
+                "MediaSource.Play": [],
+                "MediaSource.Pause": [],
+                "MediaSource.Stop": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 2,
+            "monitoring_enabled": true,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "PTZ Camera Left",
+            "uuid": "4d837286-e4fb-4212-a6dc-7b80de1ceee1",
+            "id": "ffmpeg_source",
+            "versioned_id": "ffmpeg_source",
+            "settings": {
+                "input": "rtsp://192.168.111.246:554/1",
+                "input_format": "",
+                "ffmpeg_options": "rtsp_transport=tcp",
+                "hw_decode": true,
+                "close_when_inactive": false,
+                "is_local_file": false,
+                "clear_on_media_end": false,
+                "restart_on_activate": false,
+                "reconnect_delay_sec": 2,
+                "buffering_mb": 8
+            },
+            "mixers": 255,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "libobs.mute": [],
+                "libobs.unmute": [],
+                "libobs.monitor-on": [],
+                "libobs.monitor-off": [],
+                "libobs.push-to-mute": [],
+                "libobs.push-to-talk": [],
+                "MediaSource.Restart": [],
+                "MediaSource.Play": [],
+                "MediaSource.Pause": [],
+                "MediaSource.Stop": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 2,
+            "monitoring_enabled": true,
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "PTZ Right",
+            "uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
+            "id": "color_source",
+            "versioned_id": "color_source_v3",
+            "settings": {
+                "color": 4280295456,
+                "width": 1920,
+                "height": 1080
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {},
+            "filters": [
+                {
+                    "prev_ver": 553648129,
+                    "name": "VISCA PTZ Control",
+                    "uuid": "1200bad1-6c44-4381-b504-19b41a1b50c6",
+                    "id": "ca.secretlab.obs-ptz.visca",
+                    "versioned_id": "ca.secretlab.obs-ptz.visca",
+                    "settings": {
+                        "presets": [
+                            {
+                                "id": "camera:0",
+                                "name": "Pulpit - P0",
+                                "thumbnail": "81791551-b38f-4be3-b400-0a5837f7b5b5.jpg"
+                            },
+                            {
+                                "id": "camera:1",
+                                "name": "Chorister - P1",
+                                "thumbnail": "e94deb66-b241-4550-8d09-3384bc0a6773.jpg"
+                            },
+                            {
+                                "id": "camera:2",
+                                "name": "Rostrum - P2",
+                                "thumbnail": "f1d47f7e-144c-4053-8f58-db94ae425e86.jpg"
+                            },
+                            {
+                                "id": "camera:3",
+                                "name": "Full Room - P3",
+                                "thumbnail": "c930511d-a264-43a5-abf6-9a78210f364c.jpg"
+                            },
+                            {
+                                "id": "camera:4",
+                                "name": "Piano - P4",
+                                "thumbnail": "952ee63e-46fd-4e4f-8062-79c0b81e4ab6.jpg"
+                            },
+                            {
+                                "id": "camera:5",
+                                "name": "Speaker Close-up - P5",
+                                "thumbnail": "1f4265fb-ea15-4b5b-b8df-7c76de95860b.jpg"
+                            },
+                            {
+                                "id": "camera:6",
+                                "name": "Piano and Pulpit - P6",
+                                "thumbnail": "a34fd636-c36d-4ea6-9991-227b2566af06.jpg"
+                            },
+                            {
+                                "id": "camera:7",
+                                "name": "Organ - P7",
+                                "thumbnail": "ec6f5543-e628-44a2-904e-960e3360d59b.jpg"
+                            },
+                            {
+                                "id": "camera:8",
+                                "name": "Choir - P8",
+                                "thumbnail": "98ae4e8a-2844-418f-98dc-23ac8fa2dc9d.jpg"
+                            }
+                        ],
+                        "host": "192.168.111.245",
+                        "port": 5678,
+                        "preset_order": [
+                            {
+                                "id": "camera:0"
+                            },
+                            {
+                                "id": "camera:1"
+                            },
+                            {
+                                "id": "camera:2"
+                            },
+                            {
+                                "id": "camera:3"
+                            },
+                            {
+                                "id": "camera:4"
+                            },
+                            {
+                                "id": "camera:5"
+                            },
+                            {
+                                "id": "camera:6"
+                            },
+                            {
+                                "id": "camera:7"
+                            },
+                            {
+                                "id": "camera:8"
+                            }
+                        ],
+                        "type": "visca-over-tcp",
+                        "pantilt_speed_max": 1.0,
+                        "zoom_speed_max": 1.0,
+                        "focus_speed_max": 1.0,
+                        "pan_invert": false,
+                        "tilt_invert": false,
+                        "zoom_invert": false,
+                        "focus_invert": false,
+                        "preset_max": 16,
+                        "visca_pan_speed_max": 10,
+                        "visca_tilt_speed_max": 10,
+                        "visca_zoom_speed_max": 7,
+                        "visca_focus_speed_max": 7,
+                        "visca_pan_range": 5120,
+                        "visca_tilt_range": 1280,
+                        "visca_zoom_range": 31424,
+                        "visca_focus_far": 4096,
+                        "visca_focus_near": 61440,
+                        "protocol_trace": false,
+                        "power_on_at_startup": false,
+                        "power_off_at_shutdown": false
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                }
+            ]
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "PTZ Left",
+            "uuid": "73ad8f48-c184-4e9f-9b76-77016ea937e3",
+            "id": "color_source",
+            "versioned_id": "color_source_v3",
+            "settings": {
+                "color": 4280295456,
+                "width": 1920,
+                "height": 1080
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {},
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "private_settings": {},
+            "filters": [
+                {
+                    "prev_ver": 553648129,
+                    "name": "VISCA PTZ Control",
+                    "uuid": "41be3484-8fe5-4f7c-a390-e54e53bd5b3c",
+                    "id": "ca.secretlab.obs-ptz.visca",
+                    "versioned_id": "ca.secretlab.obs-ptz.visca",
+                    "settings": {
+                        "presets": [
+                            {
+                                "id": "camera:0",
+                                "name": "Pulpit - P0"
+                            },
+                            {
+                                "id": "camera:1",
+                                "name": "Chorister - P1"
+                            },
+                            {
+                                "id": "camera:2",
+                                "name": "Rostrum - P2"
+                            },
+                            {
+                                "id": "camera:3",
+                                "name": "Full Room - P3"
+                            },
+                            {
+                                "id": "camera:4",
+                                "name": "Piano - P4"
+                            },
+                            {
+                                "id": "camera:5",
+                                "name": "Speaker Close-up - P5"
+                            },
+                            {
+                                "id": "camera:6",
+                                "name": "Piano and Pulpit - P6"
+                            },
+                            {
+                                "id": "camera:7",
+                                "name": "Organ - P7"
+                            },
+                            {
+                                "id": "camera:8",
+                                "name": "Choir - P8"
+                            }
+                        ],
+                        "host": "192.168.111.246",
+                        "port": 5678,
+                        "preset_order": [
+                            {
+                                "id": "camera:0"
+                            },
+                            {
+                                "id": "camera:1"
+                            },
+                            {
+                                "id": "camera:2"
+                            },
+                            {
+                                "id": "camera:3"
+                            },
+                            {
+                                "id": "camera:4"
+                            },
+                            {
+                                "id": "camera:5"
+                            },
+                            {
+                                "id": "camera:6"
+                            },
+                            {
+                                "id": "camera:7"
+                            },
+                            {
+                                "id": "camera:8"
+                            }
+                        ],
+                        "type": "visca-over-tcp",
+                        "pantilt_speed_max": 1.0,
+                        "zoom_speed_max": 1.0,
+                        "focus_speed_max": 1.0,
+                        "pan_invert": false,
+                        "tilt_invert": false,
+                        "zoom_invert": false,
+                        "focus_invert": false,
+                        "preset_max": 16,
+                        "visca_pan_speed_max": 10,
+                        "visca_tilt_speed_max": 10,
+                        "visca_zoom_speed_max": 7,
+                        "visca_focus_speed_max": 7,
+                        "visca_pan_range": 5120,
+                        "visca_tilt_range": 1280,
+                        "visca_zoom_range": 31424,
+                        "visca_focus_far": 4096,
+                        "visca_focus_near": 61440,
+                        "protocol_trace": false,
+                        "power_on_at_startup": false,
+                        "power_off_at_shutdown": false
+                    },
+                    "mixers": 0,
+                    "sync": 0,
+                    "flags": 0,
+                    "volume": 1.0,
+                    "balance": 0.5,
+                    "enabled": true,
+                    "muted": false,
+                    "push-to-mute": false,
+                    "push-to-mute-delay": 0,
+                    "push-to-talk": false,
+                    "push-to-talk-delay": 0,
+                    "hotkeys": {},
+                    "deinterlace_mode": 0,
+                    "deinterlace_field_order": 0,
+                    "monitoring_type": 0,
+                    "monitoring_enabled": false,
+                    "private_settings": {}
+                }
+            ]
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "Joystick Right",
+            "uuid": "af11cbcd-853c-4d37-9759-ee019dda612f",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "custom_size": false,
+                "id_counter": 3,
+                "items": [
+                    {
+                        "name": "PTZ Camera Right",
+                        "source_uuid": "8d29ab20-b88f-4336-8b5d-6918b9cc64e4",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "USB Audio",
+                        "source_uuid": "78adae18-09c5-4bdb-b46f-7180be524275",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 2,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "PTZ Right",
+                        "source_uuid": "98d297e9-75b1-423d-89ee-f784394b5090",
+                        "visible": false,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 3,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": [],
+                "libobs.show_scene_item.2": [],
+                "libobs.hide_scene_item.2": [],
+                "libobs.show_scene_item.3": [],
+                "libobs.hide_scene_item.3": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
+        },
+        {
+            "prev_ver": 553648129,
+            "name": "Joystick Left",
+            "uuid": "46bb81b0-f7a0-444e-9ec9-71b44dc530af",
+            "id": "scene",
+            "versioned_id": "scene",
+            "settings": {
+                "custom_size": false,
+                "id_counter": 3,
+                "items": [
+                    {
+                        "name": "PTZ Camera Left",
+                        "source_uuid": "4d837286-e4fb-4212-a6dc-7b80de1ceee1",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 1,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "USB Audio",
+                        "source_uuid": "78adae18-09c5-4bdb-b46f-7180be524275",
+                        "visible": true,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 2,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    },
+                    {
+                        "name": "PTZ Left",
+                        "source_uuid": "73ad8f48-c184-4e9f-9b76-77016ea937e3",
+                        "visible": false,
+                        "locked": false,
+                        "rot": 0.0,
+                        "scale_ref": {
+                            "x": 1920.0,
+                            "y": 1080.0
+                        },
+                        "align": 5,
+                        "bounds_type": 0,
+                        "bounds_align": 0,
+                        "bounds_crop": false,
+                        "crop_left": 0,
+                        "crop_top": 0,
+                        "crop_right": 0,
+                        "crop_bottom": 0,
+                        "id": 3,
+                        "group_item_backup": false,
+                        "pos": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "pos_rel": {
+                            "x": -1.7777777910232544,
+                            "y": -1.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "scale_rel": {
+                            "x": 1.0,
+                            "y": 1.0
+                        },
+                        "bounds": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "bounds_rel": {
+                            "x": 0.0,
+                            "y": 0.0
+                        },
+                        "scale_filter": "disable",
+                        "blend_method": "default",
+                        "blend_type": "normal",
+                        "show_transition": {
+                            "duration": 300
+                        },
+                        "hide_transition": {
+                            "duration": 300
+                        },
+                        "private_settings": {}
+                    }
+                ]
+            },
+            "mixers": 0,
+            "sync": 0,
+            "flags": 0,
+            "volume": 1.0,
+            "balance": 0.5,
+            "enabled": true,
+            "muted": false,
+            "push-to-mute": false,
+            "push-to-mute-delay": 0,
+            "push-to-talk": false,
+            "push-to-talk-delay": 0,
+            "hotkeys": {
+                "OBSBasic.SelectScene": [],
+                "libobs.show_scene_item.1": [],
+                "libobs.hide_scene_item.1": [],
+                "libobs.show_scene_item.2": [],
+                "libobs.hide_scene_item.2": [],
+                "libobs.show_scene_item.3": [],
+                "libobs.hide_scene_item.3": []
+            },
+            "deinterlace_mode": 0,
+            "deinterlace_field_order": 0,
+            "monitoring_type": 0,
+            "monitoring_enabled": false,
+            "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+            "private_settings": {}
+        }
+    ],
+    "groups": [],
+    "scene_order": [
+        {
+            "name": "Joystick Left"
+        },
+        {
+            "name": "Joystick Right"
+        }
+    ],
+    "current_scene": "Joystick Left",
+    "current_program_scene": "Joystick Right",
+    "canvases": [],
+    "current_transition": "Fade",
+    "transition_duration": 300,
+    "transitions": [],
+    "quick_transitions": [
+        {
+            "name": "Cut",
+            "duration": 300,
+            "hotkeys": [],
+            "id": 1,
+            "fade_to_black": false
+        },
+        {
+            "name": "Fade",
+            "duration": 300,
+            "hotkeys": [],
+            "id": 2,
+            "fade_to_black": false
+        },
+        {
+            "name": "Fade",
+            "duration": 300,
+            "hotkeys": [],
+            "id": 3,
+            "fade_to_black": true
+        }
+    ],
+    "saved_projectors": [],
+    "preview_locked": false,
+    "scaling_enabled": false,
+    "scaling_level": -3,
+    "scaling_off_x": 0.0,
+    "scaling_off_y": 0.0,
+    "virtual-camera": {
+        "type2": 3
+    },
+    "modules": {
+        "auto-scene-switcher": {
+            "active": false,
+            "interval": 300,
+            "non_matching_scene": "",
+            "switch_if_not_matching": false,
+            "switches": []
+        },
+        "captions": {
+            "enabled": false,
+            "lang_id": 1033,
+            "provider": "mssapi",
+            "source": ""
+        },
+        "output-timer": {
+            "streamTimerHours": 0,
+            "streamTimerMinutes": 0,
+            "streamTimerSeconds": 30,
+            "recordTimerHours": 0,
+            "recordTimerMinutes": 0,
+            "recordTimerSeconds": 30,
+            "autoStartStreamTimer": false,
+            "autoStartRecordTimer": false,
+            "pauseRecordTimer": true
+        },
+        "scripts-tool": [],
+        "ptz_camera_order": [
+            {
+                "uuid": "1200bad1-6c44-4381-b504-19b41a1b50c6"
+            },
+            {
+                "uuid": "41be3484-8fe5-4f7c-a390-e54e53bd5b3c"
+            }
+        ],
+        "downstream_keyers_channel": 7,
+        "downstream_keyers": [
+            {
+                "name": "DSK 1",
+                "transition": "",
+                "transition_duration": 300,
+                "show_transition": "",
+                "show_transition_duration": 300,
+                "hide_transition": "",
+                "hide_transition_duration": 300,
+                "hide_after": 0,
+                "include_audio": false,
+                "scenes": [],
+                "scene": "",
+                "live_scenes": [],
+                "null_hotkey": [],
+                "go_live_hotkey": [],
+                "preview_hotkey": [],
+                "exclude_scenes": [],
+                "load_scenes": []
+            }
+        ],
+        "downstream_keyers_hold": false,
+        "downstream_keyers_off_at_scene_change": false
+    },
+    "resolution": {
+        "x": 1920,
+        "y": 1080
+    },
+    "version": 2
+}
