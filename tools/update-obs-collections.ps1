@@ -5,10 +5,12 @@
 
     powershell -ExecutionPolicy Bypass -File .\tools\update-obs-collections.ps1 [-Default alkire-and-quail|independence-building]
 
-  - Installs every collection in obs-scene-collections\ (from the branch that is checked out).
+  - Installs every collection in obs-configuration\ (from the branch that is checked out).
   - Each file it replaces is saved next to it as *.bak.
   - Keeps what was already picked in OBS, by source name: the "USB Audio" microphone, capture devices and
     NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
+  - Installs the OBS window layout (obs-configuration\obs-layout.ini) if this computer doesn't have that
+    version of it yet, and opens OBS in studio mode (tools\set-obs-docks.ps1).
   - Asks which collection OBS opens on, like the setup script (1 alkire-and-quail, 2 independence-building);
     -Default answers up front. Run without a console to ask in, it leaves OBS's current one.
   Run it as the person who uses OBS (no administrator needed). Close OBS first.
@@ -16,8 +18,8 @@
 param([string]$Default, [string]$Repo = (Split-Path -Parent $PSScriptRoot))
 $ErrorActionPreference = 'Stop'
 if (Get-Process obs64 -ErrorAction SilentlyContinue) { Write-Host 'Close OBS first, then run this again.' -ForegroundColor Red; exit 1 }
-$configRoot = Join-Path $Repo 'obs-scene-collections'
-if (-not (Test-Path $configRoot)) { Write-Host "No obs-scene-collections folder in $Repo" -ForegroundColor Red; exit 1 }
+$configRoot = Join-Path $Repo 'obs-configuration'
+if (-not (Test-Path $configRoot)) { Write-Host "No obs-configuration folder in $Repo" -ForegroundColor Red; exit 1 }
 Write-Host "Scene collections from $configRoot"
 
 # Which collection OBS opens on: the same menu, in the same order, as setup-obs-windows.ps1.
@@ -88,16 +90,13 @@ foreach ($f in $configs | ForEach-Object { Get-ChildItem (Join-Path $configRoot 
     if ($kept) { Write-Host "    kept from OBS: $($kept -join ', ')" }
 }
 
+# The window layout (once per version of obs-configuration\obs-layout.ini) and studio mode, as the setup
+# script does.
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-docks.ps1') -ObsDir $ObsDir
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see tools\set-obs-docks.ps1' }
+
 if ($Default) {
     $c = Get-ChildItem (Join-Path $configRoot $Default) -Filter *.json | Select-Object -First 1
-    $name = ([IO.File]::ReadAllText($c.FullName, [Text.Encoding]::UTF8) | ConvertFrom-Json).name
-    $ini = Join-Path $ObsDir 'user.ini'
-    $lines = [Collections.Generic.List[string]]@(if (Test-Path $ini) { [IO.File]::ReadAllLines($ini) })
-    $lines = [Collections.Generic.List[string]]@($lines | Where-Object { $_ -notmatch '^SceneCollection(File)?=' })
-    $basic = $lines.IndexOf('[Basic]')
-    if ($basic -lt 0) { $lines.Add('[Basic]'); $basic = $lines.Count - 1 }
-    $lines.Insert($basic + 1, "SceneCollectionFile=$($c.Name)")
-    $lines.Insert($basic + 1, "SceneCollection=$name")
-    [IO.File]::WriteAllLines($ini, $lines, $utf8)
-    Write-Host "OBS will open on '$name'."
+    & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-collection.ps1') -ObsDir $ObsDir -Collection $c.FullName
+    if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the default scene collection; see tools\set-obs-collection.ps1' }
 }

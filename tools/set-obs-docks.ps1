@@ -1,11 +1,13 @@
 <#
 .SYNOPSIS
-  Install the OBS window layout in obs-scene-collections\obs-layout.ini, which has the PTZ Controls dock in place.
+  Install the OBS window layout in obs-configuration\obs-layout.ini, and open OBS in studio mode.
   (Windows twin of set-obs-docks.py.)
 
 .DESCRIPTION
-  Keeps the layout already there if PTZ Controls is docked in it, so changes made in OBS survive a re-run.
-  Also turns off OBS's popup about closing a dock. Close OBS first: it writes its own layout when it exits.
+  The layout (window, docks with PTZ Controls in place, side docks, vertical mixer, multiview) goes in once per
+  version of obs-layout.ini: user.ini remembers which one it got (ChurchLayout), so changes made in OBS survive
+  a re-run until the repo's layout changes. Also turns off OBS's popup about closing a dock. Close OBS first: it
+  writes its own layout when it exits.
 
 .PARAMETER ObsDir OBS's config folder. Default: %APPDATA%\obs-studio.
 #>
@@ -14,46 +16,59 @@ param(
 )
 $ErrorActionPreference = 'Stop'
 
+# The layout's key=value lines, from its [BasicWindow] section, in file order.
+$layout = New-Object System.Collections.Specialized.OrderedDictionary
+$inSection = $false
+foreach ($l in Get-Content (Join-Path $PSScriptRoot '..\obs-configuration\obs-layout.ini')) {
+    if ($l -match '^\s*\[(.+)\]\s*$') { $inSection = ($Matches[1] -eq 'BasicWindow') }
+    elseif ($inSection -and $l -match '^([^;=\s][^=]*)=(.*)$') { $layout[$Matches[1]] = $Matches[2] }
+}
+# Which layout this is: the same in set-obs-docks.py (key=value lines in file order, each ending in \n).
+$text = (@($layout.Keys | ForEach-Object { "$_=$($layout[$_])`n" }) -join '')
+$sha = [Security.Cryptography.SHA256]::Create().ComputeHash([Text.Encoding]::UTF8.GetBytes($text))
+$version = (-join ($sha | ForEach-Object { $_.ToString('x2') })).Substring(0, 12)
+
 $userIni = Join-Path $ObsDir 'user.ini'
 $lines = if (Test-Path $userIni) { @([IO.File]::ReadAllLines($userIni)) } else { @() }
 
-# Skip OBS's "You just closed a dockable window" popup.
-$warned = 'WarnedAboutClosingDocks=true'
-$kept = New-Object System.Collections.Generic.List[string]
-$lines | Where-Object { $_ -notlike 'WarnedAboutClosingDocks=*' } | ForEach-Object { $kept.Add($_) }
-$general = $kept.IndexOf('[General]')
-if ($general -ge 0) { $kept.Insert($general + 1, $warned) } else { $kept.Add('[General]'); $kept.Add($warned) }
-$lines = $kept.ToArray()
-New-Item -ItemType Directory -Force $ObsDir | Out-Null
-[IO.File]::WriteAllLines($userIni, $lines, (New-Object System.Text.UTF8Encoding $false))
-
-$current = $lines | Where-Object { $_ -like 'DockState=?*' } | Select-Object -First 1
-if ($current) {
-    # Names in Qt's saved window state are UTF-16; the flags byte after one is 1 visible, 2 floating.
-    $state = [Convert]::FromBase64String($current.Substring('DockState='.Length))
-    $latin1 = [Text.Encoding]::GetEncoding(28591)
-    $name = $latin1.GetString([Text.Encoding]::BigEndianUnicode.GetBytes('ptz-dock'))
-    $i = $latin1.GetString($state).IndexOf($name, [StringComparison]::Ordinal)
-    if ($i -ge 0 -and $state[$i + $name.Length] -eq 1) {
-        Write-Host '    PTZ Controls is already docked; leaving the OBS layout alone.'
-        exit 0
-    }
+# What to set in each section. Studio mode: OBS saves it on exit, so it is only the starting state.
+$set = @{
+    'General'     = [ordered]@{ WarnedAboutClosingDocks = 'true' }
+    'BasicWindow' = [ordered]@{ PreviewProgramMode = 'true' }
+}
+$current = $lines | Where-Object { $_ -like 'ChurchLayout=*' } | Select-Object -First 1
+if ($current -eq "ChurchLayout=$version") {
+    $message = '    The OBS layout is already this version; leaving it alone (studio mode on).'
+} else {
+    foreach ($k in $layout.Keys) { $set['BasicWindow'][$k] = $layout[$k] }
+    $set['BasicWindow']['ChurchLayout'] = $version
+    $message = "    OBS layout (PTZ Controls docked, studio mode on) installed in $userIni"
 }
 
-$layout = [string[]]@(Get-Content (Join-Path $PSScriptRoot '..\obs-scene-collections\obs-layout.ini') |
-    Where-Object { $_ -match '^(geometry|DockState)=' })
+# Rewrite user.ini: drop the keys being set from their sections, then add them at the top of each section.
 $out = New-Object System.Collections.Generic.List[string]
-$inSection = $false; $seen = $false
+$sectionName = $null
+$seen = @{}
 foreach ($l in $lines) {
     if ($l -match '^\s*\[(.+)\]\s*$') {
-        $inSection = ($Matches[1] -eq 'BasicWindow')
+        $sectionName = $Matches[1]
         $out.Add($l)
-        if ($inSection) { $seen = $true; $out.AddRange($layout) }
-    } elseif (-not ($inSection -and $l -match '^(geometry|DockState)=')) {
+        if ($set.Contains($sectionName)) {
+            $seen[$sectionName] = $true
+            foreach ($k in $set[$sectionName].Keys) { $out.Add("$k=$($set[$sectionName][$k])") }
+        }
+    } elseif ($sectionName -and $set.Contains($sectionName) -and $l -match '^([^=]+)=' -and $set[$sectionName].Contains($Matches[1])) {
+        # replaced above
+    } else {
         $out.Add($l)
     }
 }
-if (-not $seen) { $out.Add('[BasicWindow]'); $out.AddRange($layout) }
+foreach ($name in $set.Keys) {
+    if (-not $seen[$name]) {
+        $out.Add("[$name]")
+        foreach ($k in $set[$name].Keys) { $out.Add("$k=$($set[$name][$k])") }
+    }
+}
 New-Item -ItemType Directory -Force $ObsDir | Out-Null
 [IO.File]::WriteAllLines($userIni, $out.ToArray(), (New-Object System.Text.UTF8Encoding $false))
-Write-Host "    OBS layout with PTZ Controls docked installed in $userIni"
+Write-Host $message
