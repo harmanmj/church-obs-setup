@@ -255,6 +255,9 @@ if want "$NEED_NDI"; then
   done
   # Through env: Flatpak refuses --user and "run" when sudo starts it directly.
   as_user env flatpak override --user --env=LD_LIBRARY_PATH="$NDI_LIBS" "$OBS_ID"
+  # The notch filters on "USB Audio" are VST plug-ins in ~/.vst (built below). OBS's VST filter does not list
+  # plug-ins from there inside the Flatpak unless VST_PATH says so, and then saves a blank plug-in path.
+  as_user env flatpak override --user --env=VST_PATH="$TARGET_HOME/.vst" "$OBS_ID"
 
   # Every library we copied must resolve inside the sandbox, otherwise NDI fails silently.
   MISSING=$(as_user env flatpak run --command=sh "$OBS_ID" -c \
@@ -329,7 +332,12 @@ if [ "$CONFIG_CHOICE" != none ]; then
     [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=$(grep '^alsa_input\.' <<<"$SOURCES" | head -1 || true)
     [ -n "$AUDIO_DEVICE" ] || AUDIO_DEVICE=default
   fi
-  echo "Audio input for OBS: $AUDIO_DEVICE (change it on the 'USB Audio' source in OBS if this is wrong)"
+  HW_AUDIO_DEVICE=$AUDIO_DEVICE
+  # The hum notch is an OBS filter on "USB Audio" (the HumNotch VST, built below), so OBS records the plain
+  # hardware microphone. NOTCH=1 switches to the always-on PipeWire filter (audio/hum-notch.conf) instead;
+  # don't use both, or the hum is filtered twice.
+  if [ "${NOTCH:-0}" = 1 ] && [ "$AUDIO_DEVICE" != default ]; then AUDIO_DEVICE=hum_notch; fi
+  echo "Audio input for OBS: $AUDIO_DEVICE (hardware: $HW_AUDIO_DEVICE; change it on the 'USB Audio' source in OBS if this is wrong)"
   if pgrep -u "$TARGET_USER" -f "$OBS_ID" >/dev/null; then
     echo "WARNING: OBS is running; it will overwrite these changes when it exits. Close OBS and run this again." >&2
   fi
@@ -347,15 +355,28 @@ if [ "$CONFIG_CHOICE" != none ]; then
   done
   echo "Installed the scene collections: ${CONFIGS[*]}."
 
+  # Hum notch for the "USB Audio" source's HumNotch filter: a small VST 2.x plugin built into ~/.vst/.
+  if command -v gcc >/dev/null 2>&1; then
+    as_user bash "$SCRIPT_DIR/tools/hum-notch-vst/build.sh" || echo "WARNING: could not build the HumNotch VST; the filter on 'USB Audio' will not load." >&2
+  else
+    echo "WARNING: gcc is missing, so the HumNotch VST was not built (sudo apt-get install -y gcc, then run this again)." >&2
+  fi
+
   # Zoom audio: a virtual "OBS Mic (for Zoom)" microphone fed by OBS's audio monitoring (PipeWire's
   # PulseAudio layer is already on Ubuntu; only the pactl tool is added).
   PW_DIR="$TARGET_HOME/.config/pipewire/pipewire.conf.d"
   PWP_DIR="$TARGET_HOME/.config/pipewire/pipewire-pulse.conf.d"
-  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)  # not there on a first run
+  PW_BEFORE=$(cat "$PW_DIR/obs-to-zoom.conf" "$PW_DIR/hum-notch.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)  # not there on a first run
   as_user mkdir -p "$PW_DIR" "$PWP_DIR"
   as_user cp "$SCRIPT_DIR/audio/obs-to-zoom.conf" "$PW_DIR/obs-to-zoom.conf"
   as_user cp "$SCRIPT_DIR/audio/obs-mic.conf" "$PWP_DIR/obs-mic.conf"
-  PW_AFTER=$(cat "$PW_DIR/obs-to-zoom.conf" "$PWP_DIR/obs-mic.conf" | md5sum)
+  # 60/120/180 Hz hum notch on the hardware microphone (see audio/hum-notch.conf).
+  if [ "$AUDIO_DEVICE" = hum_notch ]; then
+    sed "s|@AUDIO_DEVICE@|$HW_AUDIO_DEVICE|g" "$SCRIPT_DIR/audio/hum-notch.conf" | as_user tee "$PW_DIR/hum-notch.conf" >/dev/null
+  else
+    rm -f "$PW_DIR/hum-notch.conf"
+  fi
+  PW_AFTER=$(cat "$PW_DIR/obs-to-zoom.conf" "$PW_DIR/hum-notch.conf" "$PWP_DIR/obs-mic.conf" 2>/dev/null | md5sum || true)
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-monitor.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # Video, on a first setup only, and skip OBS's Auto-Configuration Wizard.
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-video.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio" --if-first-setup

@@ -205,3 +205,33 @@ The installer creates one account, `broadcast` (auto-login, with sudo), and join
 when `user-data` is rendered.
 
 Never commit `secrets.env` or `user-data`.
+
+## Hum and tone filters (notches on the microphone)
+
+OBS has no notch filter, so the setup script builds small VST 2.x plugins (`tools/hum-notch-vst/`, built into `~/.vst` by
+`build.sh`; needs `gcc`) and the Independence Building - Hardware collection has them as filters on its "USB Audio"
+source. Each filter has an eye icon in OBS to turn it on and off without a blip. They are fixed notches, not adaptive,
+so they leave music alone apart from a thin slice at each frequency:
+
+| Filter | Removes |
+|---|---|
+| HumNotch | 60, 120, 180 and 240 Hz mains hum (Q 30) |
+| SquealNotch | a steady, drifting whine near 10 kHz (Q 4, about 2.5 kHz wide) |
+| Notch6381, Notch13623 | two steady tones at 6381 and 13623 Hz (Q 12), built from `tone_notch_vst.c` |
+
+The tones were measured on the Independence Building microphone (Sound Blaster); check yours with a quiet-room recording
+before keeping a notch. Alkire and Quail only has HumNotch.
+
+- **Don't pick the plug-in from OBS's Filters dialog.** In the OBS Flatpak its plug-in list is empty and OBS saves a blank
+  plug-in path. The collections store the path directly, and the setup script sets `VST_PATH` for the Flatpak so the path
+  survives. To add another notch, copy an existing filter's entry (`plugin_path` is the `.so` in `~/.vst`).
+- **Don't use these together with the PipeWire filter below.**
+- A notch only hides the hum; a ground loop is still best fixed at the source (try a USB isolator, or a
+  ground-lift/isolation transformer on the audio line, and unplug the ethernet briefly to test).
+
+### PipeWire hum filter (optional, off by default)
+
+`audio/hum-notch.conf` is a PipeWire filter-chain with the same four hum notches on the USB microphone. Run the setup script with
+`NOTCH=1` to install it and point OBS's "USB Audio" source at the virtual microphone `hum_notch` ("USB Audio (hum filtered)"),
+and remove the HumNotch filter from "USB Audio" (that would filter twice). No restart needed (safe during a stream): run
+`tools/install-hum-notch.sh [mic-name]` as the normal user to load it now.
