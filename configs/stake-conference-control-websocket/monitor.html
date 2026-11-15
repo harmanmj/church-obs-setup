@@ -5,6 +5,12 @@
   .panel{position:absolute;top:240px;width:960px;height:540px;background:#000}
   #pl{left:0}#pr{left:960px}
   .panel img{width:100%;height:100%;display:block;object-fit:fill}
+  .panel::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:1;
+    background:
+      linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,.28)) 33.333% 0/2px 100% no-repeat,
+      linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,.28)) 66.667% 0/2px 100% no-repeat,
+      linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,.28)) 0 33.333%/100% 2px no-repeat,
+      linear-gradient(rgba(255,255,255,.28),rgba(255,255,255,.28)) 0 66.667%/100% 2px no-repeat}
   .panel::after{content:"";position:absolute;inset:0;pointer-events:none;border:0 solid transparent}
   .panel.preview::after{border:12px solid #1fb855}
   .panel.live::after{border:12px solid #e5222b}
