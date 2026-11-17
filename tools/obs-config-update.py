@@ -14,7 +14,7 @@ Usage (as the person who uses OBS, not with sudo; close OBS first):
 - Builds the notch filter plugins (tools/hum-notch-vst/build.sh) into ~/.vst if any are missing, and sets
   VST_PATH for the OBS Flatpak so it finds them.
 - Puts back the OBS window layout (obs-configuration/obs-layout.ini)
-  every time, and turns studio mode on unless it was turned off (tools/set-obs-docks.py).
+  every time, and turns studio mode on (tools/set-obs-docks.py).
 - Points OBS's audio monitoring at the speaker that feeds Zoom (tools/set-obs-monitor.py) and turns on the
   WebSocket server, keeping its password (tools/set-obs-websocket.py).
 - Keeps the collection OBS was using; asks (same menu as the setup script) only when that one is not in the repo;
@@ -145,8 +145,8 @@ if plugins and shutil.which("flatpak"):
         else:
             print("WARNING: could not set VST_PATH for OBS; the notch filters on 'USB Audio' will not load.")
 
-# The window layout, put back every time, as the setup script does, and studio mode on unless it was turned off.
-subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-docks.py"), str(OBS_DIR), "--keep-studio-mode-off"], check=True)
+# The window layout and studio mode on, put back every time, as the setup script does.
+subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-docks.py"), str(OBS_DIR)], check=True)
 # The rest of the OBS configuration the setup script makes (it never needs sudo):
 # audio monitoring into the "OBS Monitoring (not for Zoom)" speaker that feeds Zoom's "OBS Mic", and
 # the WebSocket server for remote control (the computer's current password is kept).

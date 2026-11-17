@@ -5,16 +5,14 @@
 
 .DESCRIPTION
   Every run puts the layout back (window, docks with PTZ Controls in place, side docks, vertical mixer), so a
-  dock closed or moved by accident is fixed by the next setup or update. It turns studio mode on; with
-  -KeepStudioModeOff (the update script uses it), studio mode that was turned off is left off. Also turns off
-  OBS's popup about closing a dock. Close OBS first: it writes its own layout when it exits.
+  dock closed or moved, or studio mode turned off, by accident is fixed by the next setup or update: it turns
+  studio mode on every time. Also turns off OBS's popup about closing a dock. Close OBS first: it writes its own
+  layout when it exits.
 
-.PARAMETER ObsDir            OBS's config folder. Default: %APPDATA%\obs-studio.
-.PARAMETER KeepStudioModeOff Leave studio mode off if it was turned off.
+.PARAMETER ObsDir OBS's config folder. Default: %APPDATA%\obs-studio.
 #>
 param(
-    [string]$ObsDir = (Join-Path $env:APPDATA 'obs-studio'),
-    [switch]$KeepStudioModeOff
+    [string]$ObsDir = (Join-Path $env:APPDATA 'obs-studio')
 )
 $ErrorActionPreference = 'Stop'
 
@@ -29,21 +27,11 @@ foreach ($l in Get-Content (Join-Path $PSScriptRoot '..\obs-configuration\obs-la
 $userIni = Join-Path $ObsDir 'user.ini'
 $lines = if (Test-Path $userIni) { @([IO.File]::ReadAllLines($userIni)) } else { @() }
 
-# Studio mode on (OBS saves the mode on exit, so this is only the starting state), unless the update asks to
-# leave it off on a computer where it was turned off.
-$StudioMode = 'on'
-if ($KeepStudioModeOff) {
-    $inWindow = $false
-    foreach ($l in $lines) {
-        if ($l -match '^\s*\[(.+)\]\s*$') { $inWindow = ($Matches[1] -eq 'BasicWindow') }
-        elseif ($inWindow -and $l -match '^PreviewProgramMode=false\s*$') { $StudioMode = 'off' }
-    }
-}
-
-# What to set in each section.
+# What to set in each section. Studio mode on: OBS saves the mode on exit, so this is only the starting state;
+# the next run sets it again.
 $set = @{
     'General'     = [ordered]@{ WarnedAboutClosingDocks = 'true' }
-    'BasicWindow' = [ordered]@{ PreviewProgramMode = $(if ($StudioMode -eq 'on') { 'true' } else { 'false' }) }
+    'BasicWindow' = [ordered]@{ PreviewProgramMode = 'true' }
 }
 foreach ($k in $layout.Keys) { $set['BasicWindow'][$k] = $layout[$k] }
 # Left by an older version of this script, which installed each layout only once.
@@ -77,4 +65,4 @@ foreach ($name in $set.Keys) {
 }
 New-Item -ItemType Directory -Force $ObsDir | Out-Null
 [IO.File]::WriteAllLines($userIni, $out.ToArray(), (New-Object System.Text.UTF8Encoding $false))
-Write-Host "    OBS layout (PTZ Controls docked) installed in $userIni; studio mode $StudioMode"
+Write-Host "    OBS layout (PTZ Controls docked) installed in $userIni; studio mode on"

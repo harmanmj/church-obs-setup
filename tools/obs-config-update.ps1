@@ -9,8 +9,8 @@
   - Each file it replaces is saved next to it as *.bak.
   - Keeps what was already picked in OBS, by source name: the "USB Audio" microphone, capture devices and
     NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
-  - Puts back the OBS window layout (obs-configuration\obs-layout.ini) every time, and turns studio mode on
-    unless it was turned off (tools\set-obs-docks.ps1).
+  - Puts back the OBS window layout (obs-configuration\obs-layout.ini) and turns studio mode on, every time
+    (tools\set-obs-docks.ps1).
   - Points OBS's audio monitoring at the virtual cable that Zoom listens to (tools\set-obs-monitor.ps1).
   - Keeps the collection OBS was using; asks (same menu as the setup script) only when that one is not in the repo;
     -Default answers up front. Run without a console to ask in, it leaves OBS's current one.
@@ -98,8 +98,8 @@ foreach ($f in $configs | ForEach-Object { Get-ChildItem (Join-Path $configRoot 
     if ($kept) { Write-Host "    kept from OBS: $($kept -join ', ')" }
 }
 
-# The window layout, put back every time, as the setup script does, and studio mode on unless it was turned off.
-& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-docks.ps1') -ObsDir $ObsDir -KeepStudioModeOff
+# The window layout and studio mode on, put back every time, as the setup script does.
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-docks.ps1') -ObsDir $ObsDir
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see tools\set-obs-docks.ps1' }
 # OBS's audio monitoring into the virtual cable, which Zoom hears as its microphone, as the setup script does.
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-monitor.ps1') -ObsDir $ObsDir

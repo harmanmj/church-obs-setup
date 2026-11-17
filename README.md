@@ -67,8 +67,7 @@ HX2/HX3 cameras.
 - It installs the OBS window layout in `obs-configuration/obs-layout.ini` (`tools/set-obs-docks.py`): the docks
   with PTZ Controls in place (Downstream Keyer closed; open it from the Docks menu), side docks and the vertical
   mixer. Every run puts the layout back and turns Studio Mode on, so a dock closed or moved by accident is
-  fixed. The update (`tools/obs-config-update.py`) does the same, except that it leaves Studio Mode off on a
-  computer where it was turned off.
+  fixed. The update (`tools/obs-config-update.py`) does the same.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
 - It installs every scene collection in `obs-configuration/`. On an existing installation it keeps the collection
@@ -157,7 +156,7 @@ computer always runs the current version. Run it again at any time to update; cl
   as stream", and skips its Auto-Configuration Wizard (`tools\set-obs-video.ps1` sets the video again);
 - installs the OBS window layout in `obs-configuration\obs-layout.ini` (`tools\set-obs-docks.ps1`) and opens OBS
   in studio mode, on every run, so a dock closed or moved by accident is fixed. The update
-  (`tools\obs-config-update.ps1`) does the same, except that it leaves Studio Mode off where it was turned off;
+  (`tools\obs-config-update.ps1`) does the same;
 - adds a firewall rule for NDI, makes the sacrament graphic, and builds the sacrament playlist from
   `audio\sacrament-playlist.txt` (`tools\make-sacrament-playlist.ps1`) in `Documents\sacrament`.
 
