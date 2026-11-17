@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS
-  Point OBS's audio monitoring device at "CABLE Input (VB-Audio Virtual Cable)", which Zoom hears as the
+  Point OBS's audio monitoring device at the virtual cable's input ("CABLE Input", or "Speakers (VB-Audio
+  Virtual Cable)" in newer VB-CABLE versions), which Zoom hears as the
   microphone "CABLE Output", in every OBS profile. (Windows twin of set-obs-monitor.py.)
 
 .DESCRIPTION
@@ -16,14 +17,18 @@ $ErrorActionPreference = 'Stop'
 
 # Windows lists audio outputs under MMDevices; OBS stores an endpoint's id as {0.0.0.00000000}.{guid}.
 $render = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\MMDevices\Audio\Render'
-$cable = foreach ($k in Get-ChildItem $render -ErrorAction SilentlyContinue) {
+# Older VB-CABLE versions call the cable's input "CABLE Input"; newer ones list it as "Speakers (VB-Audio Virtual
+# Cable)", next to a 16-channel "CABLE In 16 Ch", which isn't the one to use. "CABLE Input" wins when there is one.
+$cable = @(foreach ($k in Get-ChildItem $render -ErrorAction SilentlyContinue) {
     if ((Get-ItemProperty $k.PSPath -ErrorAction SilentlyContinue).DeviceState -ne 1) { continue }   # 1 = active
     $props = Get-ItemProperty (Join-Path $k.PSPath 'Properties') -ErrorAction SilentlyContinue
     if (-not $props) { continue }
     $desc = $props.'{a45c254e-df1c-4efd-8020-67d146a850e0},2'
     $iface = $props.'{b3f8fa53-0004-438e-9003-51a46e139bfc},6'
-    if ($desc -like 'CABLE Input*') { [pscustomobject]@{ Id = '{0.0.0.00000000}.' + $k.PSChildName; Name = "$desc ($iface)" }; break }
-}
+    if (($desc -like 'CABLE Input*' -or $iface -like 'VB-Audio Virtual Cable*') -and $desc -notlike '*16 Ch*') {
+        [pscustomobject]@{ Id = '{0.0.0.00000000}.' + $k.PSChildName; Name = "$desc ($iface)"; Preferred = ($desc -like 'CABLE Input*') }
+    }
+}) | Sort-Object { -not $_.Preferred } | Select-Object -First 1
 if (-not $cable) {
     Write-Warning 'The virtual cable is not active, so OBS monitoring was not pointed at it. Restart Windows (or run the setup) and try again.'
     exit 0

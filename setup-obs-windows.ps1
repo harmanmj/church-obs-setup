@@ -264,10 +264,16 @@ function Get-AudioEndpoints($kind) {   # 'Capture' (inputs) or 'Render' (outputs
         if (-not $props) { continue }
         $desc = $props.'{a45c254e-df1c-4efd-8020-67d146a850e0},2'    # e.g. "Microphone", "CABLE Input"
         $iface = $props.'{b3f8fa53-0004-438e-9003-51a46e139bfc},6'   # e.g. "Sound Blaster Play! 3"
-        [pscustomobject]@{ Id = $prefix + $k.PSChildName; Name = "$desc ($iface)"; Description = $desc }
+        [pscustomobject]@{ Id = $prefix + $k.PSChildName; Name = "$desc ($iface)"; Description = $desc; Interface = $iface }
     }
 }
-function Find-CableInput { Get-AudioEndpoints 'Render' | Where-Object Description -like 'CABLE Input*' | Select-Object -First 1 }
+# The virtual cable's input (what OBS monitors into). Older VB-CABLE versions call it "CABLE Input"; newer ones list
+# it as "Speakers (VB-Audio Virtual Cable)", next to a 16-channel "CABLE In 16 Ch", which isn't the one to use.
+function Find-CableInput {
+    Get-AudioEndpoints 'Render' |
+        Where-Object { ($_.Description -like 'CABLE Input*' -or $_.Interface -like 'VB-Audio Virtual Cable*') -and $_.Description -notlike '*16 Ch*' } |
+        Sort-Object { $_.Description -notlike 'CABLE Input*' } | Select-Object -First 1
+}
 
 Step '[5/7] ffmpeg (for the sacrament playlist) and VB-Audio Virtual Cable (for Zoom)'
 function Find-Ffmpeg {
@@ -364,7 +370,7 @@ $utf8 = New-Object System.Text.UTF8Encoding $false
 
 if ($InstallCollections) {
     # The microphone: the "USB Audio" source is a PulseAudio input in the repo; on Windows it is a WASAPI input.
-    $inputs = @(Get-AudioEndpoints 'Capture' | Where-Object { $_.Description -notlike 'CABLE Output*' })
+    $inputs = @(Get-AudioEndpoints 'Capture' | Where-Object { $_.Description -notlike 'CABLE Output*' -and $_.Interface -notlike 'VB-Audio Virtual Cable*' })
     $pick = $null
     if ($AudioDevice) {
         $pick = $inputs | Where-Object { $_.Id -eq $AudioDevice -or $_.Name -like "*$AudioDevice*" } | Select-Object -First 1

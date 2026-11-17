@@ -172,7 +172,7 @@ OBS first. It then:
   input, never "NDI Webcam Audio", whose sound is poor; plug the USB input in before running it.
   `-AudioDevice "part of its name"` picks another;
 - installs the notch filter plugins (prebuilt DLLs) to `C:\Program Files\VSTPlugins` and points the filters there;
-- points OBS's audio monitoring at "CABLE Input (VB-Audio Virtual Cable)" (`tools\set-obs-monitor.ps1`), so the
+- points OBS's audio monitoring at the cable's input, "CABLE Input (VB-Audio Virtual Cable)" (newer VB-CABLE versions: "Speakers (VB-Audio Virtual Cable)") (`tools\set-obs-monitor.ps1`), so the
   USB input and the sacrament music go to Zoom: in Zoom pick the microphone **CABLE Output (VB-Audio Virtual
   Cable)**;
 - on a first setup, sets OBS's video to a 1920x1080 canvas and output at 30 fps, with recording quality "Same
@@ -185,11 +185,12 @@ OBS first. It then:
 
 **By hand, once per computer:**
 
-- Installing VB-CABLE can make "CABLE Input" the Windows default speaker, so the computer goes silent and
+- Installing VB-CABLE can make the cable's input ("CABLE Input", or
+  "Speakers (VB-Audio Virtual Cable)" in newer versions) the Windows default speaker, so the computer goes silent and
   everything it plays reaches Zoom. Set the speaker back (taskbar speaker icon, e.g. "Speakers (Realtek
-  Audio)"); OBS's monitoring stays on CABLE Input.
+  Audio)"); OBS's monitoring stays on the cable.
 - Zoom, Settings > Audio: **Microphone** "CABLE Output (VB-Audio Virtual Cable)"; **Speaker** the computer's
-  speakers, never "CABLE Input"; and **Original sound for musicians** turned on (in the meeting, the "Original
+  speakers, never the cable's input; and **Original sound for musicians** turned on (in the meeting, the "Original
   sound" button must be on). With Zoom's background noise suppression instead, the organ, piano and held notes
   are removed as noise and the music barely comes through. If the option is missing, the Zoom account's web
   settings (zoom.us > Settings > Audio) must allow it. Camera: "OBS Virtual Camera".
