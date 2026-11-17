@@ -68,6 +68,10 @@ HX2/HX3 cameras.
   with PTZ Controls in place (Downstream Keyer closed; open it from the Docks menu), side docks and the vertical
   mixer. Every run puts the layout back and turns Studio Mode on, so a dock closed or moved by accident is
   fixed. The update (`tools/obs-config-update.py`) does the same.
+- It gives a checkout in the user's home folder (`~/church-obs-setup`) back to that user if any of it is owned by
+  root. Older instructions cloned it with `sudo git clone`; nothing needs root ownership, and it stops `git pull`
+  and `tools/obs-config-update.py` from working without sudo. A checkout elsewhere (the autoinstall's
+  `/opt/church-obs-setup`, which only its first-boot service uses) is left as it is.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
 - It installs every scene collection in `obs-configuration/`. On an existing installation it keeps the collection
