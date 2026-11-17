@@ -410,7 +410,7 @@
         },
         {
             "prev_ver": 553648129,
-            "name": "Right Camera",
+            "name": "Control Right Camera",
             "uuid": "d9df3da6-8980-43b7-945b-56f567a49f2e",
             "id": "scene",
             "versioned_id": "scene",
@@ -671,7 +671,7 @@
         },
         {
             "prev_ver": 553648129,
-            "name": "Left Camera",
+            "name": "Control Left Camera",
             "uuid": "bbc77f54-19d9-4c4d-a4f6-e7e1d73a32bf",
             "id": "scene",
             "versioned_id": "scene",
@@ -934,14 +934,14 @@
     "groups": [],
     "scene_order": [
         {
-            "name": "Left Camera"
+            "name": "Control Left Camera"
         },
         {
-            "name": "Right Camera"
+            "name": "Control Right Camera"
         }
     ],
-    "current_scene": "Left Camera",
-    "current_program_scene": "Left Camera",
+    "current_scene": "Control Left Camera",
+    "current_program_scene": "Control Left Camera",
     "canvases": [],
     "current_transition": "Fade",
     "transition_duration": 300,
