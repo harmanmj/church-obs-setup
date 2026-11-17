@@ -249,6 +249,3 @@ and starts "USB Audio" at -8 dB.
 script with `NOTCH=1` to install it and point OBS's "USB Audio" source at the virtual microphone `hum_notch` ("USB
 Audio (hum filtered)"), and remove the HumNotch filter from "USB Audio" (that would filter twice). No restart needed
 (safe during a stream): run `tools/install-hum-notch.sh [mic-name]` as the normal user to load it now.
-tch` ("USB Audio (hum filtered)"),
-and remove the HumNotch filter from "USB Audio" (that would filter twice). No restart needed (safe during a stream): run
-`tools/install-hum-notch.sh [mic-name]` as the normal user to load it now.
