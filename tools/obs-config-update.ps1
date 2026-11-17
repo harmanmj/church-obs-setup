@@ -11,7 +11,8 @@
     NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
   - Puts back the OBS window layout (obs-configuration\obs-layout.ini) and turns studio mode on, every time
     (tools\set-obs-docks.ps1).
-  - Points OBS's audio monitoring at the virtual cable that Zoom listens to (tools\set-obs-monitor.ps1).
+  - Points OBS's audio monitoring at the virtual cable that Zoom listens to (tools\set-obs-monitor.ps1) and
+    turns on the WebSocket server, keeping its password (tools\set-obs-websocket.ps1).
   - Installs the notch filter plugins to C:\Program Files\VSTPlugins when they are missing or out of date
     (that needs administrator; otherwise it prints the command to do it).
   - Keeps the collection OBS was using; asks (same menu as the setup script) only when that one is not in the repo;
@@ -128,6 +129,10 @@ if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see 
 # OBS's audio monitoring into the virtual cable, which Zoom hears as its microphone, as the setup script does.
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-monitor.ps1') -ObsDir $ObsDir
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS monitoring device; see tools\set-obs-monitor.ps1' }
+# The WebSocket server for remote control, keeping this computer's current password (as the Ubuntu update does).
+$env:OBS_WEBSOCKET_PASSWORD = $null
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-websocket.ps1') -ObsDir $ObsDir
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not turn on the OBS WebSocket server; see tools\set-obs-websocket.ps1' }
 
 if ($Default) {
     $c = Get-ChildItem (Join-Path $configRoot $Default) -Filter *.json | Select-Object -First 1

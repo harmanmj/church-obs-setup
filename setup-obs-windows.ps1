@@ -465,6 +465,12 @@ if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS video; see tools
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-monitor.ps1') -ObsDir $ObsDir
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS monitoring device; see tools\set-obs-monitor.ps1' }
 
+# Remote control: OBS's WebSocket server on port 4455, as on Ubuntu, so this computer can stand in as the main OBS
+# for the Stake Meeting control laptop. Password from $env:OBS_WEBSOCKET_PASSWORD, else the same default as Ubuntu.
+$wsPassword = if ($env:OBS_WEBSOCKET_PASSWORD) { $env:OBS_WEBSOCKET_PASSWORD } else { '2ne2-14' }
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-websocket.ps1') -ObsDir $ObsDir -Password $wsPassword
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not turn on the OBS WebSocket server; see tools\set-obs-websocket.ps1' }
+
 
 # The window layout, with the PTZ Controls dock in place.
 # and studio mode on.

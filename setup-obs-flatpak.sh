@@ -64,6 +64,18 @@ TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d: -f6)
 [ -d "$TARGET_HOME" ] || { echo "No home directory for $TARGET_USER" >&2; exit 1; }
 as_user() { sudo -u "$TARGET_USER" -H "$@"; }
 
+# A checkout in the user's home folder belongs to the user, so `git pull` (and tools/obs-config-update.py)
+# work without sudo. Older instructions cloned it with sudo, which left it owned by root; fix that here.
+# A checkout elsewhere (the autoinstall's /opt/church-obs-setup) is left as it is.
+case "$SCRIPT_DIR/" in
+  "$TARGET_HOME"/*)
+    if [ -d "$SCRIPT_DIR/.git" ] && [ -n "$(find "$SCRIPT_DIR" ! -user "$TARGET_USER" -print -quit 2>/dev/null)" ]; then
+      echo "==> Giving $SCRIPT_DIR back to $TARGET_USER (it was partly owned by root)"
+      chown -R "$TARGET_USER:$(id -gn "$TARGET_USER")" "$SCRIPT_DIR"
+    fi
+    ;;
+esac
+
 NDI_LIBS="$TARGET_HOME/.var/app/$OBS_ID/data/ndi-libs"
 PTZ_STAMP=/var/lib/church-obs-ptz-bundle.sha256
 DSK_STAMP=/var/lib/church-obs-dsk-bundle.sha256

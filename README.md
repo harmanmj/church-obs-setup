@@ -157,6 +157,9 @@ computer always runs the current version. Run it again at any time to update; cl
 - installs the OBS window layout in `obs-configuration\obs-layout.ini` (`tools\set-obs-docks.ps1`) and opens OBS
   in studio mode, on every run, so a dock closed or moved by accident is fixed. The update
   (`tools\obs-config-update.ps1`) does the same;
+- turns on OBS's WebSocket server (port 4455, password from `$env:OBS_WEBSOCKET_PASSWORD`, else the same
+  default as Ubuntu; `tools\set-obs-websocket.ps1`), so a Windows laptop can stand in as the main OBS for the
+  Stake Meeting control laptop. The update keeps its password;
 - adds a firewall rule for NDI, makes the sacrament graphic, and builds the sacrament playlist from
   `audio\sacrament-playlist.txt` (`tools\make-sacrament-playlist.ps1`) in `Documents\sacrament`.
 

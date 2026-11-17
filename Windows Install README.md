@@ -14,8 +14,8 @@
   **Independence Building:** after setup, plug in both video capture devices, open OBS and pick the Device on the "House Left - USB3.0 Video" and "House Right - ATEM Mini" sources in each Independence collection (see the guide).
 
 # Downstream Keyer
-The setup script installs Downstream Keyer from the newest release of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer), which adds the Load On Scene option: a keyer can be set to show only on the program scenes you choose. If the fork has no release published, it installs exeldro's release (https://github.com/exeldro/obs-downstream-keyer) instead. Each time the setup script runs, it installs the newest release over the one already there.
-
+  `setup-obs-windows.ps1` installs Downstream Keyer from the installer attached to the newest release of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer). The fork adds the Load On Scene option (a keyer can be set to show only on the program scenes you choose) and Go Live / Go to Preview controls that work with Studio Mode.
+  Each time the setup script runs, it installs the newest release over the one already there. If the fork has no Windows installer published, or GitHub or the fork can't be reached, it installs exeldro's release (https://github.com/exeldro/obs-downstream-keyer) instead.
 
 # First Time Windows Install
   1. Open **PowerShell as administrator** (Start, type `powershell`, right-click > Run as administrator)
@@ -27,17 +27,18 @@ The setup script installs Downstream Keyer from the newest release of a fork on 
     ```
 
 # Running Updates on an existing installation
-* **Update** (keeps the scene collection OBS was using; it only asks if that collection has been retired)
+* **Update** (keeps the scene collection OBS was using; it only asks if that collection has been retired). The setup script gets the latest version itself: it switches `c:\church-obs-setup` to `main` and pulls before it runs, so there is no `git pull` step here.
     ```powershell
     cd c:\church-obs-setup
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1
     ```
 
 # Updating Only the Scene Collections and OBS Configuration
-Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration\` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It points OBS's audio monitoring at the virtual cable that Zoom listens to. The video settings are left as they are. It puts back the OBS window layout (`obs-configuration\obs-layout.ini`), so docks closed or moved by accident come back. It turns Studio Mode on. If the notch filter plugins used on USB Audio are missing or out of date, it prints a command to install them from an administrator PowerShell (the full setup above installs them itself). Close OBS, then run the following in a normal PowerShell (not as administrator):
+Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration\` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also installs the notch filter plugins used on USB Audio if they are missing or out of date; that needs administrator, so in a normal PowerShell it prints the command to run in an administrator PowerShell instead (the full setup above installs them itself). It points OBS's audio monitoring at the virtual cable that Zoom listens to, and turns on OBS's WebSocket server for remote control (keeping its password). The video settings are left as they are. It puts back the OBS window layout (`obs-configuration\obs-layout.ini`), so docks closed or moved by accident come back. It turns Studio Mode on. Close OBS, then run the following in a normal PowerShell (not as administrator):
 * **Update the Scene Collections** (keeps the scene collection OBS was using; it only asks if that collection has been retired)
     ```powershell
     cd c:\church-obs-setup
+    git checkout main
     git pull
     powershell -ExecutionPolicy Bypass -File .\tools\obs-config-update.ps1
     ```

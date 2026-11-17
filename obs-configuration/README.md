@@ -74,7 +74,7 @@ The control laptop shows both cameras and steers them, without being plugged int
 :root { --main-obs: "192.168.108.4"; --main-obs-port: "4455"; --main-obs-password: "2ne2-14"; }
 ```
 
-Keep the quotes and click **OK**. The monitor reconnects, and the line under the pictures shows the address it's using. Anything left out of the box falls back to these defaults. The password is the default that the Ubuntu setup (`setup-obs-flatpak.sh`) gives the main OBS. A collections update puts the defaults back, so set the address again afterwards.
+Keep the quotes and click **OK**. The monitor reconnects, and the line under the pictures shows the address it's using. Anything left out of the box falls back to these defaults. The password is the default the setup scripts give the main OBS (Ubuntu or Windows). A collections update puts the defaults back, so set the address again afterwards.
 
 The camera addresses are ordinary PTZ device settings and can be changed in OBS. The scene names, picture rate (`FPS`), size and JPEG quality are at the top of the script in `monitor.html`. Changing those means re-embedding the page in the collection.
 
