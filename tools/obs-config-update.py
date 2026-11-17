@@ -17,8 +17,8 @@ Usage (as the person who uses OBS, not with sudo; close OBS first):
   every time, and turns studio mode on (tools/set-obs-docks.py).
 - Points OBS's audio monitoring at the speaker that feeds Zoom (tools/set-obs-monitor.py) and turns on the
   WebSocket server, keeping its password (tools/set-obs-websocket.py).
-- Keeps the collection OBS was using; asks (same menu as the setup script) only when that one is not in the repo;
-  --default answers up front. Run without a terminal to ask in, it leaves OBS's current one.
+- Asks which collection OBS opens on (the same menu as the setup script), with the current one marked; Enter keeps
+  it. --default answers up front. Run without a terminal to ask in, it leaves OBS's current one.
 """
 import argparse
 import json
@@ -45,27 +45,32 @@ found = sorted(p.name for p in (REPO / "obs-configuration").iterdir() if p.is_di
 names = [n for n in ("sacrament-alkire-and-quail", "stake-meeting-alkire-and-quail", "sacrament-independence", "stake-meeting-independence", "stake-meeting-independence-control") if n in found]
 names += [n for n in found if n not in names]
 configs = [REPO / "obs-configuration" / n for n in names]
-# The collection OBS was last using; kept when it is still one of these, so an update doesn't ask.
+# Which collection OBS opens on: asked every time, with the one OBS was using marked; Enter keeps it.
 current_file = ""
 if (OBS_DIR / "user.ini").exists():
     for line in (OBS_DIR / "user.ini").read_text(encoding="utf-8-sig", errors="replace").splitlines():
         if line.startswith("SceneCollectionFile="):
             current_file = line.split("=", 1)[1].strip()
             break
+current = current_file.removesuffix(".json") if current_file.removesuffix(".json") in names else ""
 if args.default:
     if args.default not in names:
         sys.exit(f"No collection named {args.default} (have: {', '.join(names)})")
-elif current_file.removesuffix(".json") in names:
-    print(f"Keeping the scene collection OBS was using ({current_file}). Use --default NAME to change it.")
 elif sys.stdin.isatty() and names:
-    print("Which scene collection should OBS open on by default?")
+    print("Which scene collection should OBS open on?")
     for i, n in enumerate(names, 1):
-        print(f"  {i}) {n}")
+        print(f"  {i}) {n}" + ("   (current)" if n == current else ""))
+    prompt = f"Number (Enter keeps {current}): " if current else "Number: "
     while True:
-        answer = input("Number: ").strip()
+        answer = input(prompt).strip()
+        if not answer and current:
+            print(f"Keeping {current}.")
+            break
         if answer.isdigit() and 1 <= int(answer) <= len(names):
             args.default = names[int(answer) - 1]
             break
+elif current:
+    print(f"Keeping the scene collection OBS was using ({current_file}). Use --default NAME to change it.")
 
 
 def pick_microphone():

@@ -72,7 +72,8 @@ powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1
 
 If something in OBS was changed by accident (a scene or collection deleted, a dock closed or moved, Studio Mode
 turned off, Zoom hearing nothing), the configuration update script puts it all back to this repo's version. It
-keeps the cameras, microphone and NDI sources picked in OBS, and the collection OBS was using. It installs no
+keeps the cameras, microphone and NDI sources picked in OBS, and asks which scene collection OBS should open
+on (press Enter to keep the current one). It installs no
 software and needs no admin password. Close OBS first.
 
 **Ubuntu**, in a normal terminal (no sudo):

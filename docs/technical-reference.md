@@ -79,7 +79,8 @@ It keeps:
 
 - **The devices picked in OBS**, by source name: the "USB Audio" microphone, the capture devices and the NDI
   senders (FreeShow and cameras). A new "USB Audio" gets the input the setup script would pick.
-- **The collection OBS was using.** It only asks when that one has been retired (or with `--default FOLDER` /
+- **The collection OBS was using, if you want.** It asks which collection OBS opens on, with the current one marked;
+  pressing Enter keeps it (or answer up front with `--default FOLDER` /
   `-Default FOLDER`).
 - **The WebSocket password.**
 - **The video settings**, which only the setup script sets, on a first setup.

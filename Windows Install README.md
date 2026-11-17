@@ -35,7 +35,7 @@
 
 # Updating Only the Scene Collections and OBS Configuration
 Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration\` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also installs the notch filter plugins used on USB Audio if they are missing or out of date; that needs administrator, so in a normal PowerShell it prints the command to run in an administrator PowerShell instead (the full setup above installs them itself). It points OBS's audio monitoring at the virtual cable that Zoom listens to, and turns on OBS's WebSocket server for remote control (keeping its password). The video settings are left as they are. It puts back the OBS window layout (`obs-configuration\obs-layout.ini`), so docks closed or moved by accident come back. It turns Studio Mode on. Close OBS, then run the following in a normal PowerShell (not as administrator):
-* **Update the Scene Collections** (keeps the scene collection OBS was using; it only asks if that collection has been retired)
+* **Update the Scene Collections** (asks which scene collection OBS should open on; press Enter to keep the current one)
     ```powershell
     cd c:\church-obs-setup
     git checkout main

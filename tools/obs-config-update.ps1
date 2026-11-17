@@ -15,8 +15,8 @@
     turns on the WebSocket server, keeping its password (tools\set-obs-websocket.ps1).
   - Installs the notch filter plugins to C:\Program Files\VSTPlugins when they are missing or out of date
     (that needs administrator; otherwise it prints the command to do it).
-  - Keeps the collection OBS was using; asks (same menu as the setup script) only when that one is not in the repo;
-    -Default answers up front. Run without a console to ask in, it leaves OBS's current one.
+  - Asks which collection OBS opens on (the same menu as the setup script), with the current one marked; Enter keeps
+    it. -Default answers up front. Run without a console to ask in, it leaves OBS's current one.
   Run it as the person who uses OBS (no administrator needed). Close OBS first.
 #>
 param([string]$Default, [string]$Repo = (Split-Path -Parent $PSScriptRoot))
@@ -30,20 +30,31 @@ Write-Host "Scene collections from $configRoot"
 $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name)
 $configs = @(@('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') | Where-Object { $found -contains $_ }) +
            @($found | Where-Object { @('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') -notcontains $_ })
-# The collection OBS was last using; kept when it is still one of these, so an update doesn't ask.
+# Which collection OBS opens on: asked every time, with the one OBS was using marked; Enter keeps it.
 $userIni = Join-Path $env:APPDATA 'obs-studio\user.ini'
 $currentFile = if (Test-Path $userIni) {
     Get-Content $userIni | Where-Object { $_ -like 'SceneCollectionFile=*' } | Select-Object -First 1 | ForEach-Object { $_.Substring(20) }
 }
+$current = ''
+if ($currentFile -and ($configs -contains [IO.Path]::GetFileNameWithoutExtension($currentFile))) {
+    $current = [IO.Path]::GetFileNameWithoutExtension($currentFile)
+}
 if ($Default) {
     if ($configs -notcontains $Default) { Write-Host "No collection named $Default (have: $($configs -join ', '))" -ForegroundColor Red; exit 1 }
-} elseif ($currentFile -and ($configs -contains [IO.Path]::GetFileNameWithoutExtension($currentFile))) {
-    Write-Host "Keeping the scene collection OBS was using ($currentFile). Use -Default NAME to change it."
 } elseif ([Environment]::UserInteractive -and $configs.Count -gt 0) {
-    Write-Host 'Which scene collection should OBS open on by default?'
-    for ($i = 0; $i -lt $configs.Count; $i++) { Write-Host "  $($i + 1)) $($configs[$i])" }
-    do { $n = Read-Host 'Number' } until ($n -match '^\d+$' -and [int]$n -ge 1 -and [int]$n -le $configs.Count)
-    $Default = $configs[[int]$n - 1]
+    Write-Host 'Which scene collection should OBS open on?'
+    for ($i = 0; $i -lt $configs.Count; $i++) {
+        $mark = if ($configs[$i] -eq $current) { '   (current)' } else { '' }
+        Write-Host "  $($i + 1)) $($configs[$i])$mark"
+    }
+    $prompt = if ($current) { "Number (Enter keeps $current)" } else { 'Number' }
+    while ($true) {
+        $n = Read-Host $prompt
+        if (-not $n -and $current) { Write-Host "Keeping $current."; break }
+        if ($n -match '^\d+$' -and [int]$n -ge 1 -and [int]$n -le $configs.Count) { $Default = $configs[[int]$n - 1]; break }
+    }
+} elseif ($current) {
+    Write-Host "Keeping the scene collection OBS was using ($currentFile). Use -Default NAME to change it."
 }
 
 # The microphone, chosen the way setup-obs-windows.ps1 does it.
