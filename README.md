@@ -57,7 +57,7 @@ First-time installation on a new computer. If OBS is already installed, make sur
 cd ~
 git clone https://github.com/smitchell7/church-obs-setup.git
 cd ~/church-obs-setup
-sudo ./setup-obs-flatpak.sh --pin-dock
+sudo ./setup-obs-flatpak.sh
 ```
 
 **Windows** ([install guide](Windows%20Install%20README.md)): in PowerShell as administrator, then type the number of the scene collection OBS should open on when it asks:

@@ -16,8 +16,7 @@
 #   --config=NAME / --no-config  every scene collection in obs-configuration/ is installed; NAME is the one OBS
 #                               opens on (without either, it asks when run in a terminal);
 #                               --no-config skips the OBS scenes and camera setup
-#   --pin-dock / --no-pin-dock  answer the "add OBS to the dock?" question up front
-#                               (without either, it asks when run in a terminal)
+#   --pin-dock / --no-pin-dock  accepted for older instructions and ignored: OBS is always pinned to the dock
 # The user to configure is whoever ran sudo; override with TARGET_USER=name.
 # PTZ_BUNDLE=/path/to/file.flatpak uses a different obs-ptz bundle than vendor/.
 # DSK_REPO=owner/name downloads Downstream Keyer from a different GitHub repo's releases.
@@ -453,18 +452,20 @@ as_user python3 -I "$SCRIPT_DIR/tools/make-sacrament-playlist.py" \
   --list "$SCRIPT_DIR/audio/sacrament-playlist.txt" --dir "$MUSIC_DIR" \
   || echo "WARNING: could not build the sacrament playlist; see tools/make-sacrament-playlist.py" >&2
 
-# Optional: pin OBS to the GNOME dock. Only possible where a schema override already
-# sets favorite-apps (the church autoinstall creates one).
+# OBS is always pinned to the GNOME dock: in the user's own favourites (tools/set-obs-dock-pin.py, which needs
+# their desktop session), and in the system default where a schema override sets one (the church autoinstall
+# creates it), for when nobody is logged in yet.
+echo "==> Pinning OBS to the GNOME dock"
+PIN_RT="/run/user/$(id -u "$TARGET_USER")"
+if [ -S "$PIN_RT/bus" ]; then
+  as_user env XDG_RUNTIME_DIR="$PIN_RT" DBUS_SESSION_BUS_ADDRESS="unix:path=$PIN_RT/bus" \
+    python3 -I "$SCRIPT_DIR/tools/set-obs-dock-pin.py" || echo "WARNING: could not pin OBS to the dock." >&2
+else
+  echo "$TARGET_USER is not logged in; OBS will be pinned on the next setup or update run from their session."
+fi
 if [ -f "$DOCK_SCHEMA_FILE" ] && ! grep -q 'com.obsproject.Studio.desktop' "$DOCK_SCHEMA_FILE"; then
-  if [ "$PIN_DOCK" = ask ] && [ -t 0 ]; then
-    read -r -p "Add OBS to the GNOME dock favourites for new sessions? [y/N] " reply
-    case "$reply" in [yY]*) PIN_DOCK=yes ;; *) PIN_DOCK=no ;; esac
-  fi
-  if [ "$PIN_DOCK" = yes ]; then
-    echo "==> Adding OBS to the GNOME dock favourites"
-    sed -i "s/'org.gnome.Terminal.desktop'\\]/'com.obsproject.Studio.desktop', 'org.gnome.Terminal.desktop']/" "$DOCK_SCHEMA_FILE"
-    glib-compile-schemas /usr/share/glib-2.0/schemas/
-  fi
+  sed -i "s/'org.gnome.Terminal.desktop'\\]/'com.obsproject.Studio.desktop', 'org.gnome.Terminal.desktop']/" "$DOCK_SCHEMA_FILE"
+  glib-compile-schemas /usr/share/glib-2.0/schemas/
 fi
 
 echo "==> Done. Start OBS from the app menu or: flatpak run $OBS_ID"

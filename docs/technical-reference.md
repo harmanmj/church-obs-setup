@@ -20,7 +20,7 @@ scene file it replaces is saved as `*.bak` first.
 Options: `--install` (also update what is already installed); `--config=FOLDER` (a collection folder in
 `obs-configuration/`, e.g. `sacrament-independence`: the collection OBS opens on; without it, it asks in a terminal, with the current one marked and Enter keeping
 it) or `--no-config` (skip the scene collections);
-`--pin-dock` or `--no-pin-dock` (add OBS to the dock). Environment: `TARGET_USER=name` (default: whoever ran
+`--pin-dock` / `--no-pin-dock` (accepted for older instructions and ignored: OBS is always pinned). Environment: `TARGET_USER=name` (default: whoever ran
 sudo), `AUDIO_DEVICE=name` (force the OBS audio input), `OBS_WEBSOCKET_PASSWORD` (see Remote control),
 `PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build), `DSK_REPO=owner/name` (download Downstream Keyer
 from a different GitHub repo's releases), `DSK_BUNDLE=/path/file.flatpak` (install Downstream Keyer from a local
@@ -56,8 +56,10 @@ What it sets up:
   and OBS's Auto-Configuration Wizard skipped (`tools/set-obs-video.py` sets the video again).
 - **Audio and Zoom**, **Virtual Camera** and **Remote control** (below).
 - **Sacrament graphic and music** (below).
-- **The GNOME dock:** it asks whether to add OBS to the dock (only offered on machines set up with the church
-  autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
+- **The GNOME dock:** OBS is always pinned (`tools/set-obs-dock-pin.py`): it is added to the user's own dock
+  favourites if it is missing, keeping the others. That needs the user's desktop session, so if they aren't logged
+  in it is pinned on the next run. Where the church autoinstall's schema override sets the default favourites,
+  OBS is added there too, for new sessions.
 - **The repo folder's owner:** it gives a checkout in the user's home folder (`~/church-obs-setup`) back to that
   user if any of it is owned by root. Older instructions cloned it with `sudo git clone`; nothing needs root
   ownership, and it stops `git pull` and `tools/obs-config-update.py` from working without sudo. A checkout
@@ -74,6 +76,7 @@ changes made by accident, so it **resets everything to the repo** on every run:
   it as `NAME.json.<date-time>.bak`.
 - The window layout is put back and Studio Mode is turned on.
 - Audio monitoring is pointed back at what Zoom hears, and the WebSocket server is turned on.
+- On Ubuntu, OBS is pinned to the dock again if someone unpinned it.
 
 It keeps:
 

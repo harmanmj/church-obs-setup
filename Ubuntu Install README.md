@@ -24,7 +24,7 @@
     cd ~
     git clone https://github.com/smitchell7/church-obs-setup.git
     cd ~/church-obs-setup
-    sudo ./setup-obs-flatpak.sh --pin-dock
+    sudo ./setup-obs-flatpak.sh
     ```
   Clone it **without** sudo, so the folder belongs to you and later updates need no sudo for `git pull`.
 

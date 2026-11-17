@@ -15,6 +15,7 @@ Usage (as the person who uses OBS, not with sudo; close OBS first):
   VST_PATH for the OBS Flatpak so it finds them.
 - Puts back the OBS window layout (obs-configuration/obs-layout.ini)
   every time, and turns studio mode on (tools/set-obs-docks.py).
+- Pins OBS to the GNOME dock if it isn't (tools/set-obs-dock-pin.py).
 - Points OBS's audio monitoring at the speaker that feeds Zoom (tools/set-obs-monitor.py) and turns on the
   WebSocket server, keeping its password (tools/set-obs-websocket.py).
 - Asks which collection OBS opens on (the same menu as the setup script), with the current one marked; Enter keeps
@@ -158,6 +159,8 @@ subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-docks.py"), 
 subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-monitor.py"), str(OBS_DIR)], check=True)
 env = {k: v for k, v in os.environ.items() if k != "OBS_WEBSOCKET_PASSWORD"}
 subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-websocket.py"), str(OBS_DIR)], check=True, env=env)
+# OBS pinned to the GNOME dock (put back if someone unpinned it).
+subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-dock-pin.py")], check=False)
 
 if args.default:
     collection = next((REPO / "obs-configuration" / args.default).glob("*.json"))
