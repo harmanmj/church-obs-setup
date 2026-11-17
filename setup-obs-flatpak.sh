@@ -430,7 +430,7 @@ if [ "$CONFIG_CHOICE" != none ]; then
     fi
   fi
   echo "In Zoom pick, by name: Microphone 'OBS Mic (for Zoom)' (not 'Same as System'), Speaker the computer's"
-  echo "speakers (never 'OBS Monitoring (not for Zoom)'), and Original sound for musicians on; see the README."
+  echo "speakers (never 'OBS Monitoring (not for Zoom)'), and Original sound for musicians on; see docs/technical-reference.md."
 fi
 
 # Sacrament scene music: piano accompaniments of church hymns (free for home and church use),
