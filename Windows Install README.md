@@ -24,14 +24,14 @@ The setup script installs Downstream Keyer from the newest release of a fork on 
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1
     ```
 
-# Updating configuration on Existing Installations
+# Running Updates on an existing installation
 * **Update** (type 1 or 2 when it asks which scene collection should be the default)
     ```powershell
     cd c:\church-obs-setup
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1
     ```
 
-# Updating Only the Scene Collections
+# Updating Only the Scene Collections and OBS Configuration
 Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration\` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It turns on Studio Mode. If the repo's OBS window layout (`obs-configuration\obs-layout.ini`) has changed since this computer last got it, it installs that layout; otherwise the layout is left as it was arranged in OBS. Close OBS, then run the following in a normal PowerShell (not as administrator):
 * **Update the Scene Collections** (type the number of the scene collection OBS should open on when it asks)
     ```powershell

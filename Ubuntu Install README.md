@@ -25,7 +25,7 @@
     sudo ./setup-obs-flatpak.sh --pin-dock
     ```
 
-# Updating configuration on Existing Installations
+# Running Updates on an existing installation
 * **The first time you do this, you may need to start with the following command**
     ```terminal
     cd ~/church-obs-setup
@@ -39,7 +39,7 @@
     sudo ./setup-obs-flatpak.sh
     ```
 
-# Updating Only the Scene Collections
+# Updating Only the Scene Collections and OBS Configuration
 Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration/` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also builds the notch filter plugins used on USB Audio if they are missing, and makes sure OBS can find them. It turns on Studio Mode. If the repo's OBS window layout (`obs-configuration/obs-layout.ini`) has changed since this computer last got it, it installs that layout; otherwise the layout is left as it was arranged in OBS. Close OBS, then run the following in a normal terminal, without sudo:
 * **Update the Scene Collections** (type the number of the scene collection OBS should open on when it asks)
     ```terminal
