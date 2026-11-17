@@ -66,7 +66,7 @@ The control laptop shows both cameras and steers them, without being plugged int
 
 - **Camera Monitor** is a browser source holding `stake-meeting-independence-control/monitor.html` (embedded in the collection, so there is nothing else to install). It connects to the main OBS over its WebSocket and, about 10 times a second, asks for a 960x540 picture of its **Left Camera** and **Right Camera** scenes (or **Joystick Left** and **Joystick Right** on an older collection). The cameras' video is already decoded on the main OBS, so this is quicker than pulling RTSP from the cameras. It's a stream of still pictures, not full-motion video.
 - Each camera's panel is outlined **green with PREVIEW** when the main OBS has a Left (or Right) scene in Preview, and **red with LIVE** when one is in Program. The scene names are listed under the pictures. The side comes from the word "Left" or "Right" in the scene name, so preset scenes count too. Scenes with neither word (Sacrament, Blackmagic, Lower Thirds) light up neither panel.
-- **Left Camera** and **Right Camera** (this collection's own two scenes) both show the Camera Monitor. Each has a hidden PTZ control source for its camera (192.168.111.246 for Left, 192.168.111.245 for Right), so the scene you select decides which camera the PTZ dock steers.
+- **Joystick Left** and **Joystick Right** (this collection's own two scenes) both show the Camera Monitor. Each has a hidden PTZ control source for its camera (192.168.111.246 for Left, 192.168.111.245 for Right), so the scene you select decides which camera the PTZ dock steers.
 
 **Changing the main OBS's address.** Right-click **Camera Monitor**, choose **Properties**, and edit the **Custom CSS** box:
 
