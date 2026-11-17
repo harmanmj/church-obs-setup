@@ -18,8 +18,8 @@ computer it installs nothing), then sets up the configuration (scenes, layout, a
 scene file it replaces is saved as `*.bak` first.
 
 Options: `--install` (also update what is already installed); `--config=FOLDER` (a collection folder in
-`obs-configuration/`, e.g. `sacrament-independence`: the collection OBS opens on; without it, it keeps the one OBS
-was using, or asks in a terminal on a new installation) or `--no-config` (skip the scene collections);
+`obs-configuration/`, e.g. `sacrament-independence`: the collection OBS opens on; without it, it asks in a terminal, with the current one marked and Enter keeping
+it) or `--no-config` (skip the scene collections);
 `--pin-dock` or `--no-pin-dock` (add OBS to the dock). Environment: `TARGET_USER=name` (default: whoever ran
 sudo), `AUDIO_DEVICE=name` (force the OBS audio input), `OBS_WEBSOCKET_PASSWORD` (see Remote control),
 `PTZ_BUNDLE=/path/file.flatpak` (a different obs-ptz build), `DSK_REPO=owner/name` (download Downstream Keyer
@@ -46,9 +46,9 @@ What it installs:
 
 What it sets up:
 
-- **Scene collections:** every collection in `obs-configuration/`. On an existing installation it keeps the
-  collection OBS was using; on a new one (or if that collection has been retired) it asks which one OBS opens on
-  (a numbered menu). Run without a terminal and without `--config`, it leaves OBS's default collection as it is.
+- **Scene collections:** every collection in `obs-configuration/`. It asks which one OBS opens on (a numbered
+  menu) every time; the one OBS was using is marked (current), and Enter keeps it. Run without a terminal and
+  without `--config`, it keeps the current collection (or leaves OBS's default as it is).
 - **Window layout and Studio Mode:** `obs-configuration/obs-layout.ini` (`tools/set-obs-docks.py`): the docks with
   PTZ Controls in place (Downstream Keyer closed; open it from the Docks menu), side docks and the vertical mixer.
   Every run puts the layout back and turns Studio Mode on, so a dock closed or moved by accident is fixed.
@@ -148,7 +148,7 @@ One run installs everything and configures it. From an elevated PowerShell (righ
 administrator), signed in as the person who will use OBS:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1   # asks which collection OBS opens on (new installations only)
+powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1   # asks which collection OBS opens on (Enter keeps the current one)
 ```
 
 The script can be downloaded on its own and run from anywhere: it installs Git (via `winget`), clones this
@@ -166,8 +166,8 @@ OBS first. It then:
   window opens: click "Install Driver" and accept. It needs a Windows restart: restart, then run the script
   again to finish;
 - installs every scene collection in `obs-configuration\` (an existing file is saved as `*.bak`) and makes the
-  chosen one the one OBS opens on (`-Config FOLDER`, e.g. `-Config sacrament-independence`, else it keeps the one
-  OBS was using, or asks on a new installation; `-NoConfig` skips the collections). The "USB Audio" source
+  chosen one the one OBS opens on (`-Config FOLDER`, e.g. `-Config sacrament-independence`, else it asks, with the
+  current one marked and Enter keeping it; `-NoConfig` skips the collections). The "USB Audio" source
   becomes a Windows (WASAPI) input on the Sound Blaster, else a USB input, else (with a warning) another real
   input, never "NDI Webcam Audio", whose sound is poor; plug the USB input in before running it.
   `-AudioDevice "part of its name"` picks another;

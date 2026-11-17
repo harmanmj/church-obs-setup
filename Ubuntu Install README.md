@@ -1,7 +1,7 @@
 # Ubuntu Script Instructions
 
 # Scene Collection information
-  The setup script installs every scene collection. On a new installation it asks which one OBS should open on by default; on an existing installation it keeps the one OBS was using (and only asks if that one has been retired):
+  The setup script installs every scene collection and asks which one OBS should open on. On a computer that is already set up, the one OBS was using is marked (current) and pressing Enter keeps it:
     1) sacrament-alkire-and-quail (Sacrament - Alkire and Quail Building)
     2) stake-meeting-alkire-and-quail (Stake Meeting - Alkire and Quail Building)
     3) sacrament-independence (Sacrament - Independence Building)
@@ -29,7 +29,7 @@
   Clone it **without** sudo, so the folder belongs to you and later updates need no sudo for `git pull`.
 
 # Running Updates on an existing installation
-* **Update** (keeps the scene collection OBS was using; it only asks if that collection has been retired)
+* **Update** (asks which scene collection OBS should open on; press Enter to keep the current one)
     ```terminal
     cd ~/church-obs-setup
     git checkout main

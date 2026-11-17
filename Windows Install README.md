@@ -1,7 +1,7 @@
 # Windows Script Instructions
 
 # Scene Collection information
-  The setup script installs every scene collection. On a new installation it asks which one OBS should open on by default; on an existing installation it keeps the one OBS was using (and only asks if that one has been retired):
+  The setup script installs every scene collection and asks which one OBS should open on. On a computer that is already set up, the one OBS was using is marked (current) and pressing Enter keeps it:
     1) sacrament-alkire-and-quail (Sacrament - Alkire and Quail Building)
     2) stake-meeting-alkire-and-quail (Stake Meeting - Alkire and Quail Building)
     3) sacrament-independence (Sacrament - Independence Building)
@@ -27,7 +27,7 @@
     ```
 
 # Running Updates on an existing installation
-* **Update** (keeps the scene collection OBS was using; it only asks if that collection has been retired). The setup script gets the latest version itself: it switches `c:\church-obs-setup` to `main` and pulls before it runs, so there is no `git pull` step here.
+* **Update** (asks which scene collection OBS should open on; press Enter to keep the current one). The setup script gets the latest version itself: it switches `c:\church-obs-setup` to `main` and pulls before it runs, so there is no `git pull` step here.
     ```powershell
     cd c:\church-obs-setup
     powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1

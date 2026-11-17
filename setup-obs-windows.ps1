@@ -22,7 +22,7 @@
   The script can be run again at any time; it installs only what is missing and refreshes the configuration.
 
 .PARAMETER Config       Every scene collection in obs-configuration\ is installed; this is the one OBS opens on by
-                        default: a collection folder in obs-configuration, e.g. sacrament-independence (if omitted: keeps the one OBS was using, else asks).
+                        default: a collection folder in obs-configuration, e.g. sacrament-independence (if omitted: asks, with the current one marked; Enter keeps it).
 .PARAMETER NoConfig     Skip the OBS scene collections.
 .PARAMETER AudioDevice  The microphone input for OBS: part of its name as Windows shows it, or its endpoint id.
                         Default: the Sound Blaster, else any USB input, else the first other input that is
@@ -343,22 +343,31 @@ if ($NoConfig) {
 } elseif ($Config) {
     if ($configs -notcontains $Config) { Fail "No such configuration: $Config (have: $($configs -join ', '))" }
 } elseif ($InstallCollections) {
-    # On an existing installation, keep the collection OBS was last using, if it is still one of these.
+    # Which collection OBS opens on: asked every time, with the one OBS was using marked; Enter keeps it.
     $userIni = Join-Path $env:APPDATA 'obs-studio\user.ini'
     $currentFile = if (Test-Path $userIni) {
         Get-Content $userIni | Where-Object { $_ -like 'SceneCollectionFile=*' } | Select-Object -First 1 | ForEach-Object { $_.Substring(20) }
     }
+    $current = ''
     if ($currentFile -and ($configs -contains [IO.Path]::GetFileNameWithoutExtension($currentFile))) {
+        $current = [IO.Path]::GetFileNameWithoutExtension($currentFile)
+    }
+    if ([Environment]::UserInteractive) {
+        Write-Host 'All the scene collections are installed. Which one should OBS open on?'
+        for ($i = 0; $i -lt $configs.Count; $i++) {
+            $mark = if ($configs[$i] -eq $current) { '   (current)' } else { '' }
+            Write-Host "  $($i + 1)) $($configs[$i])$mark"
+        }
+        $prompt = if ($current) { "Number (Enter keeps $current)" } else { 'Number' }
+        while ($true) {
+            $n = Read-Host $prompt
+            if (-not $n -and $current) { Write-Host "    Keeping $current."; break }
+            if ($n -match '^\d+$' -and [int]$n -ge 1 -and [int]$n -le $configs.Count) { $Config = $configs[[int]$n - 1]; break }
+        }
+    } elseif ($current) {
         Write-Host "    Keeping the scene collection OBS was using ($currentFile). Use -Config NAME to change it."
-    } elseif (-not [Environment]::UserInteractive) {
-        Write-Host '    No -Config given and nothing to ask; installing the scene collections without changing which one OBS opens on.'
     } else {
-        Write-Host 'All the scene collections are installed. Which one should OBS open on by default?'
-        for ($i = 0; $i -lt $configs.Count; $i++) { Write-Host "  $($i + 1)) $($configs[$i])" }
-        do {
-            $n = Read-Host 'Number'
-        } until ($n -match '^\d+$' -and [int]$n -ge 1 -and [int]$n -le $configs.Count)
-        $Config = $configs[[int]$n - 1]
+        Write-Host '    No -Config given and nothing to ask; installing the scene collections without changing which one OBS opens on.'
     }
 }
 

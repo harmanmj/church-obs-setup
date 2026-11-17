@@ -311,24 +311,27 @@ done
 for c in "${FOUND[@]}"; do
   [[ " ${CONFIGS[*]} " == *" $c "* ]] || CONFIGS+=("$c")
 done
-# On an existing installation, keep the collection OBS was last using, if it is still one of these.
+# Which collection OBS opens on: asked every time, with the one OBS was using marked; Enter keeps it.
 CURRENT_FILE=$(sed -n 's/^SceneCollectionFile=//p' "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio/user.ini" 2>/dev/null | head -1 || true)
-if [ "$CONFIG_CHOICE" = ask ] && [ -n "$CURRENT_FILE" ] && [[ " ${CONFIGS[*]} " == *" ${CURRENT_FILE%.json} "* ]]; then
-  echo "Keeping the scene collection OBS was using ($CURRENT_FILE). Use --config=NAME to change it."
-  CONFIG_CHOICE=keep
-fi
+CURRENT=${CURRENT_FILE%.json}
+[[ -n "$CURRENT" && " ${CONFIGS[*]} " == *" $CURRENT "* ]] || CURRENT=
 if [ "$CONFIG_CHOICE" = ask ]; then
   if [ "${#CONFIGS[@]}" -eq 0 ]; then
     CONFIG_CHOICE=none
   elif [ -t 0 ]; then
-    echo "All the scene collections are installed. Which one should OBS open on by default?"
-    PS3="Number: "
-    select choice in "${CONFIGS[@]}"; do
-      case "$choice" in
-        "") echo "Pick a number from the list." ;;
-        *) CONFIG_CHOICE=$choice; break ;;
-      esac
+    echo "All the scene collections are installed. Which one should OBS open on?"
+    for i in "${!CONFIGS[@]}"; do
+      if [ "${CONFIGS[$i]}" = "$CURRENT" ]; then echo "  $((i + 1))) ${CONFIGS[$i]}   (current)"; else echo "  $((i + 1))) ${CONFIGS[$i]}"; fi
     done
+    while :; do
+      if [ -n "$CURRENT" ]; then read -r -p "Number (Enter keeps $CURRENT): " n; else read -r -p "Number: " n; fi
+      if [ -z "$n" ] && [ -n "$CURRENT" ]; then echo "Keeping $CURRENT."; CONFIG_CHOICE=keep; break; fi
+      if [[ "$n" =~ ^[0-9]+$ ]] && [ "$n" -ge 1 ] && [ "$n" -le "${#CONFIGS[@]}" ]; then CONFIG_CHOICE=${CONFIGS[$((n - 1))]}; break; fi
+      echo "Pick a number from the list."
+    done
+  elif [ -n "$CURRENT" ]; then
+    echo "Keeping the scene collection OBS was using ($CURRENT_FILE). Use --config=NAME to change it."
+    CONFIG_CHOICE=keep
   else
     echo "No --config given and not running in a terminal; installing the scene collections without changing which one OBS opens on."
     CONFIG_CHOICE=keep
