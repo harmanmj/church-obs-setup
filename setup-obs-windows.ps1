@@ -186,8 +186,16 @@ if ($have -and $have -ge $MinObs) {
 # ---- 3. NDI Runtime ----------------------------------------------------------
 Step '[3/7] NDI Runtime (needed by DistroAV)'
 function Find-Ndi {
-    $dir = [Environment]::GetEnvironmentVariable('NDILIB_REDIST_FOLDER', 'Machine')
-    return ($dir -and (Test-Path (Join-Path $dir 'Processing.NDI.Lib.x64.dll')))
+    # DistroAV finds NDI through NDI_RUNTIME_DIR_V6 (or V5), which the NDI 6 Runtime and NDI Tools installers set;
+    # NDILIB_REDIST_FOLDER is the older name. The runtime's own folder is checked too, in case the variable is
+    # only set after a restart.
+    $dirs = @('NDI_RUNTIME_DIR_V6', 'NDI_RUNTIME_DIR_V5', 'NDILIB_REDIST_FOLDER' | ForEach-Object {
+        [Environment]::GetEnvironmentVariable($_, 'Machine')
+    }) + @(Join-Path $env:ProgramFiles 'NDI\NDI 6 Runtime\v6')
+    foreach ($dir in $dirs) {
+        if ($dir -and (Test-Path (Join-Path $dir 'Processing.NDI.Lib.x64.dll'))) { return $true }
+    }
+    return $false
 }
 if (Find-Ndi) {
     Write-Host '    NDI Runtime is installed.'
