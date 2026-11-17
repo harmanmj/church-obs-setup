@@ -29,14 +29,16 @@
   Clone it **without** sudo, so the folder belongs to you and later updates need no sudo for `git pull`.
 
 # Running Updates on an existing installation
-  **Why the `chown` line:** older versions of these instructions cloned the repo with `sudo git clone`, which made `~/church-obs-setup` owned by root. Nothing needs it to be owned by root, and it stops `git pull` (and the configuration update below) from working without sudo. The `chown` line gives the folder back to you; it does nothing if the folder is already yours. The setup script also fixes this itself each time it runs, and new installs clone without sudo, so this only matters on computers installed the old way.
 * **Update** (keeps the scene collection OBS was using; it only asks if that collection has been retired)
     ```terminal
     cd ~/church-obs-setup
-    sudo chown -R $USER:$USER ~/church-obs-setup
     git checkout main
     git pull
     sudo ./setup-obs-flatpak.sh
+    ```
+  **If `git pull` fails** with "Permission denied", "insufficient permission" or "detected dubious ownership": the computer was probably installed with `sudo git clone` (older instructions), which left `~/church-obs-setup` owned by root. Nothing needs it to be owned by root. Give the folder back to yourself once, then run the steps above again (the setup script also fixes this each time it runs):
+    ```terminal
+    sudo chown -R $USER:$USER ~/church-obs-setup
     ```
 
 # Updating Only the Scene Collections and OBS Configuration
@@ -48,11 +50,10 @@ Use this when only the scene collections have changed. It installs the newest ve
     git pull
     python3 tools/obs-config-update.py
     ```
-  **On a computer installed with `sudo git clone`** (older instructions), `~/church-obs-setup` may still be owned by root, and `git pull` here fails with "Permission denied", "insufficient permission" or "detected dubious ownership". Give the folder back to yourself once, then run the steps above again:
+  **If `git pull` fails** with "Permission denied", "insufficient permission" or "detected dubious ownership": the computer was probably installed with `sudo git clone` (older instructions), which left `~/church-obs-setup` owned by root. Nothing needs it to be owned by root. Give the folder back to yourself once, then run the steps above again (the setup script also fixes this each time it runs):
     ```terminal
     sudo chown -R $USER:$USER ~/church-obs-setup
     ```
-  Running the full Update above also fixes it.
 
 # Resetting OBS Video Settings
 The video settings (1920x1080 canvas and output, 30 fps, recording quality "Same as stream") are only set the first time the script sets up OBS, so changes made in OBS are kept. To set them again if settings were changed for some reason, close OBS and run the following in a normal terminal, without sudo. It changes only these video settings, in every OBS profile, and does not run the rest of the setup.
