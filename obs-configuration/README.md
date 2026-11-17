@@ -5,8 +5,8 @@ This folder holds every OBS scene collection, one folder each, and the OBS windo
 | # | Folder | Name in OBS | For |
 |---|---|---|----|
 | 1 | `sacrament-alkire-and-quail` | Sacrament - Alkire and Quail Building | Weekly sacrament meetings |
-| 2 | `stake-meeting-alkire-and-quail` | Stake Meeting - Alkire and Quail Building | Stake broadcasts, run on its own |
-| 3 | `sacrament-independence` | Sacrament - Independence Building | Weekly sacrament meetings |
+| 2 | `sacrament-independence` | Sacrament - Independence Building | Weekly sacrament meetings |
+| 3 | `stake-meeting-alkire-and-quail` | Stake Meeting - Alkire and Quail Building | Stake broadcasts, run on its own |
 | 4 | `stake-meeting-independence` | Stake Meeting - Independence Building | Stake broadcasts, with the control laptop |
 | 5 | `stake-meeting-independence-control` | Stake Meeting - Independence Building - Control | The control laptop at a stake broadcast. Used in collaboration with the stake-meeting-independece scene collection to control the cameras |
 

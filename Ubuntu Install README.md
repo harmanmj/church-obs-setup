@@ -3,8 +3,8 @@
 # Scene Collection information
   The setup script installs every scene collection and asks which one OBS should open on. On a computer that is already set up, the one OBS was using is marked (current) and pressing Enter keeps it:
     1) sacrament-alkire-and-quail (Sacrament - Alkire and Quail Building)
-    2) stake-meeting-alkire-and-quail (Stake Meeting - Alkire and Quail Building)
-    3) sacrament-independence (Sacrament - Independence Building)
+    2) sacrament-independence (Sacrament - Independence Building)
+    3) stake-meeting-alkire-and-quail (Stake Meeting - Alkire and Quail Building)
     4) stake-meeting-independence (Stake Meeting - Independence Building)
     5) stake-meeting-independence-control (Stake Meeting - Independence Building - Control)
   Any of them can be opened later from OBS's Scene Collection menu.

@@ -302,9 +302,9 @@ fi
 # Every collection is installed; CONFIG_CHOICE is the one OBS opens on ("keep" leaves that as it is).
 echo "==> Choosing the default OBS scene collection"
 mapfile -t FOUND < <(cd "$SCRIPT_DIR/obs-configuration" 2>/dev/null && ls -d */ 2>/dev/null | tr -d / || true)
-# Menu order: Alkire and Quail (Sacrament, Stake Meeting), then Independence (Sacrament, Stake Meeting, Control), then anything else.
+# Menu order: the Sacrament collections (Alkire and Quail, Independence), then the Stake Meeting ones (same order), then Control, then anything else.
 CONFIGS=()
-for c in sacrament-alkire-and-quail stake-meeting-alkire-and-quail sacrament-independence stake-meeting-independence stake-meeting-independence-control; do
+for c in sacrament-alkire-and-quail sacrament-independence stake-meeting-alkire-and-quail stake-meeting-independence stake-meeting-independence-control; do
   [[ " ${FOUND[*]} " == *" $c "* ]] && CONFIGS+=("$c")
 done
 for c in "${FOUND[@]}"; do

@@ -39,8 +39,8 @@ later from OBS's **Scene Collection** menu.
 | Collection (name in OBS) | Building | For |
 |---|---|---|
 | Sacrament - Alkire and Quail Building | Alkire and Quail: one PTZ camera, video over NDI | Weekly sacrament meetings: the P0 to P8 preset scenes and Sacrament |
-| Stake Meeting - Alkire and Quail Building | Alkire and Quail | Stake broadcasts, run on its own: adds a Camera scene and the lower thirds |
 | Sacrament - Independence Building | Independence: two PTZ cameras, video over USB capture devices from the video rack | Weekly sacrament meetings: Left and Right P0 to P8 and Sacrament |
+| Stake Meeting - Alkire and Quail Building | Alkire and Quail | Stake broadcasts, run on its own: adds a Camera scene and the lower thirds |
 | Stake Meeting - Independence Building | Independence | Stake broadcasts, as the main OBS: Left and Right Camera, Pulpit and Full Room, Sacrament, Blackmagic and the lower thirds Control Laptop highly recomended (see next scene collection) |
 | Stake Meeting - Independence Building - Control | Independence | A second laptop at stake broadcasts: shows both cameras from the main OBS and steers them |
 

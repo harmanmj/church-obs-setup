@@ -43,7 +43,7 @@ if subprocess.run(["pgrep", "-f", "com.obsproject.Studio"], capture_output=True)
     sys.exit("Close OBS first, then run this again.")
 # Which collection OBS opens on: the same menu, in the same order, as setup-obs-flatpak.sh.
 found = sorted(p.name for p in (REPO / "obs-configuration").iterdir() if p.is_dir())
-names = [n for n in ("sacrament-alkire-and-quail", "stake-meeting-alkire-and-quail", "sacrament-independence", "stake-meeting-independence", "stake-meeting-independence-control") if n in found]
+names = [n for n in ("sacrament-alkire-and-quail", "sacrament-independence", "stake-meeting-alkire-and-quail", "stake-meeting-independence", "stake-meeting-independence-control") if n in found]
 names += [n for n in found if n not in names]
 configs = [REPO / "obs-configuration" / n for n in names]
 # Which collection OBS opens on: asked every time, with the one OBS was using marked; Enter keeps it.

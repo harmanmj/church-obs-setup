@@ -340,9 +340,9 @@ if (-not (Get-NetFirewallRule -DisplayName 'OBS Studio (church setup)' -ErrorAct
 $configRoot = Join-Path $ScriptDir 'obs-configuration'
 $found = @()
 if (Test-Path $configRoot) { $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name) }
-# Menu order: Alkire and Quail (Sacrament, Stake Meeting), then Independence (Sacrament, Stake Meeting, Control), then anything else.
-$configs = @(@('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') | Where-Object { $found -contains $_ }) +
-           @($found | Where-Object { @('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') -notcontains $_ })
+# Menu order: the Sacrament collections (Alkire and Quail, Independence), then the Stake Meeting ones (same order), then Control, then anything else.
+$configs = @(@('sacrament-alkire-and-quail', 'sacrament-independence', 'stake-meeting-alkire-and-quail', 'stake-meeting-independence', 'stake-meeting-independence-control') | Where-Object { $found -contains $_ }) +
+           @($found | Where-Object { @('sacrament-alkire-and-quail', 'sacrament-independence', 'stake-meeting-alkire-and-quail', 'stake-meeting-independence', 'stake-meeting-independence-control') -notcontains $_ })
 # Every scene collection in obs-configuration\ is installed; $Config is the one OBS opens on. $InstallCollections is
 # false only with -NoConfig (or nothing to install); $Config empty otherwise means "leave the default as it is".
 $InstallCollections = -not $NoConfig -and $configs.Count -gt 0

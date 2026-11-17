@@ -28,8 +28,8 @@ Write-Host "Scene collections from $configRoot"
 
 # Which collection OBS opens on: the same menu, in the same order, as setup-obs-windows.ps1.
 $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name)
-$configs = @(@('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') | Where-Object { $found -contains $_ }) +
-           @($found | Where-Object { @('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') -notcontains $_ })
+$configs = @(@('sacrament-alkire-and-quail', 'sacrament-independence', 'stake-meeting-alkire-and-quail', 'stake-meeting-independence', 'stake-meeting-independence-control') | Where-Object { $found -contains $_ }) +
+           @($found | Where-Object { @('sacrament-alkire-and-quail', 'sacrament-independence', 'stake-meeting-alkire-and-quail', 'stake-meeting-independence', 'stake-meeting-independence-control') -notcontains $_ })
 # Which collection OBS opens on: asked every time, with the one OBS was using marked; Enter keeps it.
 $userIni = Join-Path $env:APPDATA 'obs-studio\user.ini'
 $currentFile = if (Test-Path $userIni) {
