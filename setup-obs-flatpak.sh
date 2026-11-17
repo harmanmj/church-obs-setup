@@ -391,6 +391,7 @@ if [ "$CONFIG_CHOICE" != none ]; then
   # Remote control: OBS's WebSocket server on port 4455, on by default, password from OBS_WEBSOCKET_PASSWORD.
   as_user env OBS_WEBSOCKET_PASSWORD="${OBS_WEBSOCKET_PASSWORD:-2ne2-14}" python3 -I "$SCRIPT_DIR/tools/set-obs-websocket.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # The window layout, with the PTZ Controls dock in place.
+  # and studio mode on.
   as_user python3 -I "$SCRIPT_DIR/tools/set-obs-docks.py" "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio"
   # Open OBS on the chosen default scene collection.
   if [ "$CONFIG_CHOICE" != keep ]; then

@@ -4,15 +4,17 @@
   (Windows twin of set-obs-docks.py.)
 
 .DESCRIPTION
-  The layout (window, docks with PTZ Controls in place, side docks, vertical mixer, multiview) goes in once per
-  version of obs-layout.ini: user.ini remembers which one it got (ChurchLayout), so changes made in OBS survive
-  a re-run until the repo's layout changes. Also turns off OBS's popup about closing a dock. Close OBS first: it
-  writes its own layout when it exits.
+  Every run puts the layout back (window, docks with PTZ Controls in place, side docks, vertical mixer), so a
+  dock closed or moved by accident is fixed by the next setup or update. It turns studio mode on; with
+  -KeepStudioModeOff (the update script uses it), studio mode that was turned off is left off. Also turns off
+  OBS's popup about closing a dock. Close OBS first: it writes its own layout when it exits.
 
-.PARAMETER ObsDir OBS's config folder. Default: %APPDATA%\obs-studio.
+.PARAMETER ObsDir            OBS's config folder. Default: %APPDATA%\obs-studio.
+.PARAMETER KeepStudioModeOff Leave studio mode off if it was turned off.
 #>
 param(
-    [string]$ObsDir = (Join-Path $env:APPDATA 'obs-studio')
+    [string]$ObsDir = (Join-Path $env:APPDATA 'obs-studio'),
+    [switch]$KeepStudioModeOff
 )
 $ErrorActionPreference = 'Stop'
 
@@ -23,27 +25,29 @@ foreach ($l in Get-Content (Join-Path $PSScriptRoot '..\obs-configuration\obs-la
     if ($l -match '^\s*\[(.+)\]\s*$') { $inSection = ($Matches[1] -eq 'BasicWindow') }
     elseif ($inSection -and $l -match '^([^;=\s][^=]*)=(.*)$') { $layout[$Matches[1]] = $Matches[2] }
 }
-# Which layout this is: the same in set-obs-docks.py (key=value lines in file order, each ending in \n).
-$text = (@($layout.Keys | ForEach-Object { "$_=$($layout[$_])`n" }) -join '')
-$sha = [Security.Cryptography.SHA256]::Create().ComputeHash([Text.Encoding]::UTF8.GetBytes($text))
-$version = (-join ($sha | ForEach-Object { $_.ToString('x2') })).Substring(0, 12)
 
 $userIni = Join-Path $ObsDir 'user.ini'
 $lines = if (Test-Path $userIni) { @([IO.File]::ReadAllLines($userIni)) } else { @() }
 
-# What to set in each section. Studio mode: OBS saves it on exit, so it is only the starting state.
+# Studio mode on (OBS saves the mode on exit, so this is only the starting state), unless the update asks to
+# leave it off on a computer where it was turned off.
+$StudioMode = 'on'
+if ($KeepStudioModeOff) {
+    $inWindow = $false
+    foreach ($l in $lines) {
+        if ($l -match '^\s*\[(.+)\]\s*$') { $inWindow = ($Matches[1] -eq 'BasicWindow') }
+        elseif ($inWindow -and $l -match '^PreviewProgramMode=false\s*$') { $StudioMode = 'off' }
+    }
+}
+
+# What to set in each section.
 $set = @{
     'General'     = [ordered]@{ WarnedAboutClosingDocks = 'true' }
-    'BasicWindow' = [ordered]@{ PreviewProgramMode = 'true' }
+    'BasicWindow' = [ordered]@{ PreviewProgramMode = $(if ($StudioMode -eq 'on') { 'true' } else { 'false' }) }
 }
-$current = $lines | Where-Object { $_ -like 'ChurchLayout=*' } | Select-Object -First 1
-if ($current -eq "ChurchLayout=$version") {
-    $message = '    The OBS layout is already this version; leaving it alone (studio mode on).'
-} else {
-    foreach ($k in $layout.Keys) { $set['BasicWindow'][$k] = $layout[$k] }
-    $set['BasicWindow']['ChurchLayout'] = $version
-    $message = "    OBS layout (PTZ Controls docked, studio mode on) installed in $userIni"
-}
+foreach ($k in $layout.Keys) { $set['BasicWindow'][$k] = $layout[$k] }
+# Left by an older version of this script, which installed each layout only once.
+$drop = @('ChurchLayout')
 
 # Rewrite user.ini: drop the keys being set from their sections, then add them at the top of each section.
 $out = New-Object System.Collections.Generic.List[string]
@@ -57,6 +61,8 @@ foreach ($l in $lines) {
             $seen[$sectionName] = $true
             foreach ($k in $set[$sectionName].Keys) { $out.Add("$k=$($set[$sectionName][$k])") }
         }
+    } elseif ($sectionName -eq 'BasicWindow' -and $l -match '^([^=]+)=' -and $drop -contains $Matches[1]) {
+        # dropped
     } elseif ($sectionName -and $set.Contains($sectionName) -and $l -match '^([^=]+)=' -and $set[$sectionName].Contains($Matches[1])) {
         # replaced above
     } else {
@@ -71,4 +77,4 @@ foreach ($name in $set.Keys) {
 }
 New-Item -ItemType Directory -Force $ObsDir | Out-Null
 [IO.File]::WriteAllLines($userIni, $out.ToArray(), (New-Object System.Text.UTF8Encoding $false))
-Write-Host $message
+Write-Host "    OBS layout (PTZ Controls docked) installed in $userIni; studio mode $StudioMode"

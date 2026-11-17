@@ -52,7 +52,7 @@ The preset scenes come as a Left and a Right version ("Left Pulpit - P0", "Right
 - Scenes: Left Camera, Right Camera, Left and Right Pulpit - P0, Left and Right Full Room - P3, Sacrament, Blackmagic, Lower Thirds - Lyrics, Lower Thirds - Speakers, Lower Thirds - Camera.
 - **Blackmagic** shows the House Right - ATEM Mini source full screen with sound from "USB Audio". Use it for whatever the ATEM Mini is switched to, such as the Rostrum HDMI or video from the work room.
 - Multiview: Left Camera, Right Camera, Sacrament, Blackmagic and the three Lower Thirds.
-- This is the "main OBS" that the control laptop watches.
+- This is the "main OBS" that the control laptop watches. 
 
 ## Lower thirds (Stake Meeting collections)
 
@@ -82,6 +82,6 @@ The camera addresses are ordinary PTZ device settings and can be changed in OBS.
 
 ## Window layout (`obs-layout.ini`)
 
-The OBS window layout that setup and the collections update install, captured from the Ubuntu test VM (the same screen size as the church laptops): Scenes, Sources, Audio Mixer, PTZ Controls, Controls and Transitions docked, side docks and the vertical mixer. Downstream Keyer and Stats are closed; open Downstream Keyer from the **Docks** menu to use the lower thirds. Studio Mode is turned on as well.
+The OBS window layout that setup and the collections update install, captured from the Ubuntu test VM (the same screen size as the church laptops): Scenes, Sources, Audio Mixer, PTZ Controls, Controls and Transitions docked, side docks and the vertical mixer. Downstream Keyer and Stats are closed; open Downstream Keyer from the **Docks** menu to use the lower thirds.
 
-Each computer gets a given version of the layout once, so changes made in OBS are kept until the layout in this file changes. To change it: arrange OBS, close it, and copy the same lines from `[BasicWindow]` in OBS's `user.ini` into this file.
+Every setup and update puts the layout back, so docks closed or moved by accident are fixed. Setup turns Studio Mode on. The update turns it on too, unless it was turned off on that computer, in which case it stays off. To change the layout: arrange OBS, close it, and copy the same lines from `[BasicWindow]` in OBS's `user.ini` into this file.

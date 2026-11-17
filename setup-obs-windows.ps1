@@ -445,10 +445,9 @@ if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS video; see tools
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-monitor.ps1') -ObsDir $ObsDir
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS monitoring device; see tools\set-obs-monitor.ps1' }
 
-# Open OBS in studio mode. OBS saves this on exit, so it is only the starting state.
-Set-IniValues (Join-Path $ObsDir 'user.ini') 'BasicWindow' @{ PreviewProgramMode = 'true' }
 
 # The window layout, with the PTZ Controls dock in place.
+# and studio mode on.
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-docks.ps1') -ObsDir $ObsDir
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see tools\set-obs-docks.ps1' }
 

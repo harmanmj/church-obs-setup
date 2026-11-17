@@ -66,10 +66,9 @@ HX2/HX3 cameras.
   stream", and skips its Auto-Configuration Wizard (`tools/set-obs-video.py` sets the video again).
 - It installs the OBS window layout in `obs-configuration/obs-layout.ini` (`tools/set-obs-docks.py`): the docks
   with PTZ Controls in place (Downstream Keyer closed; open it from the Docks menu), side docks and the vertical
-  mixer. Each
-  computer gets a given version of the layout once (user.ini records it as `ChurchLayout`), so changes made in OBS
-  survive a re-run until the repo's layout changes. The collections update (`tools/obs-config-update.py`)
-  does the same.
+  mixer. Every run puts the layout back and turns Studio Mode on, so a dock closed or moved by accident is
+  fixed. The update (`tools/obs-config-update.py`) does the same, except that it leaves Studio Mode off on a
+  computer where it was turned off.
 - It asks whether to add OBS to the GNOME dock (only offered on machines set up with the church
   autoinstall). Answer up front with `--pin-dock` or `--no-pin-dock`.
 - It installs every scene collection in `obs-configuration/`. On an existing installation it keeps the collection
@@ -92,8 +91,7 @@ HX2/HX3 cameras.
     PulseAudio itself is not needed (the installer adds `pulseaudio-utils` for `pactl`). PipeWire only reads
     these files when it starts, so if the user is logged in the installer restarts PipeWire when they change
     (audio drops for a moment; not during a Zoom call); otherwise they apply after the next login.
-    `tools/set-obs-monitor.py` points OBS's monitoring device at the speaker and opens OBS in studio mode
-    (OBS remembers the mode on exit, so if someone turns it off it stays off until the installer runs again).
+    `tools/set-obs-monitor.py` points OBS's monitoring device at the speaker.
   - **Zoom settings, once per computer** (Zoom keeps these itself, so the installer cannot set them):
     Settings > Audio: **Microphone** "OBS Mic (for Zoom)", picked by name (not "Same as System"); **Speaker** the computer's
     speakers or headphones, never "OBS Monitoring (not for Zoom)", which would send the meeting back into the
@@ -157,11 +155,9 @@ computer always runs the current version. Run it again at any time to update; cl
   sacrament music go to Zoom: in Zoom pick the microphone **CABLE Output (VB-Audio Virtual Cable)**;
 - on a first setup, sets OBS's video to a 1920x1080 canvas and output at 30 fps, with recording quality "Same
   as stream", and skips its Auto-Configuration Wizard (`tools\set-obs-video.ps1` sets the video again);
-- opens OBS in studio mode (OBS remembers the mode on exit, so if someone turns it off it stays off until the
-  script runs again);
-- installs the OBS window layout in `obs-configuration\obs-layout.ini` (`tools\set-obs-docks.ps1`), once per
-  version of the layout, so changes made in OBS survive a re-run until the repo's layout changes. The collections
-  update (`tools\obs-config-update.ps1`) does the same;
+- installs the OBS window layout in `obs-configuration\obs-layout.ini` (`tools\set-obs-docks.ps1`) and opens OBS
+  in studio mode, on every run, so a dock closed or moved by accident is fixed. The update
+  (`tools\obs-config-update.ps1`) does the same, except that it leaves Studio Mode off where it was turned off;
 - adds a firewall rule for NDI, makes the sacrament graphic, and builds the sacrament playlist from
   `audio\sacrament-playlist.txt` (`tools\make-sacrament-playlist.ps1`) in `Documents\sacrament`.
 
