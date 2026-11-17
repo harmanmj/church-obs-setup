@@ -287,18 +287,24 @@ if mokutil --sb-state 2>/dev/null | grep -qi 'enabled'; then
   echo "NOTE: Secure Boot is on. If the virtual camera does not appear, the v4l2loopback module may need its signing key enrolled (see 'mokutil --import')." >&2
 fi
 
-# OBS scene collections and camera setup (obs-configuration/<name>/: alkire-and-quail and independence-building).
+# OBS scene collections and camera setup (obs-configuration/<name>/, one folder per collection).
 # Every collection is installed; CONFIG_CHOICE is the one OBS opens on ("keep" leaves that as it is).
 echo "==> Choosing the default OBS scene collection"
 mapfile -t FOUND < <(cd "$SCRIPT_DIR/obs-configuration" 2>/dev/null && ls -d */ 2>/dev/null | tr -d / || true)
-# Menu order: alkire-and-quail first, then independence-building, then anything else.
+# Menu order: Alkire and Quail (Sacrament, Stake Meeting), then Independence (Sacrament, Stake Meeting, Control), then anything else.
 CONFIGS=()
-for c in alkire-and-quail independence-building; do
+for c in sacrament-alkire-and-quail stake-meeting-alkire-and-quail sacrament-independence stake-meeting-independence stake-meeting-independence-control; do
   [[ " ${FOUND[*]} " == *" $c "* ]] && CONFIGS+=("$c")
 done
 for c in "${FOUND[@]}"; do
   [[ " ${CONFIGS[*]} " == *" $c "* ]] || CONFIGS+=("$c")
 done
+# On an existing installation, keep the collection OBS was last using, if it is still one of these.
+CURRENT_FILE=$(sed -n 's/^SceneCollectionFile=//p' "$TARGET_HOME/.var/app/$OBS_ID/config/obs-studio/user.ini" 2>/dev/null | head -1 || true)
+if [ "$CONFIG_CHOICE" = ask ] && [ -n "$CURRENT_FILE" ] && [[ " ${CONFIGS[*]} " == *" ${CURRENT_FILE%.json} "* ]]; then
+  echo "Keeping the scene collection OBS was using ($CURRENT_FILE). Use --config=NAME to change it."
+  CONFIG_CHOICE=keep
+fi
 if [ "$CONFIG_CHOICE" = ask ]; then
   if [ "${#CONFIGS[@]}" -eq 0 ]; then
     CONFIG_CHOICE=none

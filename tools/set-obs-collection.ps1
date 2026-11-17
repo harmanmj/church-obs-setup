@@ -2,7 +2,7 @@
 .SYNOPSIS
   Make an installed scene collection the one OBS opens with. (Windows twin of set-obs-collection.py.)
 
-.PARAMETER Collection The collection's .json in this repo, e.g. obs-configuration\alkire-and-quail\alkire-and-quail.json.
+.PARAMETER Collection The collection's .json in this repo, e.g. obs-configuration\sacrament-alkire-and-quail\sacrament-alkire-and-quail.json.
 .PARAMETER ObsDir     OBS's config folder. Default: %APPDATA%\obs-studio.
 #>
 param(

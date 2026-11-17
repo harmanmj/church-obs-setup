@@ -1,9 +1,9 @@
 <#
-  Update just the OBS scene collections on this computer from this repo, the same way setup-obs-windows.ps1
-  installs them, without running the rest of the setup (no software installs, no other OBS settings).
-  The Ubuntu twin is tools/update-obs-collections.py.
+  Update the OBS scene collections and the OBS configuration on this computer from this repo, the same way
+  setup-obs-windows.ps1 installs them, without running the rest of the setup (no software installs, no
+  administrator, and the video settings are left alone). The Ubuntu twin is tools/obs-config-update.py.
 
-    powershell -ExecutionPolicy Bypass -File .\tools\update-obs-collections.ps1 [-Default alkire-and-quail|independence-building]
+    powershell -ExecutionPolicy Bypass -File .\tools\obs-config-update.ps1 [-Default FOLDER]   (FOLDER: a collection folder in obs-configuration, e.g. sacrament-independence)
 
   - Installs every collection in obs-configuration\ (from the branch that is checked out).
   - Each file it replaces is saved next to it as *.bak.
@@ -11,7 +11,8 @@
     NDI senders. A new "USB Audio" gets the input the setup script would pick (Sound Blaster, else USB, ...).
   - Installs the OBS window layout (obs-configuration\obs-layout.ini) if this computer doesn't have that
     version of it yet, and opens OBS in studio mode (tools\set-obs-docks.ps1).
-  - Asks which collection OBS opens on, like the setup script (1 alkire-and-quail, 2 independence-building);
+  - Points OBS's audio monitoring at the virtual cable that Zoom listens to (tools\set-obs-monitor.ps1).
+  - Keeps the collection OBS was using; asks (same menu as the setup script) only when that one is not in the repo;
     -Default answers up front. Run without a console to ask in, it leaves OBS's current one.
   Run it as the person who uses OBS (no administrator needed). Close OBS first.
 #>
@@ -24,10 +25,17 @@ Write-Host "Scene collections from $configRoot"
 
 # Which collection OBS opens on: the same menu, in the same order, as setup-obs-windows.ps1.
 $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name)
-$configs = @(@('alkire-and-quail', 'independence-building') | Where-Object { $found -contains $_ }) +
-           @($found | Where-Object { @('alkire-and-quail', 'independence-building') -notcontains $_ })
+$configs = @(@('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') | Where-Object { $found -contains $_ }) +
+           @($found | Where-Object { @('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') -notcontains $_ })
+# The collection OBS was last using; kept when it is still one of these, so an update doesn't ask.
+$userIni = Join-Path $env:APPDATA 'obs-studio\user.ini'
+$currentFile = if (Test-Path $userIni) {
+    Get-Content $userIni | Where-Object { $_ -like 'SceneCollectionFile=*' } | Select-Object -First 1 | ForEach-Object { $_.Substring(20) }
+}
 if ($Default) {
     if ($configs -notcontains $Default) { Write-Host "No collection named $Default (have: $($configs -join ', '))" -ForegroundColor Red; exit 1 }
+} elseif ($currentFile -and ($configs -contains [IO.Path]::GetFileNameWithoutExtension($currentFile))) {
+    Write-Host "Keeping the scene collection OBS was using ($currentFile). Use -Default NAME to change it."
 } elseif ([Environment]::UserInteractive -and $configs.Count -gt 0) {
     Write-Host 'Which scene collection should OBS open on by default?'
     for ($i = 0; $i -lt $configs.Count; $i++) { Write-Host "  $($i + 1)) $($configs[$i])" }
@@ -94,6 +102,9 @@ foreach ($f in $configs | ForEach-Object { Get-ChildItem (Join-Path $configRoot 
 # script does.
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-docks.ps1') -ObsDir $ObsDir
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not install the OBS layout; see tools\set-obs-docks.ps1' }
+# OBS's audio monitoring into the virtual cable, which Zoom hears as its microphone, as the setup script does.
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $Repo 'tools\set-obs-monitor.ps1') -ObsDir $ObsDir
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS monitoring device; see tools\set-obs-monitor.ps1' }
 
 if ($Default) {
     $c = Get-ChildItem (Join-Path $configRoot $Default) -Filter *.json | Select-Object -First 1

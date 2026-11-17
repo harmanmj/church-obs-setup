@@ -1,15 +1,17 @@
 # Ubuntu Script Instructions
 
 # Scene Collection information
-  The setup script installs both Scene collections, Alkire and Quail - NDI and Independence Building - Hardware, and asks which one OBS should open on by default:
-    1) alkire-and-quail
-    2) independence-building
-  Either one can be opened later from OBS's Scene Collection menu.
-  The Alkire and Quail - NDI Scene Collection is intended for use in the Alkire and Quail Buildings. Its camera video comes over NDI. It also has the FreeShow lower thirds (Lower Thirds - Lyrics and Lower Thirds - Speakers, over NDI, with the Lyrics and Speaker Names downstream keyers). 
-  These two scenes are not intended to be used on a weekly basis but are there in case they are needed for a meeting they are there and ready to go. NDI from Freeshow only works on a Windows or Mac computer which would need to be on the same network (or same windows computer) to work correctly. Freeshow is not installed as part of the setup script. Using these scenes requires docking the Downstream keyer Plugin.
-  
-  The Independence Building - Hardware Scene Collection is intended for use in the Independence Building (Stake Center). The camera video comes into the OBS computer through USB video capture devices: The House Left camera from a USB HDMI capture device ("USB3.0 Video") and The House Right Camera from a Blackmagic ATEM Mini. PTZ presets still move the cameras over the network. The blackmagic also captures the Rostrum HDMI out and can be used to insert video from the work room if needed.
-  This scene collection also contains two additional scenes that are primarily used for stake broadcasts. Lower Thirds - Camera for overlaying camera video onto another source (using the Joystick - Left Scene) and a Blackmagic scene used when needing to capture other digital content into the stream instead of the camera. After setup, plug in both devices, open OBS and pick the Device on the "House Left - USB3.0 Video" and "House Right - ATEM Mini" sources (see obs-configuration/independence-building/README.md)
+  The setup script installs every scene collection. On a new installation it asks which one OBS should open on by default; on an existing installation it keeps the one OBS was using (and only asks if that one has been retired):
+    1) sacrament-alkire-and-quail (Sacrament - Alkire and Quail Building)
+    2) stake-meeting-alkire-and-quail (Stake Meeting - Alkire and Quail Building)
+    3) sacrament-independence (Sacrament - Independence Building)
+    4) stake-meeting-independence (Stake Meeting - Independence Building)
+    5) stake-meeting-independence-control (Stake Meeting - Independence Building - Control)
+  Any of them can be opened later from OBS's Scene Collection menu.
+
+  What is in each collection, which building and meeting it is for, and how to set up the cameras and the control laptop are all in the **[OBS Configuration guide](obs-configuration/README.md)**.
+
+  **Independence Building:** after setup, plug in both video capture devices, open OBS and pick the Device on the "House Left - USB3.0 Video" and "House Right - ATEM Mini" sources in each Independence collection (see the guide).
 
 # Downstream Keyer
   `setup-obs-flatpak.sh` installs Downstream Keyer from the Flatpak attached to the newest release of a fork on GitHub (https://github.com/harmanmj/obs-downstream-keyer) instead of from Flathub. The fork adds the Load On Scene option (a keyer can be set to show only on the program scenes you choose) and Go Live / Go to Preview controls that work with Studio Mode.
@@ -17,7 +19,7 @@
 
 # First Time Ubuntu Install
   1. Open Terminal
-  2. Run the following, then type 1 or 2 when it asks which scene collection should be the default
+  2. Run the following, then type the number of the scene collection OBS should open on when it asks
     ```terminal
     cd ~
     sudo git clone https://github.com/smitchell7/church-obs-setup.git
@@ -31,7 +33,7 @@
     cd ~/church-obs-setup
     sudo chown -R $USER:$USER ~/church-obs-setup
     ```
-* **Update** (type 1 or 2 when it asks which scene collection should be the default)
+* **Update** (keeps the scene collection OBS was using; it only asks if that collection has been retired)
     ```terminal
     cd ~/church-obs-setup
     git checkout main
@@ -40,13 +42,13 @@
     ```
 
 # Updating Only the Scene Collections and OBS Configuration
-Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration/` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also builds the notch filter plugins used on USB Audio if they are missing, and makes sure OBS can find them. It turns on Studio Mode. If the repo's OBS window layout (`obs-configuration/obs-layout.ini`) has changed since this computer last got it, it installs that layout; otherwise the layout is left as it was arranged in OBS. Close OBS, then run the following in a normal terminal, without sudo:
-* **Update the Scene Collections** (type the number of the scene collection OBS should open on when it asks)
+Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration/` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also builds the notch filter plugins used on USB Audio if they are missing, and makes sure OBS can find them. It turns on Studio Mode, points OBS's audio monitoring at the speaker that feeds Zoom, and turns on OBS's WebSocket server for remote control (keeping its password). The video settings are left as they are. If the repo's OBS window layout (`obs-configuration/obs-layout.ini`) has changed since this computer last got it, it installs that layout; otherwise the layout is left as it was arranged in OBS. Close OBS, then run the following in a normal terminal, without sudo:
+* **Update the Scene Collections** (keeps the scene collection OBS was using; it only asks if that collection has been retired)
     ```terminal
     cd ~/church-obs-setup
     git checkout main
     git pull
-    python3 tools/update-obs-collections.py
+    python3 tools/obs-config-update.py
     ```
 
 # Resetting OBS Video Settings

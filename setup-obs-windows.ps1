@@ -18,11 +18,11 @@
   7. The sacrament graphic and the sacrament music playlist in Documents\sacrament
 
   Run from an elevated PowerShell (right-click, Run as administrator), as the person who uses OBS:
-    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 [-Config alkire-and-quail|independence-building | -NoConfig]
+    powershell -ExecutionPolicy Bypass -File .\setup-obs-windows.ps1 [-Config FOLDER | -NoConfig]
   The script can be run again at any time; it installs only what is missing and refreshes the configuration.
 
 .PARAMETER Config       Every scene collection in obs-configuration\ is installed; this is the one OBS opens on by
-                        default: alkire-and-quail or independence-building (asks if omitted).
+                        default: a collection folder in obs-configuration, e.g. sacrament-independence (if omitted: keeps the one OBS was using, else asks).
 .PARAMETER NoConfig     Skip the OBS scene collections.
 .PARAMETER AudioDevice  The microphone input for OBS: part of its name as Windows shows it, or its endpoint id.
                         Default: the Sound Blaster, else any USB input, else the first other input that is
@@ -230,8 +230,16 @@ $null = Install-FromGitHub 'DistroAV/DistroAV' 'distroav-*-windows-x64-Installer
 # Downstream Keyer from $DskRepo, the fork that adds Load On Scene; its releases are betas so far. Matches both
 # exeldro's downstream-keyer-X-windows-installer.exe and the fork's downstream-keyer-X-windows-x64-Installer.exe.
 $dskPattern = 'downstream-keyer-*-windows*installer.exe'
-if (-not (Install-FromGitHub $DskRepo $dskPattern 'Downstream Keyer' -IncludePrerelease -NoFail)) {
-    Write-Warning "No Downstream Keyer installer is published in $DskRepo; installing exeldro's release instead."
+# Fall back to exeldro's release (the Windows equivalent of Flathub's on Ubuntu) whenever the fork can't be used:
+# no installer published, or the fork can't be reached or downloaded from.
+$dskFromFork = $false
+try {
+    $dskFromFork = Install-FromGitHub $DskRepo $dskPattern 'Downstream Keyer' -IncludePrerelease -NoFail
+    if (-not $dskFromFork) { Write-Warning "No Downstream Keyer installer is published in $DskRepo; installing exeldro's release instead." }
+} catch {
+    Write-Warning "Could not get Downstream Keyer from $DskRepo ($($_.Exception.Message)); installing exeldro's release instead."
+}
+if (-not $dskFromFork) {
     $null = Install-FromGitHub 'exeldro/obs-downstream-keyer' $dskPattern 'Downstream Keyer'
 }
 if ($PtzInstaller) {
@@ -318,9 +326,9 @@ if (-not (Get-NetFirewallRule -DisplayName 'OBS Studio (church setup)' -ErrorAct
 $configRoot = Join-Path $ScriptDir 'obs-configuration'
 $found = @()
 if (Test-Path $configRoot) { $found = @(Get-ChildItem $configRoot -Directory | ForEach-Object Name) }
-# Menu order: alkire-and-quail first, then independence-building, then anything else.
-$configs = @(@('alkire-and-quail', 'independence-building') | Where-Object { $found -contains $_ }) +
-           @($found | Where-Object { @('alkire-and-quail', 'independence-building') -notcontains $_ })
+# Menu order: Alkire and Quail (Sacrament, Stake Meeting), then Independence (Sacrament, Stake Meeting, Control), then anything else.
+$configs = @(@('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') | Where-Object { $found -contains $_ }) +
+           @($found | Where-Object { @('sacrament-alkire-and-quail', 'stake-meeting-alkire-and-quail', 'sacrament-independence', 'stake-meeting-independence', 'stake-meeting-independence-control') -notcontains $_ })
 # Every scene collection in obs-configuration\ is installed; $Config is the one OBS opens on. $InstallCollections is
 # false only with -NoConfig (or nothing to install); $Config empty otherwise means "leave the default as it is".
 $InstallCollections = -not $NoConfig -and $configs.Count -gt 0
@@ -329,7 +337,14 @@ if ($NoConfig) {
 } elseif ($Config) {
     if ($configs -notcontains $Config) { Fail "No such configuration: $Config (have: $($configs -join ', '))" }
 } elseif ($InstallCollections) {
-    if (-not [Environment]::UserInteractive) {
+    # On an existing installation, keep the collection OBS was last using, if it is still one of these.
+    $userIni = Join-Path $env:APPDATA 'obs-studio\user.ini'
+    $currentFile = if (Test-Path $userIni) {
+        Get-Content $userIni | Where-Object { $_ -like 'SceneCollectionFile=*' } | Select-Object -First 1 | ForEach-Object { $_.Substring(20) }
+    }
+    if ($currentFile -and ($configs -contains [IO.Path]::GetFileNameWithoutExtension($currentFile))) {
+        Write-Host "    Keeping the scene collection OBS was using ($currentFile). Use -Config NAME to change it."
+    } elseif (-not [Environment]::UserInteractive) {
         Write-Host '    No -Config given and nothing to ask; installing the scene collections without changing which one OBS opens on.'
     } else {
         Write-Host 'All the scene collections are installed. Which one should OBS open on by default?'
@@ -426,15 +441,9 @@ if ($profiles.Count -eq 0) {
 & (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-video.ps1') -ObsDir $ObsDir -IfFirstSetup
 if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS video; see tools\set-obs-video.ps1' }
 
-$cable = Find-CableInput
-if ($cable) {
-    foreach ($p in $profiles) {
-        Set-IniValues (Join-Path $p.FullName 'basic.ini') 'Audio' @{ MonitoringDeviceId = $cable.Id; MonitoringDeviceName = $cable.Name }
-        Write-Host "    OBS monitoring device ($($p.Name)): $($cable.Name)"
-    }
-} else {
-    Write-Warning 'The virtual cable is not active yet, so OBS monitoring was not pointed at it. Restart Windows and run this again.'
-}
+# OBS's audio monitoring into the virtual cable, which Zoom hears as its microphone (the update script does the same).
+& (Get-Process -Id $PID).Path -NoProfile -ExecutionPolicy Bypass -File (Join-Path $ScriptDir 'tools\set-obs-monitor.ps1') -ObsDir $ObsDir
+if ($LASTEXITCODE -ne 0) { Write-Warning 'Could not set the OBS monitoring device; see tools\set-obs-monitor.ps1' }
 
 # Open OBS in studio mode. OBS saves this on exit, so it is only the starting state.
 Set-IniValues (Join-Path $ObsDir 'user.ini') 'BasicWindow' @{ PreviewProgramMode = 'true' }
