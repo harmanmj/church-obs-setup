@@ -20,17 +20,27 @@
   2. Run the following, then type 1 or 2 when it asks which scene collection should be the default
     ```terminal
     cd ~
-    sudo git clone https://github.com/smitchell7/church-obs-setup.git
+    git clone https://github.com/smitchell7/church-obs-setup.git
     cd ~/church-obs-setup
     sudo ./setup-obs-flatpak.sh --pin-dock
     ```
 
+# Update OBS Button (no terminal or password needed)
+The setup script adds an **Update OBS** button to the app menu, and to the dock with `--pin-dock`. One click gets the latest scene collections from GitHub. It needs no sudo password and no terminal.
+* It updates `~/church-obs-setup` from GitHub (the branch it is on), then installs every scene collection, the same way as [Updating Only the Scene Collections](#updating-only-the-scene-collections) below.
+* The devices already picked in OBS are kept, and each replaced collection is saved as a dated `.bak` file.
+* The scene collection that was active in OBS stays active.
+* It does not install or update OBS or its plugins. For that, see [Updating configuration on Existing Installations](#updating-configuration-on-existing-installations).
+
+OBS must be closed first. If something goes wrong, the button shows the details. The output of the last run is in `~/.cache/church-obs-update.log`.
+
+To make the button follow a different repository or branch, run the setup script from a different copy, for example:
+```terminal
+sudo UPDATE_REPO=https://github.com/harmanmj/church-obs-setup.git UPDATE_BRANCH=obs-update-button ./setup-obs-flatpak.sh
+```
+
 # Updating configuration on Existing Installations
-* **The first time you do this, you may need to start with the following command**
-    ```terminal
-    cd ~/church-obs-setup
-    sudo chown -R $USER:$USER ~/church-obs-setup
-    ```
+No sudo is needed to get the latest version of this repository. The setup script makes `~/church-obs-setup` belong to you. If it was cloned with `sudo git clone` and `git pull` fails with "Permission denied", run the setup script once (below) and it is fixed.
 * **Update** (type 1 or 2 when it asks which scene collection should be the default)
     ```terminal
     cd ~/church-obs-setup
@@ -40,6 +50,8 @@
     ```
 
 # Updating Only the Scene Collections
+The **Update OBS** button does this in one click. To do it in a terminal instead:
+
 Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration/` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also builds the notch filter plugins used on USB Audio if they are missing, and makes sure OBS can find them. It turns on Studio Mode. If the repo's OBS window layout (`obs-configuration/obs-layout.ini`) has changed since this computer last got it, it installs that layout; otherwise the layout is left as it was arranged in OBS. Close OBS, then run the following in a normal terminal, without sudo:
 * **Update the Scene Collections** (type the number of the scene collection OBS should open on when it asks)
     ```terminal

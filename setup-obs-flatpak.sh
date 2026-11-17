@@ -22,6 +22,12 @@
 # PTZ_BUNDLE=/path/to/file.flatpak uses a different obs-ptz bundle than vendor/.
 # DSK_REPO=owner/name downloads Downstream Keyer from a different GitHub repo's releases.
 # DSK_BUNDLE=/path/to/file.flatpak installs Downstream Keyer from a local file instead of downloading it.
+#
+# It also installs the "Update OBS" button, which gets the latest scene collections without a password or a
+# terminal (see update-obs-config.sh). It updates ~/church-obs-setup, which this script clones when it is missing
+# and gives to the user (a clone made with "sudo git clone" belongs to root), so "git pull" there needs no sudo.
+#   UPDATE_REPO=url UPDATE_BRANCH=name  switch ~/church-obs-setup to this repository and branch (default: keep
+#                                       what it follows; when cloning it, what this copy follows, else harmanmj main)
 set -euo pipefail
 
 OBS_ID=com.obsproject.Studio
@@ -63,6 +69,25 @@ fi
 TARGET_HOME=$(getent passwd "$TARGET_USER" | cut -d: -f6)
 [ -d "$TARGET_HOME" ] || { echo "No home directory for $TARGET_USER" >&2; exit 1; }
 as_user() { sudo -u "$TARGET_USER" -H "$@"; }
+
+# The Update OBS button runs from BUTTON_DIR, the user's copy of this repository (the README clones it there), and
+# downloads the latest version into it. It runs only as that user, so nothing it runs can gain root.
+# Where it downloads from: UPDATE_REPO / UPDATE_BRANCH if given, else what BUTTON_DIR already follows, else what
+# this copy follows, else the defaults.
+# TODO: switch the default to https://github.com/smitchell7/church-obs-setup.git once this is merged there.
+BUTTON_DIR="$TARGET_HOME/church-obs-setup"
+UPDATE_GIVEN=${UPDATE_REPO:-}${UPDATE_BRANCH:-}
+# safe.directory: as root, git refuses to read a clone owned by another user.
+git_in() { local dir=$1; shift; git -c safe.directory="$dir" -C "$dir" "$@" 2>/dev/null; }
+if command -v git >/dev/null; then
+  for dir in "$BUTTON_DIR" "$SCRIPT_DIR"; do
+    [ -d "$dir/.git" ] || continue
+    UPDATE_REPO=${UPDATE_REPO:-$(git_in "$dir" remote get-url origin || true)}
+    UPDATE_BRANCH=${UPDATE_BRANCH:-$(git_in "$dir" symbolic-ref --short HEAD || true)}
+  done
+fi
+UPDATE_REPO=${UPDATE_REPO:-https://github.com/harmanmj/church-obs-setup.git}
+UPDATE_BRANCH=${UPDATE_BRANCH:-main}
 
 NDI_LIBS="$TARGET_HOME/.var/app/$OBS_ID/data/ndi-libs"
 PTZ_STAMP=/var/lib/church-obs-ptz-bundle.sha256
@@ -107,7 +132,7 @@ dsk_lookup
 
 # What is missing? Each piece is installed when it is missing; --install also updates what is there.
 NEED_APT=0 NEED_OBS=0 NEED_DISTROAV=0 NEED_DSK=0 NEED_PTZ=0 NEED_NDI=0
-for cmd in flatpak curl pactl ffmpeg gcc; do command -v "$cmd" >/dev/null || NEED_APT=1; done
+for cmd in flatpak curl pactl ffmpeg gcc git zenity; do command -v "$cmd" >/dev/null || NEED_APT=1; done
 python3 -c 'import PIL' 2>/dev/null || NEED_APT=1
 modinfo v4l2loopback >/dev/null 2>&1 || NEED_APT=1   # OBS Virtual Camera
 if command -v flatpak >/dev/null; then
@@ -137,7 +162,7 @@ want() { [ "$INSTALL" = yes ] || [ "$1" = 1 ]; }
 
 echo "==> Checking the installed software"
 status() { if [ "$2" = 1 ]; then echo "  $1: MISSING"; else echo "  $1: installed"; fi; }
-status "system tools (flatpak, curl, pactl, ffmpeg, gcc, python3-pil, v4l2loopback)" "$NEED_APT"
+status "system tools (flatpak, curl, pactl, ffmpeg, gcc, git, zenity, python3-pil, v4l2loopback)" "$NEED_APT"
 status "OBS Studio" "$NEED_OBS"
 status "DistroAV (NDI)" "$NEED_DISTROAV"
 if [ "$DSK_SOURCE" = unknown ]; then
@@ -157,7 +182,7 @@ if [ "$INSTALL" = yes ]; then echo "  --install given: installing and updating e
 if want "$NEED_APT"; then
   echo "==> [1/6] Installing system tools"
   apt-get update -y
-  apt-get install -y flatpak python3-pil curl pulseaudio-utils ffmpeg gcc v4l2loopback-dkms
+  apt-get install -y flatpak python3-pil curl pulseaudio-utils ffmpeg gcc git zenity v4l2loopback-dkms
 fi
 if [ "$INSTALL" = yes ] || [ "$NEED_OBS$NEED_DISTROAV$NEED_DSK$NEED_PTZ$NEED_NDI" != 00000 ]; then
   flatpak remote-add --system --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -431,16 +456,69 @@ as_user python3 -I "$SCRIPT_DIR/tools/make-sacrament-playlist.py" \
   --list "$SCRIPT_DIR/audio/sacrament-playlist.txt" --dir "$MUSIC_DIR" \
   || echo "WARNING: could not build the sacrament playlist; see tools/make-sacrament-playlist.py" >&2
 
-# Optional: pin OBS to the GNOME dock. Only possible where a schema override already
+# The Update OBS button (tools/obs-update-button.sh, which runs update-obs-config.sh). It runs as TARGET_USER, from
+# BUTTON_DIR (~/church-obs-setup), and downloads the latest version into it with git, as that user. It never runs
+# anything as root and never installs software, so it needs no password.
+echo "==> Installing the Update OBS button (updates ~/church-obs-setup from $UPDATE_REPO, branch $UPDATE_BRANCH)"
+if [ ! -d "$BUTTON_DIR/.git" ]; then
+  if [ -e "$BUTTON_DIR" ]; then
+    echo "WARNING: $BUTTON_DIR exists but is not a git clone; move it away and run this again to install the Update OBS button." >&2
+  else
+    as_user git clone --quiet --branch "$UPDATE_BRANCH" "$UPDATE_REPO" "$BUTTON_DIR" \
+      || echo "WARNING: could not download $UPDATE_REPO; the Update OBS button will not work until this runs again with a network connection." >&2
+  fi
+else
+  # A clone made with "sudo git clone" belongs to root; give it to the user so the button (and "git pull") can update it.
+  chown -R "$TARGET_USER:" "$BUTTON_DIR"
+  BRANCH_NOW=$(as_user git -C "$BUTTON_DIR" symbolic-ref --short HEAD 2>/dev/null || true)
+  if [ -n "$UPDATE_GIVEN" ] && [ "$SCRIPT_DIR" != "$BUTTON_DIR" ]; then
+    # Switch to the repository and branch asked for. (Not when running from BUTTON_DIR: that would replace this
+    # script while it runs. Run it from another copy to switch.)
+    if as_user git -C "$BUTTON_DIR" remote set-url origin "$UPDATE_REPO" \
+        && as_user git -C "$BUTTON_DIR" fetch --quiet origin "+refs/heads/$UPDATE_BRANCH:refs/remotes/origin/$UPDATE_BRANCH" \
+        && as_user git -C "$BUTTON_DIR" checkout --quiet -B "$UPDATE_BRANCH" --track "origin/$UPDATE_BRANCH"; then
+      echo "$BUTTON_DIR now follows $UPDATE_REPO, branch $UPDATE_BRANCH."
+    else
+      echo "WARNING: could not switch $BUTTON_DIR to $UPDATE_REPO, branch $UPDATE_BRANCH (no network, or local changes there)." >&2
+    fi
+  elif [ -z "$BRANCH_NOW" ]; then
+    echo "WARNING: $BUTTON_DIR is not on a branch, so the Update OBS button cannot download updates. Run: git -C $BUTTON_DIR checkout main" >&2
+  elif ! as_user git -C "$BUTTON_DIR" rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
+    # The button pulls the branch's upstream; set it if the clone has none.
+    as_user git -C "$BUTTON_DIR" fetch --quiet origin "+refs/heads/$BRANCH_NOW:refs/remotes/origin/$BRANCH_NOW" \
+      && as_user git -C "$BUTTON_DIR" branch --quiet --set-upstream-to="origin/$BRANCH_NOW" \
+      || echo "WARNING: $BUTTON_DIR has no upstream branch, so the Update OBS button cannot download updates until it has one." >&2
+  fi
+fi
+if [ -x "$BUTTON_DIR/tools/obs-update-button.sh" ]; then
+  cat > /usr/share/applications/church-obs-update.desktop <<EOF
+[Desktop Entry]
+Type=Application
+Name=Update OBS
+Comment=Download the latest OBS scene collections
+Exec=$BUTTON_DIR/tools/obs-update-button.sh
+Icon=system-software-update
+Terminal=false
+Categories=AudioVideo;
+EOF
+else
+  echo "WARNING: $BUTTON_DIR/tools/obs-update-button.sh is missing (is $UPDATE_BRANCH the right branch?); the Update OBS button was not installed." >&2
+fi
+
+# Optional: pin OBS and the Update OBS button to the GNOME dock. Only possible where a schema override already
 # sets favorite-apps (the church autoinstall creates one).
-if [ -f "$DOCK_SCHEMA_FILE" ] && ! grep -q 'com.obsproject.Studio.desktop' "$DOCK_SCHEMA_FILE"; then
+DOCK_APPS=(com.obsproject.Studio.desktop church-obs-update.desktop)
+if [ -f "$DOCK_SCHEMA_FILE" ] && ! { grep -q "${DOCK_APPS[0]}" "$DOCK_SCHEMA_FILE" && grep -q "${DOCK_APPS[1]}" "$DOCK_SCHEMA_FILE"; }; then
   if [ "$PIN_DOCK" = ask ] && [ -t 0 ]; then
-    read -r -p "Add OBS to the GNOME dock favourites for new sessions? [y/N] " reply
+    read -r -p "Add OBS and Update OBS to the GNOME dock favourites for new sessions? [y/N] " reply
     case "$reply" in [yY]*) PIN_DOCK=yes ;; *) PIN_DOCK=no ;; esac
   fi
   if [ "$PIN_DOCK" = yes ]; then
-    echo "==> Adding OBS to the GNOME dock favourites"
-    sed -i "s/'org.gnome.Terminal.desktop'\\]/'com.obsproject.Studio.desktop', 'org.gnome.Terminal.desktop']/" "$DOCK_SCHEMA_FILE"
+    echo "==> Adding OBS and Update OBS to the GNOME dock favourites"
+    for app in "${DOCK_APPS[@]}"; do
+      grep -q "$app" "$DOCK_SCHEMA_FILE" \
+        || sed -i "s/'org.gnome.Terminal.desktop'\\]/'$app', 'org.gnome.Terminal.desktop']/" "$DOCK_SCHEMA_FILE"
+    done
     glib-compile-schemas /usr/share/glib-2.0/schemas/
   fi
 fi
