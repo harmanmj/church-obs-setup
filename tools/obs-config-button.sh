@@ -43,15 +43,20 @@ main() {
     zenity --text-info --title="$TITLE: details" --width=800 --height=500 --filename="$LOG"
     return
   }
-  local rows=()
+  local rows=() current_name= prompt
   while IFS=$'\t' read -r folder name mark; do
     [ -n "$folder" ] || continue
-    if [ "$mark" = current ]; then rows+=(TRUE "$name" "$folder"); current=$folder; else rows+=(FALSE "$name" "$folder"); fi
+    if [ "$mark" = current ]; then rows+=(TRUE "$name" "$folder"); current=$folder; current_name=$name; else rows+=(FALSE "$name" "$folder"); fi
   done <<<"$list"
+  if [ -n "$current_name" ]; then
+    prompt="Which scene collection should OBS open on?\n\nThe one OBS is using now, <b>${current_name//&/&amp;}</b>, is already selected: press OK to keep it."
+  else
+    prompt="Which scene collection should OBS open on?\n\nPick one of these, then press OK."
+  fi
   choice=
   while [ -z "$choice" ]; do
-    choice=$(zenity --list --radiolist --title="$TITLE" --width=560 --height=380 \
-        --text="Which scene collection should OBS open on?" \
+    choice=$(zenity --list --radiolist --title="$TITLE" --width=560 --height=400 \
+        --text="$prompt" \
         --column="" --column="Scene collection" --column="Folder" --hide-column=3 --print-column=3 \
         "${rows[@]}") || return   # Cancel: nothing is changed
     choice=${choice:-${current:-}}   # OK with nothing ticked keeps the current one, if there is one
