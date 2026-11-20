@@ -53,9 +53,11 @@ main() {
   else
     prompt="Which scene collection should OBS open on?\n\nPick one of these, then press OK."
   fi
+  # Tall enough to show every collection without scrolling: room for the message and buttons, plus a row each.
+  local height=$((300 + 40 * ${#rows[@]} / 3))
   choice=
   while [ -z "$choice" ]; do
-    choice=$(zenity --list --radiolist --title="$TITLE" --width=560 --height=400 \
+    choice=$(zenity --list --radiolist --title="$TITLE" --width=600 --height="$height" \
         --text="$prompt" \
         --column="" --column="Scene collection" --column="Folder" --hide-column=3 --print-column=3 \
         "${rows[@]}") || return   # Cancel: nothing is changed
