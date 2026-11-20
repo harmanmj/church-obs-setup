@@ -20,7 +20,7 @@ Usage (as the person who uses OBS, not with sudo; close OBS first):
   WebSocket server, keeping its password (tools/set-obs-websocket.py).
 - Asks which collection OBS opens on (the same menu as the setup script), with the current one marked; Enter keeps
   it. --default answers up front. Run without a terminal to ask in, it leaves OBS's current one.
-- --list only lists the collections (for the Update OBS Configuration button, tools/obs-config-button.sh).
+- --list only lists the collections (for the OBS Configuration Reset button, tools/obs-config-reset-button/button.sh).
 """
 import argparse
 import json
@@ -58,7 +58,7 @@ if (OBS_DIR / "user.ini").exists():
             break
 current = current_file.removesuffix(".json") if current_file.removesuffix(".json") in names else ""
 if args.list:
-    # For the Update OBS Configuration button (tools/obs-config-button.sh), which asks in a window instead.
+    # For the OBS Configuration Reset button (tools/obs-config-reset-button/button.sh), which asks in a window instead.
     for config, n in zip(configs, names):
         collection = next(config.glob("*.json"), None)
         title = json.loads(collection.read_text(encoding="utf-8")).get("name", n) if collection else n

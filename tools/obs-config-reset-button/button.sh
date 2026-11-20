@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# The "Update OBS Configuration" button (app menu and dock, Ubuntu). One click downloads the latest version of this
+# The "OBS Configuration Reset" button (app menu and dock, Ubuntu); its icon is icon.svg next to this file.
+# One click downloads the latest version of this
 # repository (git, fast-forward only) and runs tools/obs-config-update.py, which puts the scene collections and the
 # OBS configuration back to the repo's version and keeps the cameras, microphone and NDI sources picked in OBS.
 # A window asks which scene collection OBS should open on, with the current one selected.
@@ -10,8 +11,8 @@ set -uo pipefail
 
 # Everything runs inside main(): bash reads a script while it runs it, and the download can replace this file.
 main() {
-  local TITLE="Update OBS Configuration" REPO_DIR LOG pid choice list current
-  REPO_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
+  local TITLE="OBS Configuration Reset" REPO_DIR LOG pid choice list current
+  REPO_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)   # tools/obs-config-reset-button/ -> the repo
   LOG="${XDG_CACHE_HOME:-$HOME/.cache}/church-obs-config-update.log"
   mkdir -p "$(dirname "$LOG")"
 
@@ -21,7 +22,7 @@ main() {
 
   if pgrep -u "$(id -u)" -f com.obsproject.Studio >/dev/null; then
     zenity --warning --title="$TITLE" --width=420 \
-      --text="OBS is open. Close OBS, then press Update OBS Configuration again.\n\n(OBS saves its settings when it closes, which would undo the update.)"
+      --text="OBS is open. Close OBS, then press OBS Configuration Reset again.\n\n(OBS saves its settings when it closes, which would undo the update.)"
     return
   fi
 

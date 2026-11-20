@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pin OBS, and the Update OBS Configuration button, to the GNOME dock (Ubuntu).
+"""Pin OBS, and the OBS Configuration Reset button, to the GNOME dock (Ubuntu).
 
 Usage: set-obs-dock-pin.py   (as the person who uses OBS, in their desktop session; no sudo)
 Adds whichever is missing to the user's dock favourites. The other favourites and their order are kept; OBS goes

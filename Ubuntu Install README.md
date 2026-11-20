@@ -41,14 +41,14 @@
     sudo chown -R $USER:$USER ~/church-obs-setup
     ```
 
-# Update OBS Configuration Button (no terminal or password needed)
-The setup script adds an **Update OBS Configuration** button to the app menu and pins it to the dock next to OBS. One click does the same as the terminal steps below: it downloads the latest version of `~/church-obs-setup` from GitHub, asks in a window which scene collection OBS should open on (the current one is already selected), and puts the scene collections and OBS configuration back to the defaults. The cameras, microphone and NDI sources picked in OBS are kept. It needs no sudo password and no terminal, and it never installs or updates software.
+# OBS Configuration Reset Button (no terminal or password needed)
+The setup script adds an **OBS Configuration Reset** button to the app menu and pins it to the dock next to OBS. One click does the same as the terminal steps below: it downloads the latest version of `~/church-obs-setup` from GitHub, asks in a window which scene collection OBS should open on (the current one is already selected), and puts the scene collections and OBS configuration back to the defaults. The cameras, microphone and NDI sources picked in OBS are kept. It needs no sudo password and no terminal, and it never installs or updates software.
 * Close OBS first. If OBS is open, the button says so and does nothing.
 * If something goes wrong, the button shows the details. The output of the last run is in `~/.cache/church-obs-config-update.log`.
 * It updates the copy in `~/church-obs-setup`, on the branch it is on.
 
 # Updating Only the Scene Collections and OBS Configuration
-The **Update OBS Configuration** button does this in one click. To do it in a terminal instead:
+The **OBS Configuration Reset** button does this in one click. To do it in a terminal instead:
 
 Use this when only the scene collections have changed. It installs the newest version of every scene collection in `obs-configuration/` without running the rest of the setup (no software is installed). The devices already picked in OBS (the cameras, the USB Audio microphone and the FreeShow NDI sources) are kept, and each collection it replaces is saved as a `.bak` file. It also builds the notch filter plugins used on USB Audio if they are missing, and makes sure OBS can find them (no sudo needed). It points OBS's audio monitoring at the speaker that feeds Zoom, and turns on OBS's WebSocket server for remote control (keeping its password). The video settings are left as they are. It puts back the OBS window layout (`obs-configuration/obs-layout.ini`), so docks closed or moved by accident come back. It turns Studio Mode on. Close OBS, then run the following in a normal terminal, without sudo:
 * **Update the Scene Collections** (asks which scene collection OBS should open on; press Enter to keep the current one)

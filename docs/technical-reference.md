@@ -88,7 +88,7 @@ It keeps:
 - **The WebSocket password.**
 - **The video settings**, which only the setup script sets, on a first setup.
 
-**The Update OBS Configuration button (Ubuntu).** `tools/obs-config-button.sh` runs the update from the app menu or
+**The OBS Configuration Reset button (Ubuntu).** `tools/obs-config-reset-button/button.sh` runs the update from the app menu or
 the dock, as the user, without a password or a terminal (the windows are zenity dialogs):
 
 1. It does nothing, with a message, when OBS is open, and a second click while it runs is ignored.
@@ -100,7 +100,7 @@ the dock, as the user, without a password or a terminal (the windows are zenity 
    something failed. The output of the last run is in `~/.cache/church-obs-config-update.log`.
 
 The setup script installs `git` and `zenity`, writes the app-menu entry
-(`/usr/share/applications/church-obs-config-update.desktop`) and pins it next to OBS (`tools/set-obs-dock-pin.py`,
+(`/usr/share/applications/church-obs-config-update.desktop`, with the icon `tools/obs-config-reset-button/icon.svg`) and pins it next to OBS (`tools/set-obs-dock-pin.py`,
 which the update runs too). The button runs from the user's own copy of the repo, so git can update it without
 sudo: the copy setup runs from when it is in the user's home folder, else `~/church-obs-setup` if it exists. Where
 there is neither (a computer set up only by the autoinstall, which runs from `/opt/church-obs-setup`), setup says

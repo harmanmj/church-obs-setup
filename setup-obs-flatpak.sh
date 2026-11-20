@@ -452,32 +452,35 @@ as_user python3 -I "$SCRIPT_DIR/tools/make-sacrament-playlist.py" \
   --list "$SCRIPT_DIR/audio/sacrament-playlist.txt" --dir "$MUSIC_DIR" \
   || echo "WARNING: could not build the sacrament playlist; see tools/make-sacrament-playlist.py" >&2
 
-# The "Update OBS Configuration" button (tools/obs-config-button.sh): runs as the user, downloads the latest version
+# The "OBS Configuration Reset" button (tools/obs-config-reset-button/button.sh): runs as the user, downloads the latest version
 # of their copy of this repository with git and runs tools/obs-config-update.py. It needs a copy the user owns, so
 # that git can update it without sudo: this one when it is in their home folder (~/church-obs-setup), else
 # ~/church-obs-setup if it exists (e.g. on computers set up by the autoinstall, which runs from /opt).
 BUTTON_DIR=
 case "$SCRIPT_DIR/" in "$TARGET_HOME"/*) BUTTON_DIR=$SCRIPT_DIR ;; esac
 [ -n "$BUTTON_DIR" ] || { [ -d "$TARGET_HOME/church-obs-setup/.git" ] && BUTTON_DIR="$TARGET_HOME/church-obs-setup"; }
-if [ -n "$BUTTON_DIR" ] && [ -f "$BUTTON_DIR/tools/obs-config-button.sh" ]; then
-  echo "==> Adding the Update OBS Configuration button (runs $BUTTON_DIR/tools/obs-config-button.sh)"
+if [ -n "$BUTTON_DIR" ] && [ -f "$BUTTON_DIR/tools/obs-config-reset-button/button.sh" ]; then
+  echo "==> Adding the OBS Configuration Reset button (runs $BUTTON_DIR/tools/obs-config-reset-button/button.sh)"
+  BUTTON_ICON=/usr/share/icons/hicolor/scalable/apps/church-obs-config-update.svg
+  install -D -m 644 "$SCRIPT_DIR/tools/obs-config-reset-button/icon.svg" "$BUTTON_ICON"
+  command -v gtk-update-icon-cache >/dev/null && gtk-update-icon-cache -q -t /usr/share/icons/hicolor || true
   cat > /usr/share/applications/church-obs-config-update.desktop <<EOF
 [Desktop Entry]
 Type=Application
-Name=Update OBS Configuration
+Name=OBS Configuration Reset
 Comment=Get the latest scene collections and put the OBS configuration back to the church setup
-Exec=bash "$BUTTON_DIR/tools/obs-config-button.sh"
-Icon=system-software-update
+Exec=bash "$BUTTON_DIR/tools/obs-config-reset-button/button.sh"
+Icon=$BUTTON_ICON
 Terminal=false
 Categories=AudioVideo;
 EOF
 else
   rm -f /usr/share/applications/church-obs-config-update.desktop
   echo "WARNING: no copy of this repository in $TARGET_HOME (clone it to ~/church-obs-setup and run this again)," \
-    "so the Update OBS Configuration button was not added." >&2
+    "so the OBS Configuration Reset button was not added." >&2
 fi
 
-# OBS is always pinned to the GNOME dock, with the Update OBS Configuration button next to it: in the user's own
+# OBS is always pinned to the GNOME dock, with the OBS Configuration Reset button next to it: in the user's own
 # favourites (tools/set-obs-dock-pin.py, which needs their desktop session), and in the system default where a
 # schema override sets one (the church autoinstall creates it), for when nobody is logged in yet.
 echo "==> Pinning OBS to the GNOME dock"
