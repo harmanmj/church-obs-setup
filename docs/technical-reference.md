@@ -88,6 +88,24 @@ It keeps:
 - **The WebSocket password.**
 - **The video settings**, which only the setup script sets, on a first setup.
 
+**The Update OBS Configuration button (Ubuntu).** `tools/obs-config-button.sh` runs the update from the app menu or
+the dock, as the user, without a password or a terminal (the windows are zenity dialogs):
+
+1. It does nothing, with a message, when OBS is open, and a second click while it runs is ignored.
+2. It downloads the latest version of its own copy of this repo (`git fetch`, then a fast-forward of the branch's
+   upstream). With no network, or local changes in the copy, it carries on with the version already there.
+3. It asks which scene collection OBS opens on, in a list with the current one selected (the same list and order
+   as the terminal menu, from `obs-config-update.py --list`). Cancel stops without changing anything.
+4. It runs `obs-config-update.py --default FOLDER` in the background and shows the result, or the details when
+   something failed. The output of the last run is in `~/.cache/church-obs-config-update.log`.
+
+The setup script installs `git` and `zenity`, writes the app-menu entry
+(`/usr/share/applications/church-obs-config-update.desktop`) and pins it next to OBS (`tools/set-obs-dock-pin.py`,
+which the update runs too). The button runs from the user's own copy of the repo, so git can update it without
+sudo: the copy setup runs from when it is in the user's home folder, else `~/church-obs-setup` if it exists. Where
+there is neither (a computer set up only by the autoinstall, which runs from `/opt/church-obs-setup`), setup says
+so and doesn't add the button until `~/church-obs-setup` is cloned.
+
 On Ubuntu it also builds any missing notch filter plugins and makes sure the OBS Flatpak can find them. On
 Windows it copies them to `C:\Program Files\VSTPlugins` when run as administrator, and otherwise prints the
 command to do it. Collections that aren't in the repo (made in OBS, or retired ones) are left alone.

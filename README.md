@@ -76,7 +76,7 @@ keeps the cameras, microphone and NDI sources picked in OBS, and asks which scen
 on (press Enter to keep the current one). It installs no
 software and needs no admin password. Close OBS first.
 
-**Ubuntu**, in a normal terminal (no sudo):
+**Ubuntu**: press the **Update OBS Configuration** button in the dock (next to OBS). Or, in a normal terminal (no sudo):
 
 ```bash
 cd ~/church-obs-setup
