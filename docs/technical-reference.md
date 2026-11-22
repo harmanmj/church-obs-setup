@@ -93,7 +93,11 @@ the dock, as the user, without a password or a terminal (the windows are zenity 
 
 1. It does nothing, with a message, when OBS is open, and a second click while it runs is ignored.
 2. It downloads the latest version of its own copy of this repo (`git fetch`, then a fast-forward of the branch's
-   upstream). With no network, or local changes in the copy, it carries on with the version already there.
+   upstream). With no network, it carries on with the version already there. If files in the copy were edited
+   by hand and the update changes them too, so the download can't apply, it asks: "Set aside and update" runs
+   `git stash` (the edits are kept, not deleted) and applies the update; "Keep them, don't update" carries on
+   with the version already there. Hand edits to files the update doesn't touch don't stop it, so there's no
+   question then. Changes made in OBS never count: OBS keeps its scenes in its own folder.
 3. It asks which scene collection OBS opens on, in a list with the current one selected (the same list and order
    as the terminal menu, from `obs-config-update.py --list`). Cancel stops without changing anything.
 4. It runs `obs-config-update.py --default FOLDER` in the background and shows the result, or the details when

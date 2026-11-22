@@ -29,12 +29,26 @@ main() {
   # 1. Download the latest version (its own folder, the branch it is on). This needs no sudo: the setup script
   #    makes ~/church-obs-setup belong to the user.
   : > "$LOG"
+  local changed
   if ! git -C "$REPO_DIR" rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
     echo "$REPO_DIR is not on a branch that follows GitHub, so updates cannot be downloaded." >>"$LOG"
   elif ! git -C "$REPO_DIR" fetch --quiet origin >>"$LOG" 2>&1; then
     echo "Could not download the latest version (no internet?). Using the version already here." >>"$LOG"
   elif ! git -C "$REPO_DIR" merge --ff-only --quiet '@{u}' >>"$LOG" 2>&1; then
-    echo "$REPO_DIR has local changes, so the latest version could not be applied. Using the version already here." >>"$LOG"
+    # It didn't apply. Usually because files in this copy were edited by hand (uncommon) and the update changes
+    # them too. (Changes made in OBS never count: OBS keeps its scenes in its own folder.) Offer to set the edits
+    # aside with git stash (kept, not deleted) and try again.
+    changed=$(git -C "$REPO_DIR" status --porcelain --untracked-files=no | cut -c4- | head -n 5 | paste -sd ',' - | sed 's/,/, /g')
+    if [ -n "$changed" ] && zenity --question --title="$TITLE" --width=480 \
+        --ok-label="Set aside and update" --cancel-label="Keep them, don't update" \
+        --text="This computer's copy of the setup files has changes made by hand, which stop the latest version from downloading:\n${changed//&/&amp;}\n\nSet them aside and download it? They are kept, not deleted (git stash), so they can be looked at or restored later."; then
+      git -C "$REPO_DIR" stash push --quiet -m "Set aside by OBS Configuration Reset, $(date '+%Y-%m-%d %H:%M')" >>"$LOG" 2>&1 \
+        && echo "Set aside the changes made by hand ($changed); git stash list shows them." >>"$LOG"
+      git -C "$REPO_DIR" merge --ff-only --quiet '@{u}' >>"$LOG" 2>&1 \
+        || echo "$REPO_DIR could not be updated. Using the version already here." >>"$LOG"
+    else
+      echo "$REPO_DIR has local changes, so the latest version could not be applied. Using the version already here." >>"$LOG"
+    fi
   fi
   echo "Version: $(git -C "$REPO_DIR" log -1 --format='%h %s (%cs)' 2>/dev/null)" >>"$LOG"
 

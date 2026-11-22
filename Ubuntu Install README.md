@@ -46,6 +46,7 @@ The setup script adds an **OBS Configuration Reset** button to the app menu and 
 * Close OBS first. If OBS is open, the button says so and does nothing.
 * If something goes wrong, the button shows the details. The output of the last run is in `~/.cache/church-obs-config-update.log`.
 * It updates the copy in `~/church-obs-setup`, on the branch it is on.
+* If files in `~/church-obs-setup` were edited by hand (uncommon) and that stops the download, it asks whether to **set them aside** (`git stash`: they are kept, not deleted, and `git stash list` shows them) and update, or keep them and carry on with the version already there. Changes made in OBS never cause this: OBS keeps its scenes in its own folder.
 
 # Updating Only the Scene Collections and OBS Configuration
 The **OBS Configuration Reset** button does this in one click. To do it in a terminal instead:
