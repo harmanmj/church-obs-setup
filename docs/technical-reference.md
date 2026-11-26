@@ -54,7 +54,9 @@ What it sets up:
   Every run puts the layout back and turns Studio Mode on, so a dock closed or moved by accident is fixed.
 - **Starting OBS maximized, on computers converted to X11 only.** Where the OBS Flatpak has an override that
   makes it run under X11 (`sockets=x11;!wayland` or `QT_QPA_PLATFORM=xcb`, as on the Independence computer),
-  OBS doesn't always come back maximized after a computer restart, especially on a screen other than the first.
+  the first time OBS opens after a computer restart, its window doesn't open maximized, although OBS saved it
+  maximized (seen on the three-screen Independence computer; harmanmj/church-obs-setup#4). This launcher is the
+  fix; it is to be confirmed with the next update on that computer.
   There, setup installs `wmctrl` and `tools/set-obs-launcher.py` writes the user's own copy of OBS's app-menu
   entry (`~/.local/share/applications/com.obsproject.Studio.desktop`, so the dock icon, the menu and search use
   it) to start OBS through `tools/obs-launch.sh`, which waits for OBS's window and maximizes it where it is. An
