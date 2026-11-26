@@ -11,6 +11,7 @@ Setup scripts and OBS configuration for broadcasting church meetings over Zoom o
 | [Windows Install README.md](Windows%20Install%20README.md) |Step-by-step: installing and updating a computer running Windows as its operating system |
 | [obs-configuration/README.md](obs-configuration/README.md) | The scene collections: which building and meeting each is for, the cameras and capture devices, the lower thirds, the control laptop, the OBS window layout |
 | [docs/technical-reference.md](docs/technical-reference.md) | What the scripts do in detail, their options, the audio and Zoom routing, the notch filters and the autoinstall: for people maintaining the scripts |
+| [docs/ethernet-hardware-id-configuration.md](docs/ethernet-hardware-id-configuration.md) | Giving an Ubuntu OBS computer the same IP address every time: a fixed MAC on its wired connection and a router reservation |
 
 ## Features
 
@@ -108,7 +109,7 @@ What it resets and what it keeps, in detail: [technical reference](docs/technica
 | `audio/` | PipeWire files for the Zoom microphone, and the sacrament playlist |
 | `autoinstall/` | A template for installing Ubuntu on a new computer, unattended |
 | `vendor/` | The obs-ptz Flatpak bundle |
-| `docs/` | The technical reference and the Windows test guide |
+| `docs/` | The technical reference, the Ethernet hardware ID guide and the Windows test guide |
 
 For how the scripts work, their options and how to change them, see the
 [technical reference](docs/technical-reference.md).
