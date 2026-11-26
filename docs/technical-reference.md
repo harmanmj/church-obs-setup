@@ -52,6 +52,15 @@ What it sets up:
 - **Window layout and Studio Mode:** `obs-configuration/obs-layout.ini` (`tools/set-obs-docks.py`): the docks with
   PTZ Controls in place (Downstream Keyer closed; open it from the Docks menu), side docks and the vertical mixer.
   Every run puts the layout back and turns Studio Mode on, so a dock closed or moved by accident is fixed.
+- **Starting OBS maximized, on computers converted to X11 only.** Where the OBS Flatpak has an override that
+  makes it run under X11 (`sockets=x11;!wayland` or `QT_QPA_PLATFORM=xcb`, as on the Independence computer),
+  OBS doesn't always come back maximized after a computer restart, especially on a screen other than the first.
+  There, setup installs `wmctrl` and `tools/set-obs-launcher.py` writes the user's own copy of OBS's app-menu
+  entry (`~/.local/share/applications/com.obsproject.Studio.desktop`, so the dock icon, the menu and search use
+  it) to start OBS through `tools/obs-launch.sh`, which waits for OBS's window and maximizes it where it is. An
+  autostart entry for OBS, if there is one, is pointed at it too, keeping its original command so it can be put
+  back. On every other computer nothing is installed or changed, and a launcher left from an earlier run (if the
+  computer went back to Wayland) is removed. The configuration update does the same.
 - **Video**, on a first setup only: a 1920x1080 canvas and output at 30 fps, recording quality "Same as stream",
   and OBS's Auto-Configuration Wizard skipped (`tools/set-obs-video.py` sets the video again).
 - **Audio and Zoom**, **Virtual Camera** and **Remote control** (below).

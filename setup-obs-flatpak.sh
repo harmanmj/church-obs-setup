@@ -119,6 +119,15 @@ dsk_lookup
 # What is missing? Each piece is installed when it is missing; --install also updates what is there.
 NEED_APT=0 NEED_OBS=0 NEED_DISTROAV=0 NEED_DSK=0 NEED_PTZ=0 NEED_NDI=0
 for cmd in flatpak curl pactl ffmpeg gcc git zenity; do command -v "$cmd" >/dev/null || NEED_APT=1; done
+# OBS converted to X11 (a Flatpak override with sockets=x11;!wayland or QT_QPA_PLATFORM=xcb): only there, OBS is
+# started through tools/obs-launch.sh, which maximizes it and needs wmctrl. Other computers get neither.
+OBS_X11=no
+if command -v flatpak >/dev/null \
+    && { flatpak override --show "$OBS_ID"; as_user flatpak override --user --show "$OBS_ID"; } 2>/dev/null \
+       | grep -qE '^sockets=.*!wayland|^QT_QPA_PLATFORM=xcb'; then
+  OBS_X11=yes
+  command -v wmctrl >/dev/null || NEED_APT=1
+fi
 python3 -c 'import PIL' 2>/dev/null || NEED_APT=1
 modinfo v4l2loopback >/dev/null 2>&1 || NEED_APT=1   # OBS Virtual Camera
 if command -v flatpak >/dev/null; then
@@ -168,7 +177,8 @@ if [ "$INSTALL" = yes ]; then echo "  --install given: installing and updating e
 if want "$NEED_APT"; then
   echo "==> [1/6] Installing system tools"
   apt-get update -y
-  apt-get install -y flatpak python3-pil curl pulseaudio-utils ffmpeg gcc git zenity v4l2loopback-dkms
+  apt-get install -y flatpak python3-pil curl pulseaudio-utils ffmpeg gcc git zenity v4l2loopback-dkms \
+    $([ "$OBS_X11" = yes ] && echo wmctrl)
 fi
 if [ "$INSTALL" = yes ] || [ "$NEED_OBS$NEED_DISTROAV$NEED_DSK$NEED_PTZ$NEED_NDI" != 00000 ]; then
   flatpak remote-add --system --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
@@ -483,6 +493,10 @@ fi
 # OBS is always pinned to the GNOME dock, with the OBS Configuration Reset button next to it: in the user's own
 # favourites (tools/set-obs-dock-pin.py, which needs their desktop session), and in the system default where a
 # schema override sets one (the church autoinstall creates it), for when nobody is logged in yet.
+# On computers where OBS runs under X11 only: start OBS maximized, through tools/obs-launch.sh
+# (tools/set-obs-launcher.py; on other computers it changes nothing).
+as_user python3 -I "$SCRIPT_DIR/tools/set-obs-launcher.py" || echo "WARNING: could not set up the OBS launcher." >&2
+
 echo "==> Pinning OBS to the GNOME dock"
 PIN_RT="/run/user/$(id -u "$TARGET_USER")"
 if [ -S "$PIN_RT/bus" ]; then

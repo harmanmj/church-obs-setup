@@ -16,6 +16,8 @@ Usage (as the person who uses OBS, not with sudo; close OBS first):
 - Puts back the OBS window layout (obs-configuration/obs-layout.ini)
   every time, and turns studio mode on (tools/set-obs-docks.py).
 - Pins OBS to the GNOME dock if it isn't (tools/set-obs-dock-pin.py).
+- Only where OBS runs under X11 (a Flatpak override): starts OBS maximized through tools/obs-launch.sh
+  (tools/set-obs-launcher.py). On other computers this changes nothing.
 - Points OBS's audio monitoring at the speaker that feeds Zoom (tools/set-obs-monitor.py) and turns on the
   WebSocket server, keeping its password (tools/set-obs-websocket.py).
 - Asks which collection OBS opens on (the same menu as the setup script), with the current one marked; Enter keeps
@@ -171,6 +173,8 @@ env = {k: v for k, v in os.environ.items() if k != "OBS_WEBSOCKET_PASSWORD"}
 subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-websocket.py"), str(OBS_DIR)], check=True, env=env)
 # OBS pinned to the GNOME dock (put back if someone unpinned it).
 subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-dock-pin.py")], check=False)
+# Only where OBS runs under X11: start it maximized through tools/obs-launch.sh (changes nothing elsewhere).
+subprocess.run([sys.executable, "-I", str(REPO / "tools" / "set-obs-launcher.py")], check=False)
 
 if args.default:
     collection = next((REPO / "obs-configuration" / args.default).glob("*.json"))
