@@ -53,7 +53,8 @@ What it sets up:
   PTZ Controls in place (Downstream Keyer closed; open it from the Docks menu), side docks and the vertical mixer.
   Every run puts the layout back and turns Studio Mode on, so a dock closed or moved by accident is fixed.
 - **Starting OBS maximized, on computers converted to X11 only.** Where the OBS Flatpak has an override that
-  makes it run under X11 (`sockets=x11;!wayland` or `QT_QPA_PLATFORM=xcb`, as on the Independence computer),
+  makes it run under X11 (`sockets=x11;!wayland` or `QT_QPA_PLATFORM=xcb`; the Independence building uses X11 so
+  that OBS's full-screen projector works there),
   the first time OBS opens after a computer restart, its window doesn't open maximized, although OBS saved it
   maximized (seen on the three-screen Independence computer; harmanmj/church-obs-setup#4). This launcher is the
   fix; it is to be confirmed with the next update on that computer.

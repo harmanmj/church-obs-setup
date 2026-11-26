@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # Start OBS and maximize its main window. Only used on computers where OBS runs under X11 (a Flatpak override with
-# sockets=x11;!wayland / QT_QPA_PLATFORM=xcb).
-# Why: on those computers, the first time OBS opens after a computer restart its window doesn't open maximized,
-# although OBS saved it maximized (seen on the three-screen Independence computer; harmanmj/church-obs-setup#4).
-# Added untested on that computer, to be confirmed with the next update there, and adjusted if it doesn't help. tools/set-obs-launcher.py points the OBS app-menu entry
-# (and the dock icon) at this script on those computers only.
+# sockets=x11;!wayland / QT_QPA_PLATFORM=xcb). The Independence building runs OBS under X11 so that OBS's
+# full-screen projector works there, which it needs.
+# Why this script: on those computers, the first time OBS opens after a computer restart its window doesn't open
+# maximized, although OBS saved it maximized (seen on the three-screen Independence computer;
+# harmanmj/church-obs-setup#4). Added untested on that computer, to be confirmed with the next update there, and
+# adjusted if it doesn't help.
+# tools/set-obs-launcher.py points the OBS app-menu entry (and the dock icon) at this script on those computers only.
 # OBS opens where it was, on the screen it was on; this only adds "maximized", like double-clicking the title bar.
 # Arguments are passed on to OBS (e.g. --startvirtualcam).
 set -u
