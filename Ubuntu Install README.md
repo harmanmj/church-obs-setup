@@ -20,12 +20,12 @@
 # First Time Ubuntu Install
   1. Open Terminal
   2. Run the following, then type the number of the scene collection OBS should open on when it asks
-    ```terminal
-    cd ~
-    git clone https://github.com/smitchell7/church-obs-setup.git
-    cd ~/church-obs-setup
-    sudo ./setup-obs-flatpak.sh
-    ```
+     ```terminal
+     cd ~
+     git clone https://github.com/smitchell7/church-obs-setup.git
+     cd ~/church-obs-setup
+     sudo ./setup-obs-flatpak.sh
+     ```
   Clone it **without** sudo, so the folder belongs to you and later updates need no sudo for `git pull`.
 
 # Running Updates on an existing installation
